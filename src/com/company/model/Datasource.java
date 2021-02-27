@@ -8,6 +8,54 @@ public class Datasource {
 
     public static final String CONNECTION_STRING = "jdbc:mysql://localhost/" + DB_NAME;
 
+    public static final String TABLE_ORPHAN = "orphan";
+    public static final String COLUMN_ORPHAN_ID = "id";
+    public static final String COLUMN_ORPHAN_CREATED_AT = "created_at";
+    public static final String COLUMN_ORPHAN_UPDATE_AT = "updated_at";
+    public static final String COLUMN_FIRST_NAME = "firstName";
+    public static final String COLUMN_GENDER_ENUM = "gender";
+    public static final String COLUMN_PLACE_OF_BIRTH = "placeOfBirth";
+    public static final String COLUMN_DATE_OF_BIRTH = "dateOfBirth";
+    public static final String COLUMN_SPOKEN_LANGUAGE = "spokenLanguages";
+    public static final String COLUMN_GRADE_AGE_MISMATCH_REASON = "gradeAgeMismatchReason";
+    public static final String COLUMN_HOBBIES = "hobbies";
+    public static final String COLUMN_Orphan_RELIGION_ENUM = "religion";
+    public static final String COLUMN_ID_CARD_URL = "idCardUrl";
+    public static final String COLUMN_PASSPORT_URL = "passportUrl";
+    public static final String COLUMN_THANK_YOU_LATTER_URL = "thankyouLetterUrl";
+    public static final String COLUMN_BIRTH_CERTIFICATE_URL = "birthCertificateUrl";
+    public static final String COLUMN_HEALTH_DESCRIPTION = "healthDescription";
+    public static final String COLUMN_ORPHAN_PSYCHOLOGICAL_STATUS_ENUM = "psychologicalStatus";
+    public static final String COLUMN_SIBLING_ID = "siblingId";
+    public static final String COLUMN_MOTHER_ID = "motherId";
+    public static final String COLUMN_FATHER_ID = "fatherId";
+    public static final String COLUMN_GUARDIAN_ID = "guardianId";
+    public static final String COLUMN_EDUCATION_ID = "educationId";
+    public static final String COLUMN_DONOR_ID = "donorId";
+    public static final String COLUMN_HOUSE_PROPERTY_ID = "house_propertyId";
+    public static final String COLUMN_VILLAGE_ID = "villageId";
+
+    public static final String TABLE_ORPHAN_PHOTOS = "OrphanPhotos";
+    public static final String COLUMN_ORPHAN_PHOTOS_ID = "id";
+    public static final String COLUMN_PHOTOS_CREATED_AT = "created_at";
+    public static final String COLUMN_PHOTOS_UPDATE_AT = "updated_at";
+    public static final String COLUMN_PHOTO_PORTRAIT_URL = "photoPortraitUrl";
+    public static final String COLUMN_PHOTO_LONG_URL = "photoLongUrl";
+    public static final String COLUMN_PHOTOS_ORPHAN_ID = "orphanId";
+
+    public static final String TABLE_REGION = "region";
+    public static final String COLUMN_REGION_ID = "id";
+    public static final String COLUMN_REGION_CREATED_AT = "created_at";
+    public static final String COLUMN_REGION_UPDATED_AT = "updated_at";
+    public static final String COLUMN_REGION_NAME = "name";
+
+    public static final String TABLE_USER = "user";
+    public static final String COLUMN_USER_ID = "id";
+    public static final String COLUMN_USER_CREATED_AT = "created_at";
+    public static final String COLUMN_USER_UPDATED_AT = "updated_at";
+    public static final String COLUMN_USER_EMAIL = "email";
+    public static final String COLUMN_USER_PASSWORD = "password";
+
     public static final String TABLE_COORDINATOR = "coordinator";
     public static final String COLUMN_COORDINATOR_ID = "id";
     public static final String COLUMN_COORDINATOR_CREATED_AT = "created_at";
