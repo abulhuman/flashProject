@@ -76,4 +76,65 @@ public class Datasource {
     public static final String COLUMN_VILLAGE_DONOR_ID = "donorId";
     public static final String COLUMN_VILLAGE_COORDINATOR_ID = "coordinatorId";
 
+    public static final String TABLE_FATHER = "father";
+    public static final String COLUMN_FATHER_ID = "id";
+    public static final String COLUMN_FATHER_CREATED_AT = "created_at";
+    public static final String COLUMN_FATHER_UPDATED_AT = "updated_at";
+    public static final String COLUMN_FATHER_FIRST_NAME = "firstName";
+    public static final String COLUMN_FATHER_LAST_NAME = "lastName";
+    public static final String COLUMN_FATHER_DATE_OF_DEATH = "dateOfDeath";
+    public static final String COLUMN_FATHER_CAUSE_OF_DEATH = "causeOfDeath";
+    public static final String COLUMN_FATHER_DATE_OF_BIRTH = "dateOfBirth";
+    public static final String COLUMN_FATHER_DEATH_CERTIFICATE_URL = "deathCertificateUrl";
+
+    public static final String TABLE_GUARDIAN = "guardian";
+    public static final String COLUMN_GUARDIAN_ID = "id";
+    public static final String COLUMN_GUARDIAN_CREATED_AT = "created_at";
+    public static final String COLUMN_GUARDIAN_UPDATED_AT = "updated_at";
+    public static final String COLUMN_GUARDIAN_FIRST_NAME = "firstName";
+    public static final String COLUMN_GUARDIAN_MIDDLE_NAME = "middleName";
+    public static final String COLUMN_GUARDIAN_LAST_NAME = "lastName";
+    public static final String COLUMN_GUARDIAN_DATE_OF_BIRTH = "dateOfBirth";
+    public static final String COLUMN_GUARDIAN_GENDER = "gender";
+    public static final String COLUMN_GUARDIAN_RELATION_TO_ORPHAN = "relationToOrphan";
+    public static final String COLUMN_GUARDIAN_EMAIL = "email";
+    public static final String COLUMN_GUARDIAN_MOBILE_NUMBER = "mobileNumber";
+    public static final String COLUMN_GUARDIAN_TELEPHONE_NUMBER = "telephoneNumber";
+    public static final String COLUMN_GUARDIAN_NATIONALITY = "nationality";
+    public static final String COLUMN_GUARDIAN_GUARDIAN_ID_CARD_URL = "guardianIdCardUrl";
+    public static final String COLUMN_GUARDIAN_GUARDIAN_CONFIRMATION_LETTER_URL = "guardianConfirmationLetterUrl";
+    public static final String COLUMN_GUARDIAN_GUARDIAN_LEGAL_CONFIRMATION_LETTER_URL = "guardianLegalConfirmationLetterUrl";
+
+    public static final String TABLE_HEALTH_RECORD = "healthrecord";
+    public static final String COLUMN_HEALTH_RECORD_ID = "id";
+    public static final String COLUMN_HEALTH_RECORD_CREATED_AT = "created_at";
+    public static final String COLUMN_HEALTH_RECORD_UPDATED_AT = "updated_at";
+    public static final String COLUMN_HEALTH_RECORD_MEDICAL_CERTIFICATE_URL = "medicalCertificateUrl";
+    public static final String COLUMN_HEALTH_RECORD_ORPHAN_ID = "orphanId";
+
+    public static final String TABLE_HOUSE_PROPERTY = "house_property";
+    public static final String COLUMN_HOUSE_PROPERTY_ID = "id";
+    public static final String COLUMN_HOUSE_PROPERTY_CREATED_AT = "created_at";
+    public static final String COLUMN_HOUSE_PROPERTY_UPDATED_AT = "updated_at";
+    public static final String COLUMN_HOUSE_PROPERTY_HOUSING_SITUATION = "housingSituation";
+    public static final String COLUMN_HOUSE_PROPERTY_OTHER_PROPERTY = "otherProperty";
+
+    public static final String TABLE_MOTHER = "mother";
+    public static final String COLUMN_MOTHER_ID = "id";
+    public static final String COLUMN_MOTHER_CREATED_AT = "created_at";
+    public static final String COLUMN_MOTHER_UPDATED_AT = "updated_at";
+    public static final String COLUMN_MOTHER_FIRST_NAME = "firstName";
+    public static final String COLUMN_MOTHER_MIDDLE_NAME = "middleName";
+    public static final String COLUMN_MOTHER_LAST_NAME = "lastName";
+    public static final String COLUMN_MOTHER_DATE_OF_BIRTH = "dateOfBirth";
+    public static final String COLUMN_MOTHER_VITAL_STATUS = "vitalStatus";
+    public static final String COLUMN_MOTHER_DATE_OF_DEATH = "dateOfDeath";
+    public static final String COLUMN_MOTHER_CAUSE_OF_DEATH = "causeOfDeath";
+    public static final String COLUMN_MOTHER_MOBILE_NUMBER = "mobileNumber";
+    public static final String COLUMN_MOTHER_MARITAL_STATUS = "maritalStatus";
+    public static final String COLUMN_MOTHER_CURRENT_JOB_TITLE = "currentJobTitle";
+    public static final String COLUMN_MOTHER_MONTHLY_INCOME = "monthlyIncome";
+    public static final String COLUMN_MOTHER_MONTHLY_EXPENSE = "monthlyExpense";
+
+
 }
