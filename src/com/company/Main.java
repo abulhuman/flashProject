@@ -13,10 +13,10 @@ public class Main {
             statement.execute("SELECT * FROM orphan");
             ResultSet resultSet = statement.getResultSet();
 
-//            while (resultSet.next()){
-//                System.out.println(resultSet.getString(2));
-//                System.out.println(resultSet.getString(7));
-//            }
+            while (resultSet.next()){
+                System.out.println(resultSet.getString(2));
+                System.out.println(resultSet.getString(7));
+            }
 
             resultSet.close();
             statement.close();
