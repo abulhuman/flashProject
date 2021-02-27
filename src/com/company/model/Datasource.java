@@ -8,6 +8,54 @@ public class Datasource {
 
     public static final String CONNECTION_STRING = "jdbc:mysql://localhost/" + DB_NAME;
 
+    public static final String TABLE_ORPHAN = "orphan";
+    public static final String COLUMN_ORPHAN_ID = "id";
+    public static final String COLUMN_ORPHAN_CREATED_AT = "created_at";
+    public static final String COLUMN_ORPHAN_UPDATE_AT = "updated_at";
+    public static final String COLUMN_ORPHAN_FIRST_NAME = "firstName";
+    public static final String COLUMN_ORPHAN_GENDER = "gender";
+    public static final String COLUMN_ORPHAN_PLACE_OF_BIRTH = "placeOfBirth";
+    public static final String COLUMN_ORPHAN_DATE_OF_BIRTH = "dateOfBirth";
+    public static final String COLUMN_ORPHAN_SPOKEN_LANGUAGE = "spokenLanguages";
+    public static final String COLUMN_ORPHAN_GRADE_AGE_MISMATCH_REASON = "gradeAgeMismatchReason";
+    public static final String COLUMN_ORPHAN_HOBBIES = "hobbies";
+    public static final String COLUMN_ORPHAN_ORPHAN_RELIGION = "religion";
+    public static final String COLUMN_ORPHAN_ID_CARD_URL = "idCardUrl";
+    public static final String COLUMN_ORPHAN_PASSPORT_URL = "passportUrl";
+    public static final String COLUMN_ORPHAN_THANK_YOU_LATTER_URL = "thankyouLetterUrl";
+    public static final String COLUMN_ORPHAN_BIRTH_CERTIFICATE_URL = "birthCertificateUrl";
+    public static final String COLUMN_ORPHAN_HEALTH_DESCRIPTION = "healthDescription";
+    public static final String COLUMN_ORPHAN_PSYCHOLOGICAL_STATUS = "psychologicalStatus";
+    public static final String COLUMN_ORPHAN_SIBLING_ID = "siblingId";
+    public static final String COLUMN_ORPHAN_MOTHER_ID = "motherId";
+    public static final String COLUMN_ORPHAN_FATHER_ID = "fatherId";
+    public static final String COLUMN_ORPHAN_GUARDIAN_ID = "guardianId";
+    public static final String COLUMN_ORPHAN_EDUCATION_ID = "educationId";
+    public static final String COLUMN_ORPHAN_DONOR_ID = "donorId";
+    public static final String COLUMN_ORPHAN_HOUSE_PROPERTY_ID = "house_propertyId";
+    public static final String COLUMN_ORPHAN_VILLAGE_ID = "villageId";
+
+    public static final String TABLE_ORPHAN_PHOTOS = "OrphanPhotos";
+    public static final String COLUMN_PHOTOS_ID = "id";
+    public static final String COLUMN_PHOTOS_CREATED_AT = "created_at";
+    public static final String COLUMN_PHOTOS_UPDATE_AT = "updated_at";
+    public static final String COLUMN_PHOTO_PORTRAIT_URL = "photoPortraitUrl";
+    public static final String COLUMN_PHOTO_LONG_URL = "photoLongUrl";
+    public static final String COLUMN_PHOTOS_ORPHAN_ID = "orphanId";
+
+    public static final String TABLE_REGION = "region";
+    public static final String COLUMN_REGION_ID = "id";
+    public static final String COLUMN_REGION_CREATED_AT = "created_at";
+    public static final String COLUMN_REGION_UPDATED_AT = "updated_at";
+    public static final String COLUMN_REGION_NAME = "name";
+
+    public static final String TABLE_USER = "user";
+    public static final String COLUMN_USER_ID = "id";
+    public static final String COLUMN_USER_CREATED_AT = "created_at";
+    public static final String COLUMN_USER_UPDATED_AT = "updated_at";
+    public static final String COLUMN_USER_EMAIL = "email";
+    public static final String COLUMN_USER_PASSWORD = "password";
+
     public static final String TABLE_COORDINATOR = "coordinator";
     public static final String COLUMN_COORDINATOR_ID = "id";
     public static final String COLUMN_COORDINATOR_CREATED_AT = "created_at";
