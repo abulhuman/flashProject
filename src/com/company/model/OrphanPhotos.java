@@ -1,10 +1,11 @@
-package depOrphClasses;
+package com.company.model;
 
-public class HealthRecord {
+public class OrphanPhotos {
     private int id;
     private String created_at;
     private String updated_at;
-    private String medicalCertificateUrl;
+    private String photoPortraitUrl;
+    private String photoLongUrl;
     private int orphanId;
 
     public int getId() {
@@ -31,12 +32,20 @@ public class HealthRecord {
         this.updated_at = updated_at;
     }
 
-    public String getMedicalCertificateUrl() {
-        return medicalCertificateUrl;
+    public String getPhotoPortraitUrl() {
+        return photoPortraitUrl;
     }
 
-    public void setMedicalCertificateUrl(String medicalCertificateUrl) {
-        this.medicalCertificateUrl = medicalCertificateUrl;
+    public void setPhotoPortraitUrl(String photoPortraitUrl) {
+        this.photoPortraitUrl = photoPortraitUrl;
+    }
+
+    public String getPhotoLongUrl() {
+        return photoLongUrl;
+    }
+
+    public void setPhotoLongUrl(String photoLongUrl) {
+        this.photoLongUrl = photoLongUrl;
     }
 
     public int getOrphanId() {

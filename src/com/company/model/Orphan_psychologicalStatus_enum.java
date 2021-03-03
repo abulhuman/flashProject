@@ -1,4 +1,4 @@
-package depOrphClasses;
+package com.company.model;
 
 public enum Orphan_psychologicalStatus_enum {
     ISOLATED,

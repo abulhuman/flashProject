@@ -1,11 +1,11 @@
-package depOrphClasses;
+package com.company.model;
 
-public class Coordinator {
+public class Zone {
     private int id;
     private String created_at;
     private String updated_at;
-    private String fullName;
-    private int userId;
+    private String name;
+    private int regionId;
 
     public int getId() {
         return id;
@@ -31,19 +31,19 @@ public class Coordinator {
         this.updated_at = updated_at;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getRegionId() {
+        return regionId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setRegionId(int regionId) {
+        this.regionId = regionId;
     }
 }

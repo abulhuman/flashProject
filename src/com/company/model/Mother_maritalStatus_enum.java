@@ -1,4 +1,4 @@
-package depOrphClasses;
+package com.company.model;
 
 public enum Mother_maritalStatus_enum {
     MARRIED,
