@@ -1,11 +1,11 @@
-package depOrphClasses;
+package com.company.model;
 
-public class User {
+public class House_property {
     private int id;
     private String created_at;
     private String updated_at;
-    private String email;
-    private String password;
+    private String housingSituation;
+    private String otherProperty;
 
     public int getId() {
         return id;
@@ -31,19 +31,19 @@ public class User {
         this.updated_at = updated_at;
     }
 
-    public String getEmail() {
-        return email;
+    public String getHousingSituation() {
+        return housingSituation;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setHousingSituation(String housingSituation) {
+        this.housingSituation = housingSituation;
     }
 
-    public String getPassword() {
-        return password;
+    public String getOtherProperty() {
+        return otherProperty;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setOtherProperty(String otherProperty) {
+        this.otherProperty = otherProperty;
     }
 }

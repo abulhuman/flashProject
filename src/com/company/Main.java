@@ -1,29 +1,55 @@
 package com.company;
 
+import com.company.model.Datasource;
+import com.company.model.Orphan;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
-    private static void main(String[] args) {
-	// write your code here
-        System.out.println("Hello World");
-        try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/miniDepOrph", "devAdem", "Shangquan1!");
-            Statement statement = connection.createStatement();
-            statement.execute("SELECT * FROM orphan");
-            ResultSet resultSet = statement.getResultSet();
+    public static void main(String[] args) {
 
-            while (resultSet.next()){
-                System.out.println(resultSet.getString(2));
-                System.out.println(resultSet.getString(7));
-            }
 
-            resultSet.close();
-            statement.close();
-            connection.close();
+        Datasource datasource = new Datasource();
 
-        }catch (SQLException e){
-            System.out.println("Something went wrong: " + e.getMessage());
+        if (!datasource.open()) {
+            System.out.println("Can't open datasource");
+            return;
         }
+
+        List<Orphan> orphans = datasource.queryAllOrphans(1);
+
+        for (Orphan orphan :
+                orphans) {
+            System.out.println("id " + orphan.getId());
+            System.out.println("cr@ " + orphan.getCreated_at());
+            System.out.println("up@ " + orphan.getUpdated_at());
+            System.out.println("fn " + orphan.getFirstName());
+            System.out.println("g " + orphan.getGender());
+            System.out.println("pob " + orphan.getPlaceOfBirth());
+            System.out.println("dob " + orphan.getDateOfBirth());
+            System.out.println("sl " + orphan.getSpokenLanguages());
+            System.out.println("gamr " + orphan.getGradeAgeMismatchReason());
+            System.out.println("h " + orphan.getHobbies());
+            System.out.println("r " + orphan.getReligion());
+            System.out.println("icu " + orphan.getIdCardUrl());
+            System.out.println("pu " + orphan.getPassportUrl());
+            System.out.println("tylu " + orphan.getThankyouLetterUrl());
+            System.out.println("bcu " + orphan.getBirthCertificateUrl());
+            System.out.println("hd " + orphan.getHealthDescription());
+            System.out.println("ps " + orphan.getPsychologicalStatus());
+            System.out.println("sId " + orphan.getSiblingId());
+            System.out.println("moId " + orphan.getMotherId());
+            System.out.println("faId " + orphan.getFatherId());
+            System.out.println("guId " + orphan.getGuardianId());
+            System.out.println("edId " + orphan.getEducationId());
+            System.out.println("doId " + orphan.getDonorId());
+            System.out.println("hopId " + orphan.getHouse_propertyId());
+            System.out.println("ViId " + orphan.getVillageId());
+        }
+        datasource.close();
+
     }
 }

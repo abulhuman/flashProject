@@ -1,4 +1,4 @@
-package depOrphClasses;
+package com.company.model;
 
 public enum Guardian_relationToOrphan_enum {
     MOTHER,

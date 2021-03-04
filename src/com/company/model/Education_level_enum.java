@@ -1,7 +1,7 @@
-package depOrphClasses;
+package com.company.model;
 
 public enum Education_level_enum {
-    RELOGIOUSEDUCATION,
+    RELOGIOUSEDUCATION, // Religious edd
     PRESCHOOL,
     GRADESCHOOL,
     UNDERGRADUATE,

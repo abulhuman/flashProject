@@ -1,4 +1,4 @@
-package depOrphClasses;
+package com.company.model;
 
 public class Father {
     private int id;

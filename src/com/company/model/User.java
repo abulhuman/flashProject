@@ -1,11 +1,11 @@
-package depOrphClasses;
+package com.company.model;
 
-public class Zone {
+public class User {
     private int id;
     private String created_at;
     private String updated_at;
-    private String name;
-    private int regionId;
+    private String email;
+    private String password;
 
     public int getId() {
         return id;
@@ -31,19 +31,19 @@ public class Zone {
         this.updated_at = updated_at;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public int getRegionId() {
-        return regionId;
+    public String getPassword() {
+        return password;
     }
 
-    public void setRegionId(int regionId) {
-        this.regionId = regionId;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
