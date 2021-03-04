@@ -2,5 +2,6 @@ package com.company.model;
 
 public enum Mother_maritalStatus_enum {
     MARRIED,
-    WIDOW
+    WIDOW,
+    N_A
 }

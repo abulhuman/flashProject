@@ -18,14 +18,23 @@ public class Orphan {
     private String birthCertificateUrl;
     private String healthDescription;
     private Orphan_psychologicalStatus_enum psychologicalStatus;
-    private int siblingId;
-    private int motherId;
-    private int fatherId;
-    private int guardianId;
-    private int educationId;
-    private int donorId;
-    private int house_propertyId;
-    private int villageId;
+    private Mother mother;
+    private Father father;
+    private Guardian guardian;
+    private Education education;
+    private Donor donor;
+    private House_property house_property;
+    private Village village;
+
+    public Orphan() {
+        this.mother = new Mother();
+        this.father = new Father();
+        this.guardian = new Guardian();
+        this.education = new Education();
+        this.donor = new Donor();
+        this.house_property = new House_property();
+        this.village = new Village();
+    }
 
     public int getId() {
         return id;
@@ -163,67 +172,59 @@ public class Orphan {
         this.psychologicalStatus = psychologicalStatus;
     }
 
-    public int getSiblingId() {
-        return siblingId;
+    public Mother getMother() {
+        return mother;
     }
 
-    public void setSiblingId(int siblingId) {
-        this.siblingId = siblingId;
+    public void setMother(Mother mother) {
+        this.mother = mother;
     }
 
-    public int getMotherId() {
-        return motherId;
+    public Father getFather() {
+        return father;
     }
 
-    public void setMotherId(int motherId) {
-        this.motherId = motherId;
+    public void setFather(Father father) {
+        this.father = father;
     }
 
-    public int getFatherId() {
-        return fatherId;
+    public Guardian getGuardian() {
+        return guardian;
     }
 
-    public void setFatherId(int fatherId) {
-        this.fatherId = fatherId;
+    public void setGuardian(Guardian guardian) {
+        this.guardian = guardian;
     }
 
-    public int getGuardianId() {
-        return guardianId;
+    public Education getEducation() {
+        return education;
     }
 
-    public void setGuardianId(int guardianId) {
-        this.guardianId = guardianId;
+    public void setEducation(Education education) {
+        this.education = education;
     }
 
-    public int getEducationId() {
-        return educationId;
+    public Donor getDonor() {
+        return donor;
     }
 
-    public void setEducationId(int educationId) {
-        this.educationId = educationId;
+    public void setDonor(Donor donor) {
+        this.donor = donor;
     }
 
-    public int getDonorId() {
-        return donorId;
+    public House_property getHouse_property() {
+        return house_property;
     }
 
-    public void setDonorId(int donorId) {
-        this.donorId = donorId;
+    public void setHouse_property(House_property house_property) {
+        this.house_property = house_property;
     }
 
-    public int getHouse_propertyId() {
-        return house_propertyId;
+    public Village getVillage() {
+        return village;
     }
 
-    public void setHouse_propertyId(int house_propertyId) {
-        this.house_propertyId = house_propertyId;
-    }
-
-    public int getVillageId() {
-        return villageId;
-    }
-
-    public void setVillageId(int villageId) {
-        this.villageId = villageId;
+    public void setVillage(Village village) {
+        this.village = village;
     }
 }
