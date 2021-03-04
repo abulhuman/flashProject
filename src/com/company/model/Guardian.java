@@ -2,8 +2,6 @@ package com.company.model;
 
 public class Guardian {
     private int id;
-    private String created_at;
-    private String updated_at;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -14,9 +12,8 @@ public class Guardian {
     private String mobileNumber;
     private String telephoneNumber;
     private Guardian_nationality_enum nationality;
-    private String guardianIDCardUrl;
-    private String guardianConfirmationLetterUrl;
-    private String guardianLegalConfirmationLetterUrl;
+    private String iDCardUrl;
+    private String confirmationLetterUrl;
 
     public int getId() {
         return id;
@@ -24,22 +21,6 @@ public class Guardian {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCreated_at() {
-        return created_at;
-    }
-
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
-    }
-
-    public String getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
     }
 
     public String getFirstName() {
@@ -122,27 +103,19 @@ public class Guardian {
         this.nationality = nationality;
     }
 
-    public String getGuardianIDCardUrl() {
-        return guardianIDCardUrl;
+    public String getiDCardUrl() {
+        return iDCardUrl;
     }
 
-    public void setGuardianIDCardUrl(String guardianIDCardUrl) {
-        this.guardianIDCardUrl = guardianIDCardUrl;
+    public void setiDCardUrl(String iDCardUrl) {
+        this.iDCardUrl = iDCardUrl;
     }
 
-    public String getGuardianConfirmationLetterUrl() {
-        return guardianConfirmationLetterUrl;
+    public String getConfirmationLetterUrl() {
+        return confirmationLetterUrl;
     }
 
-    public void setGuardianConfirmationLetterUrl(String guardianConfirmationLetterUrl) {
-        this.guardianConfirmationLetterUrl = guardianConfirmationLetterUrl;
-    }
-
-    public String getGuardianLegalConfirmationLetterUrl() {
-        return guardianLegalConfirmationLetterUrl;
-    }
-
-    public void setGuardianLegalConfirmationLetterUrl(String guardianLegalConfirmationLetterUrl) {
-        this.guardianLegalConfirmationLetterUrl = guardianLegalConfirmationLetterUrl;
+    public void setConfirmationLetterUrl(String confirmationLetterUrl) {
+        this.confirmationLetterUrl = confirmationLetterUrl;
     }
 }
