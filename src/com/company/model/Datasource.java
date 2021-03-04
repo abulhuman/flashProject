@@ -83,7 +83,9 @@ public class Datasource {
 
     public static final String TABLE_EDUCATIONAL_RECORD = "educationalRecord";
     public static final String COLUMN_EDUCATIONAL_RECORD_ID = "id";
-    public static final String COLUMN_EDUCATIONAL_RECORD_YEARDIVISION = "yearDivision";
+    public static final String COLUMN_EDUCATIONAL_RECORD_CREATED_AT = "created_at";
+    public static final String COLUMN_EDUCATIONAL_RECORD_UPDATED_AT = "updated_at";
+    public static final String COLUMN_EDUCATIONAL_RECORD_YEAR_DIVISION = "yearDivision";
     public static final String COLUMN_EDUCATIONAL_RECORD_QUARTER = "quarter";
     public static final String COLUMN_EDUCATIONAL_RECORD_SEMESTER = "semester";
     public static final String COLUMN_EDUCATIONAL_RECORD_TOTAL_MARK = "totalMark";
@@ -91,7 +93,7 @@ public class Datasource {
     public static final String COLUMN_EDUCATIONAL_RECORD_AVERAGE = "average";
     public static final String COLUMN_EDUCATIONAL_RECORD_RANK = "rank";
     public static final String COLUMN_EDUCATIONAL_RECORD_REPORT_CARD_URL = "reportCardUrl";
-    public static final String COLUMN_EDUCATIONAL_RECORD_SEMSETER_GPA = "SemesterGPA";
+    public static final String COLUMN_EDUCATIONAL_RECORD_SEMESTER_GPA = "SemesterGPA";
     public static final String COLUMN_EDUCATIONAL_RECORD_CUMULATIVE_GPA = "CumulativeGPA";
     public static final String COLUMN_EDUCATIONAL_RECORD_EDUCATION_ID = "educationId";
 
@@ -162,7 +164,7 @@ public class Datasource {
 
     public boolean open() {
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/OMS", DB_USER, DB_PASSWORD);
+            conn = DriverManager.getConnection(CONNECTION_STRING, DB_USER, DB_PASSWORD);
             return true;
         } catch (SQLException e) {
             System.out.println("Couldn't connect to database: " + e.getMessage());
@@ -180,11 +182,10 @@ public class Datasource {
         }
     }
 
-
     // Query District by Id
     public District queryDistrict(int id) {
         final String sqlQueryDistrict = "SELECT id, name, zoneId, coordinatorId FROM "
-                                         + TABLE_DISTRICT + " WHERE id=" + id;
+                + TABLE_DISTRICT + " WHERE id=" + id;
         try (Statement statement = conn.createStatement();
              ResultSet result = statement.executeQuery(sqlQueryDistrict)) {
 
@@ -200,6 +201,72 @@ public class Datasource {
 
         } catch (SQLException e) {
             System.out.println("districtQuery failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Orphan> queryAllOrphans(int villageId) {
+        try (
+                Statement statement = conn.createStatement();
+                ResultSet results = statement.executeQuery(String.format("SELECT * FROM %s WHERE %s = %s",
+                        TABLE_ORPHAN,
+                        COLUMN_ORPHAN_VILLAGE_ID,
+                        villageId))
+        ) {
+            List<Orphan> orphans = new ArrayList<>();
+            while (results.next()) {
+                Orphan orphan = new Orphan();
+                orphan.setId(results.getInt(COLUMN_ORPHAN_ID));
+                orphan.setFirstName(results.getString(COLUMN_ORPHAN_FIRST_NAME));
+                orphan.setGender(results.getString(COLUMN_ORPHAN_GENDER).equals("F") ? Gender_enum.F : Gender_enum.M);
+                orphan.setPlaceOfBirth(results.getString(COLUMN_ORPHAN_PLACE_OF_BIRTH));
+                orphan.setDateOfBirth(results.getString(COLUMN_ORPHAN_DATE_OF_BIRTH));
+                orphan.setSpokenLanguages(results.getString(COLUMN_ORPHAN_SPOKEN_LANGUAGE));
+                orphan.setGradeAgeMismatchReason(results.getString(COLUMN_ORPHAN_GRADE_AGE_MISMATCH_REASON));
+                orphan.setHobbies(results.getString(COLUMN_ORPHAN_HOBBIES));
+
+                Orphan_religion_enum religion = switch (results.getString(COLUMN_ORPHAN_ORPHAN_RELIGION)) {
+                    case "Christianity" -> Orphan_religion_enum.CHRISTIANITY;
+                    case "Buddhism" -> Orphan_religion_enum.BUDDHISM;
+                    case "Hinduism" -> Orphan_religion_enum.HINDUISM;
+                    case "Judaism" -> Orphan_religion_enum.JUDAISM;
+                    case "Other" -> Orphan_religion_enum.OTHER;
+                    default -> Orphan_religion_enum.ISLAM;
+                };
+
+                orphan.setReligion(religion);
+
+                orphan.setIdCardUrl(results.getString(COLUMN_ORPHAN_ID_CARD_URL));
+                orphan.setPassportUrl(results.getString(COLUMN_ORPHAN_PASSPORT_URL));
+                orphan.setThankyouLetterUrl(results.getString(COLUMN_ORPHAN_THANK_YOU_LATTER_URL));
+                orphan.setBirthCertificateUrl(results.getString(COLUMN_ORPHAN_BIRTH_CERTIFICATE_URL));
+                orphan.setHealthDescription(results.getString(COLUMN_ORPHAN_HEALTH_DESCRIPTION));
+
+                Orphan_psychologicalStatus_enum pschStat = switch (results.getString(COLUMN_ORPHAN_PSYCHOLOGICAL_STATUS)) {
+                    case "isolated" -> Orphan_psychologicalStatus_enum.ISOLATED;
+                    case "stressed" -> Orphan_psychologicalStatus_enum.STRESSED;
+                    case "unsociable" -> Orphan_psychologicalStatus_enum.UNSOCIABLE;
+                    case "overlysociable" -> Orphan_psychologicalStatus_enum.OVERLYSOCIABLE;
+                    default -> Orphan_psychologicalStatus_enum.NORMAL;
+                };
+
+                orphan.setPsychologicalStatus(pschStat);
+
+//                orphan.setMotherId(results.getInt(COLUMN_ORPHAN_MOTHER_ID));
+//                orphan.setFatherId(results.getInt(COLUMN_ORPHAN_FATHER_ID));
+//                orphan.setGuardianId(results.getInt(COLUMN_ORPHAN_GUARDIAN_ID));
+//                orphan.setEducationId(results.getInt(COLUMN_ORPHAN_EDUCATION_ID));
+//                orphan.setDonorId(results.getInt(COLUMN_ORPHAN_DONOR_ID));
+//                orphan.setHouse_propertyId(results.getInt(COLUMN_ORPHAN_HOUSE_PROPERTY_ID));
+//                orphan.setVillageId(results.getInt(COLUMN_ORPHAN_VILLAGE_ID));
+
+                orphans.add(orphan);
+            }
+
+            return orphans;
+
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
             return null;
         }
     }
@@ -249,15 +316,15 @@ public class Datasource {
 
     public Education queryEducation(int id) {
         final String sqlQueryEducation = "SELECT id, enrollmentStatus, schoolName, typeOfSchool, " +
-                                         "year, level, reason FROM " + TABLE_EDUCATION + " WHERE id=" + id;
-        try(Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(sqlQueryEducation)) {
+                "year, level, reason FROM " + TABLE_EDUCATION + " WHERE id=" + id;
+        try (Statement statement = conn.createStatement();
+             ResultSet result = statement.executeQuery(sqlQueryEducation)) {
 
             result.next();
             Education education = new Education();
             education.setId(result.getInt(COLUMN_EDUCATION_ID));
             Education_enrollmentStatus_enum enrollmentStatus = Education_enrollmentStatus_enum.UNENROLLED;
-            switch (result.getString(COLUMN_EDUCATION_ENROLLMENT_STATUS)){
+            switch (result.getString(COLUMN_EDUCATION_ENROLLMENT_STATUS)) {
                 case "enrolled":
                     enrollmentStatus = Education_enrollmentStatus_enum.ENROLLED;
                     break;
@@ -268,7 +335,7 @@ public class Datasource {
             education.setEnrollmentStatus(enrollmentStatus);
             education.setSchoolName(result.getString(COLUMN_EDUCATION_SCHOOL_NAME));
             education.setTypeOfSchool(result.getString(COLUMN_EDUCATION_TYPE_OF_SCHOOL).equals("private") ?
-                                      Education_typeOfSchool_enum.PRIVATE : Education_typeOfSchool_enum.PUBLIC);
+                    Education_typeOfSchool_enum.PRIVATE : Education_typeOfSchool_enum.PUBLIC);
             education.setYear(result.getString(COLUMN_EDUCATION_YEAR));
             Education_level_enum level = switch (result.getString(COLUMN_EDUCATION_LEVEL)) {
                 case "religiousEducation" -> Education_level_enum.RELIGIOUSEDUCATION;
@@ -289,11 +356,115 @@ public class Datasource {
         }
     }
 
+    public List<EducationalRecord> queryAllEducationalRecords(int educationId) {
+        final String sqlDml = String.format("SELECT * FROM %s WHERE %s = %s",
+                TABLE_EDUCATIONAL_RECORD,
+                COLUMN_EDUCATIONAL_RECORD_EDUCATION_ID,
+                educationId);
+        try (
+                Statement statement = conn.createStatement();
+                ResultSet results = statement.executeQuery(sqlDml)
+        ) {
+            List<EducationalRecord> educationalRecords = new ArrayList<>();
+
+            while (results.next()) {
+                EducationalRecord educationalRecord = new EducationalRecord();
+                educationalRecord.setId(results.getInt(COLUMN_EDUCATIONAL_RECORD_ID));
+                educationalRecord.setCreated_at(results.getString(COLUMN_EDUCATIONAL_RECORD_CREATED_AT));
+                educationalRecord.setUpdated_at(results.getString(COLUMN_EDUCATIONAL_RECORD_UPDATED_AT));
+                educationalRecord.setYearDivision(
+                        results.getString(COLUMN_EDUCATIONAL_RECORD_YEAR_DIVISION).equals("semester") ?
+                                EducationalRecord_yearDivision_enum.SEMESTER :
+                                EducationalRecord_yearDivision_enum.QUARTER_TERM
+                );
+                educationalRecord.setQuarter(
+                        results.getString(COLUMN_EDUCATIONAL_RECORD_QUARTER).equals("first") ?
+                                EducationalRecord_quarter_enum.FIRST :
+                                EducationalRecord_quarter_enum.SECOND
+                );
+
+                EducationalRecord_semester_enum semester = switch (results.getString(COLUMN_EDUCATIONAL_RECORD_SEMESTER)) {
+                    case "first" -> EducationalRecord_semester_enum.FIRST;
+                    case "second" -> EducationalRecord_semester_enum.SECOND;
+                    case "third" -> EducationalRecord_semester_enum.THIRD;
+                    default -> EducationalRecord_semester_enum.FOURTH;
+                };
+
+                educationalRecord.setSemester(semester);
+
+                educationalRecord.setTotalMark(results.getFloat(COLUMN_EDUCATIONAL_RECORD_TOTAL_MARK));
+                educationalRecord.setNumberOfSubjects(results.getInt(COLUMN_EDUCATIONAL_RECORD_NUMBER_OF_SUBJECTS));
+                educationalRecord.setAverage(results.getFloat(COLUMN_EDUCATIONAL_RECORD_AVERAGE));
+                educationalRecord.setRank(results.getInt(COLUMN_EDUCATIONAL_RECORD_RANK));
+                educationalRecord.setReportCardUrl(results.getString(COLUMN_EDUCATIONAL_RECORD_REPORT_CARD_URL));
+                educationalRecord.setSemesterGPA(results.getFloat(COLUMN_EDUCATIONAL_RECORD_SEMESTER_GPA));
+                educationalRecord.setCumulativeGPA(results.getFloat(COLUMN_EDUCATIONAL_RECORD_CUMULATIVE_GPA));
+                educationalRecord.setEducationId(results.getInt(COLUMN_EDUCATIONAL_RECORD_EDUCATION_ID));
+
+                educationalRecords.add(educationalRecord);
+            }
+
+            return educationalRecords;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+
+    }
+
+    public List<Region> queryAllRegions() {
+        try (
+                Statement statement = conn.createStatement();
+                ResultSet results = statement.executeQuery(String.format("SELECT * FROM %s", TABLE_REGION))
+        ) {
+            List<Region> regions = new ArrayList<>();
+
+            while (results.next()) {
+                Region region = new Region();
+                region.setId(results.getInt(COLUMN_REGION_ID));
+                region.setName(results.getString(COLUMN_REGION_NAME));
+
+                regions.add(region);
+            }
+
+            return regions;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Zone> queryAllZones(int regionId) {
+        try (
+                Statement statement = conn.createStatement();
+                ResultSet results = statement.executeQuery(String.format("SELECT * FROM %s WHERE %s = %s",
+                        TABLE_ZONE,
+                        COLUMN_ZONE_REGION_ID,
+                        regionId))
+        ) {
+            List<Zone> zones = new ArrayList<>();
+
+            while (results.next()) {
+                Zone zone = new Zone();
+                zone.setId(results.getInt(COLUMN_ZONE_ID));
+                zone.setName(results.getString(COLUMN_ZONE_NAME));
+                zone.setRegionId(results.getInt(COLUMN_ZONE_REGION_ID));
+
+                zones.add(zone);
+            }
+
+            return zones;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
     public Father queryFather(int id) {
         final String sqlQueryFather = "SELECT * FROM " + TABLE_FATHER + " WHERE id=" + id;
 
-        try(Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(sqlQueryFather)) {
+        try (Statement statement = conn.createStatement();
+             ResultSet result = statement.executeQuery(sqlQueryFather)) {
 
             result.next();
             Father father = new Father();
@@ -309,6 +480,32 @@ public class Datasource {
 
         } catch (SQLException e) {
             System.out.println("FatherQuery failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<District> queryAllDistricts(int zoneId) {
+        try (
+                Statement statement = conn.createStatement();
+                ResultSet results = statement.executeQuery(String.format("SELECT * FROM %s WHERE %s = %s",
+                        TABLE_DISTRICT,
+                        COLUMN_DISTRICT_ZONE_ID,
+                        zoneId))
+        ) {
+            List<District> districts = new ArrayList<>();
+            while (results.next()) {
+                District district = new District();
+                district.setId(results.getInt(COLUMN_DISTRICT_ID));
+                district.setName(results.getString(COLUMN_DISTRICT_NAME));
+                district.setCoordinatorId(results.getInt(COLUMN_DISTRICT_COORDINATOR_ID));
+                district.setZoneId(results.getInt(COLUMN_DISTRICT_ZONE_ID));
+
+                districts.add(district);
+            }
+
+            return districts;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
             return null;
         }
     }
@@ -543,11 +740,90 @@ public class Datasource {
             orphan.getVillage().setRegistrationDate(result.getString("villageRegistrationDate"));
             orphan.getHouse_property().setHousingSituation(result.getString("housingSituation"));
             orphan.getHouse_property().setHousingSituation(result.getString("housingSituationOtherProperty"));
-
             return orphan;
         } catch (SQLException e) {
             System.out.println("OrphanQuery failed: " + e.getMessage());
             return null;
         }
     }
+
+    public List<Village> queryAllVillages(int districtId) {
+        try (
+                Statement statement = conn.createStatement();
+                ResultSet results = statement.executeQuery(String.format("SELECT * FROM %s WHERE %s = %s",
+                        TABLE_VILLAGE,
+                        COLUMN_VILLAGE_DISTRICT_ID,
+                        districtId))
+        ) {
+            List<Village> villages = new ArrayList<>();
+
+            while (results.next()) {
+                Village village = new Village();
+                village.setId(results.getInt(COLUMN_VILLAGE_ID));
+                village.setRegistrationDate(results.getString(COLUMN_VILLAGE_REGISTRATION_DATE));
+                village.setName(results.getString(COLUMN_VILLAGE_NAME));
+                village.setDistrictId(results.getInt(COLUMN_VILLAGE_DISTRICT_ID));
+                village.setDonorId(results.getInt(COLUMN_VILLAGE_DONOR_ID));
+                village.setCoordinatorId(results.getInt(COLUMN_VILLAGE_COORDINATOR_ID));
+
+                villages.add(village);
+            }
+
+            return villages;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+
+    }
+
+    public List<User> queryAllUsers() {
+        try (
+                Statement statement = conn.createStatement();
+                ResultSet results = statement.executeQuery(String.format("SELECT * FROM %s", TABLE_USER))
+        ) {
+            List<User> users = new ArrayList<>();
+
+            while (results.next()) {
+                User user = new User();
+                user.setId(results.getInt(COLUMN_USER_ID));
+                user.setEmail(results.getString(COLUMN_USER_EMAIL));
+                user.setPassword(results.getString(COLUMN_USER_PASSWORD));
+
+                users.add(user);
+            }
+
+            return users;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+
+
+    }
+
+    public List<Coordinator> queryAllCoordinators(int userId) {
+        try (
+                Statement statement = conn.createStatement();
+                ResultSet results = statement.executeQuery(String.format("SELECT * FROM %s", TABLE_COORDINATOR))
+        ) {
+            List<Coordinator> coordinators = new ArrayList<>();
+
+            while (results.next()) {
+                Coordinator coordinator = new Coordinator();
+
+                coordinator.setId(results.getInt(COLUMN_COORDINATOR_ID));
+                coordinator.setFullName(results.getString(COLUMN_COORDINATOR_FULL_NAME));
+                coordinator.setUserId(results.getInt(COLUMN_COORDINATOR_USER_ID));
+
+                coordinators.add(coordinator);
+            }
+
+            return coordinators;
+        } catch (SQLException e) {
+            System.out.println("Query Failed: " + e.getMessage());
+            return null;
+        }
+    }
+
 }

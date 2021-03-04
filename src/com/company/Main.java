@@ -112,5 +112,38 @@ public class Main {
                            "VillageName: " + orphan.getVillage().getName() + "\n" +
                            "House: " + orphan.getHouse_property().getHousingSituation() + "\n");
 
+
+        List<Orphan> orphans = datasource.queryAllOrphans(1);
+
+        for (Orphan orphan1 :
+                orphans) {
+            System.out.println("id " + orphan1.getId());
+            System.out.println("cr@ " + orphan1.getCreated_at());
+            System.out.println("up@ " + orphan1.getUpdated_at());
+            System.out.println("fn " + orphan1.getFirstName());
+            System.out.println("g " + orphan1.getGender());
+            System.out.println("pob " + orphan1.getPlaceOfBirth());
+            System.out.println("dob " + orphan1.getDateOfBirth());
+            System.out.println("sl " + orphan1.getSpokenLanguages());
+            System.out.println("gamr " + orphan1.getGradeAgeMismatchReason());
+            System.out.println("h " + orphan1.getHobbies());
+            System.out.println("r " + orphan1.getReligion());
+            System.out.println("icu " + orphan1.getIdCardUrl());
+            System.out.println("pu " + orphan1.getPassportUrl());
+            System.out.println("tylu " + orphan1.getThankyouLetterUrl());
+            System.out.println("bcu " + orphan1.getBirthCertificateUrl());
+            System.out.println("hd " + orphan1.getHealthDescription());
+            System.out.println("ps " + orphan1.getPsychologicalStatus());
+//            System.out.println("sId " + orphan1.getSiblingId());
+//            System.out.println("moId " + orphan1.getMotherId());
+//            System.out.println("faId " + orphan1.getFatherId());
+//            System.out.println("guId " + orphan1.getGuardianId());
+//            System.out.println("edId " + orphan1.getEducationId());
+//            System.out.println("doId " + orphan1.getDonorId());
+//            System.out.println("hopId " + orphan1.getHouse_propertyId());
+//            System.out.println("ViId " + orphan1.getVillageId());
+        }
+        datasource.close();
+
     }
 }
