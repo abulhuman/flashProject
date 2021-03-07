@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0"
+      prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="oms.fx.HealthInformationController">
+    <children>
+        <Label layoutX="24.0" layoutY="40.0" text="The inputs marked by * are all required" textFill="#a49f9f"/>
+        <Label layoutX="24.0" layoutY="57.0" text="Physical Health*"/>
+        <RadioButton fx:id="healthy" layoutX="40.0" layoutY="84.0" mnemonicParsing="false" onAction="#healthy"
+                     text="Healthy"/>
+        <RadioButton fx:id="disabled" layoutX="40.0" layoutY="111.0" mnemonicParsing="false" onAction="#disabled"
+                     text="Disabled"/>
+        <TextField fx:id="mentionDisability" layoutX="127.0" layoutY="107.0" prefHeight="25.0" prefWidth="361.0"
+                   promptText="Mention disability" visible="false"/>
+        <Label layoutX="26.0" layoutY="157.0" text="Psychological Health*"/>
+        <RadioButton fx:id="sociable" layoutX="46.0" layoutY="183.0" mnemonicParsing="false" onAction="#sociable"
+                     text="Sociable"/>
+        <RadioButton fx:id="notsociable" layoutX="46.0" layoutY="210.0" mnemonicParsing="false" onAction="#notsociable"
+                     text="Not Sociable"/>
+        <Label layoutX="26.0" layoutY="242.0" text="Other Health Issues"/>
+        <TextArea fx:id="otherHealthIssues" layoutX="26.0" layoutY="267.0" prefHeight="66.0" prefWidth="361.0"
+                  promptText="Mention..."/>
+        <Button layoutX="502.0" layoutY="300.0" mnemonicParsing="false" onAction="#next" text="Save"
+                textFill="#1505fa"/>
+        <Label layoutX="320.0" layoutY="20.0" text="Health Information" textFill="#191818">
+            <font>
+                <Font size="14.0"/>
+            </font>
+        </Label>
+    </children>
+</Pane>
