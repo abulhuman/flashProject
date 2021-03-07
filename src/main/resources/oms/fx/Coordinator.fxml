@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oms.fx.CoordinatorController">
+    <TabPane layoutX="53.0" layoutY="90.0" prefHeight="520.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Home">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <TableView fx:id="table" prefHeight="497.0" prefWidth="900.0">
+                    <columns>
+                        <TableColumn id="id" fx:id="id" prefWidth="36.79998779296875" text="ID" />
+                        <TableColumn id="name" fx:id="name" prefWidth="284.0" text="Name" />
+                        <TableColumn id="age" fx:id="age" prefWidth="45.5999755859375" text="Age" />
+                        <TableColumn id="gender" fx:id="gender" prefWidth="60.800018310546875" text="Gender" />
+                        <TableColumn id="sponsorshipStatus" fx:id="sponsorshipStatus" prefWidth="172.7999267578125" text="Sponsorship Status" />
+                    </columns>
+                </TableView>
+            </AnchorPane>
+        </Tab>
+        <Tab text="New Orphan">
+            <AnchorPane minHeight="0.0" minWidth="0.0">
+                <Accordion fx:id="newOrphanAccordion" maxHeight="375.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="520">
+                    <panes>
+                        <TitledPane text="Personal Information">
+                            <AnchorPane layoutX="-30.0" maxHeight="425.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="897.0">
+                                <Label layoutX="18.0" layoutY="14.0" text="The inputs marked by * are all required" textFill="#a49f9f" />
+                                <Label layoutX="12.0" layoutY="48.0" text="Child Name*" />
+                                <Label layoutX="188.0" layoutY="48.0" text="Father Name*" />
+                                <Label layoutX="363.0" layoutY="48.0" text="Grandfather Name*" />
+                                <TextField fx:id="childName" layoutX="12.0" layoutY="70.0" promptText="Child Name" />
+                                <TextField fx:id="fatherName" layoutX="189.0" layoutY="70.0" promptText="Father Name" />
+                                <TextField fx:id="grandfatherName" layoutX="363.0" layoutY="70.0" promptText="Grandfather Name" />
+                                <Label layoutX="532.0" layoutY="48.0" prefHeight="17.0" prefWidth="75.0" text="Gender*" />
+                                <Label layoutX="690.0" layoutY="48.0" text="Date of Birth*" />
+                                <Label layoutX="9.0" layoutY="104.0" text="Place of Birth*" />
+                                <TextField fx:id="childDateOfBirth" layoutX="690.0" layoutY="70.0" promptText="Date of Birth" />
+                                <TextField fx:id="childPlaceOfBirth" layoutX="13.0" layoutY="130.0" promptText="Place of Birth" />
+                                <Label layoutX="189.0" layoutY="104.0" text="Spoken Language(s)" />
+                                <TextField fx:id="spokenLanguages" layoutX="189.0" layoutY="130.0" promptText="Add Languages" />
+                                <RadioButton fx:id="Male" layoutX="607.0" layoutY="74.0" mnemonicParsing="false" onAction="#male" text="Male" />
+                                <RadioButton fx:id="Female" layoutX="532.0" layoutY="74.0" mnemonicParsing="false" onAction="#female" text="Female" />
+                                <Label layoutX="361.0" layoutY="105.0" prefHeight="17.0" prefWidth="118.0" text="Health Description" />
+                                <TextField fx:id="childPlaceOfBirth1" layoutX="365.0" layoutY="131.0" promptText="Health Description" />
+                                <ComboBox layoutX="532.0" layoutY="130.0" prefWidth="150.0" promptText="- Select Status -" />
+                                <Label layoutX="532.0" layoutY="104.0" prefHeight="17.0" prefWidth="118.0" text="Psychological Status" />
+                                <Separator layoutX="12.0" layoutY="155.0" prefHeight="39.0" prefWidth="875.0" />
+                                <Label layoutX="18.0" layoutY="186.0" text="Education Information">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Label>
+                                <Label layoutX="18.0" layoutY="224.0" text="Enrollment Status" />
+                                <ComboBox layoutX="120.0" layoutY="220.0" prefHeight="25.0" prefWidth="128.0" promptText="- Select Status -" />
+                                <Label layoutX="18.0" layoutY="253.0" text="School Name" />
+                                <TextField fx:id="childName1" layoutX="18.0" layoutY="275.0" promptText="School Name" />
+                                <Label layoutX="181.0" layoutY="254.0" prefHeight="17.0" prefWidth="90.0" text="Type of School" />
+                                <RadioButton fx:id="Male1" layoutX="243.0" layoutY="280.0" mnemonicParsing="false" onAction="#male" text="Private" />
+                                <RadioButton fx:id="Female1" layoutX="181.0" layoutY="280.0" mnemonicParsing="false" onAction="#female" text="Public" />
+                                <Label layoutX="318.0" layoutY="248.0" text="Level" />
+                                <Label layoutX="467.0" layoutY="248.0" text="Grade / Year" />
+                                <ComboBox layoutX="318.0" layoutY="270.0" prefHeight="25.0" prefWidth="128.0" promptText="- Select Level -" />
+                                <ComboBox layoutX="468.0" layoutY="270.0" prefHeight="25.0" prefWidth="171.0" promptText="- Select Grade / Year -" />
+                                <Label layoutX="652.0" layoutY="248.0" text="Reason" />
+                                <TextField fx:id="childName11" layoutX="652.0" layoutY="270.0" promptText="Reason" />
+                        <Button fx:id="perInfoNext" layoutX="813.0" layoutY="326.0" mnemonicParsing="false" onAction="#perInfoNextHandler" text="Next" />
+                            </AnchorPane>
+                        </TitledPane>
+                        <TitledPane prefHeight="500.0" text="Family Information">
+                            <ScrollPane hbarPolicy="NEVER" prefHeight="369.0" prefWidth="897.0">
+                                <GridPane hgap="10.0" prefWidth="885.0" vgap="5.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints maxWidth="780.0" minWidth="177.0" prefWidth="177" />
+                                        <ColumnConstraints maxWidth="626.0" minWidth="10.0" prefWidth="177" />
+                                        <ColumnConstraints maxWidth="412.0" minWidth="10.0" prefWidth="177" />
+                                        <ColumnConstraints maxWidth="320.0" minWidth="10.0" prefWidth="177" />
+                                        <ColumnConstraints maxWidth="320.0" minWidth="10.0" prefWidth="177" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                    </rowConstraints>
+                                    <padding>
+                                        <Insets left="15.0" right="15.0" />
+                                    </padding>
+                                    <!--  Father Info -->
+                                    <Label layoutX="14.0" layoutY="14.0" text="Father">
+                                        <font>
+                                            <Font size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <DatePicker layoutX="14.0" layoutY="76.0" prefHeight="25.0" prefWidth="187.0" promptText="Date of Birth" GridPane.rowIndex="2" />
+                                    <Label layoutX="19.0" layoutY="52.0" text="Date of Birth" GridPane.rowIndex="1" />
+                                    <DatePicker layoutX="214.0" layoutY="76.0" promptText="Date of Death" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <Label layoutX="219.0" layoutY="52.0" text="Date of Death" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <Label layoutX="414.0" layoutY="52.0" text="Cause of Death" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <TextField layoutX="408.0" layoutY="76.0" promptText="Cause of Death" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <Separator layoutX="14.0" layoutY="118.0" prefHeight="14.0" prefWidth="355.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+                                    <!--  Mother Info -->
+                                    <Label text="Mother" GridPane.rowIndex="4">
+                                        <font>
+                                            <Font size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <Label layoutX="523.0" layoutY="160.0" text="Date of Birth" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                                    <DatePicker layoutX="525.0" layoutY="184.0" prefHeight="25.0" prefWidth="147.0" promptText="Date of Birth" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                                    <Label text="First Name" GridPane.rowIndex="5" />
+                                    <TextField promptText="First Name" GridPane.rowIndex="6" />
+                                    <Label layoutX="25.0" layoutY="175.0" text="MiddleName" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                    <TextField layoutX="25.0" layoutY="205.0" promptText="MIddle Name" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                                    <Label layoutX="212.0" layoutY="183.0" text="Last Name" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                                    <TextField layoutX="212.0" layoutY="211.0" promptText="Last Name" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                                    <Label text="Vital Status" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+                                    <ComboBox prefWidth="150.0" promptText="- Select Status -" GridPane.columnIndex="4" GridPane.rowIndex="6" />
+                                    <Label text="Mobile Number" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                                    <Label text="Date of Death" GridPane.rowIndex="7" />
+                                    <Label text="Cause of Death" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    <Label text="Marital Status" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                                    <Label text="Monthly Income" GridPane.columnIndex="4" GridPane.rowIndex="7" />
+                                    <Label layoutX="731.0" layoutY="231.0" text="Monthly Expense" GridPane.rowIndex="9" />
+                                    <ComboBox prefWidth="150.0" promptText="- Select Status -" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                                    <TextField layoutX="25.0" layoutY="195.0" promptText="Date of Death" GridPane.rowIndex="8" />
+                                    <TextField layoutX="25.0" layoutY="259.0" promptText="Monthly Income" GridPane.columnIndex="4" GridPane.rowIndex="8" />
+                                    <TextField layoutX="25.0" layoutY="259.0" promptText="Mobile Number" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                                    <TextField layoutX="25.0" layoutY="259.0" promptText="Cause of Death" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                                    <TextField layoutX="25.0" layoutY="259.0" promptText="Monthly Expense" GridPane.rowIndex="10" />
+                                    <Separator layoutX="25.0" layoutY="122.0" prefHeight="14.0" prefWidth="355.0" GridPane.columnSpan="5" GridPane.rowIndex="11" />
+                                    <Label layoutX="25.0" layoutY="130.0" text="Guardian" GridPane.rowIndex="12">
+                                        <font>
+                                            <Font size="18.0" />
+                                        </font>
+                                    </Label>
+                                    <Label layoutX="25.0" layoutY="167.0" text="First Name" GridPane.rowIndex="13" />
+                                    <TextField layoutX="25.0" layoutY="195.0" promptText="Last Name" GridPane.columnIndex="2" GridPane.rowIndex="14" />
+                                    <Label layoutX="212.0" layoutY="167.0" text="MiddleName" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                                    <TextField layoutX="212.0" layoutY="195.0" promptText="Middle Name" GridPane.columnIndex="1" GridPane.rowIndex="14" />
+                                    <Label layoutX="381.0" layoutY="167.0" text="Last Name" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+                                    <TextField layoutX="381.0" layoutY="195.0" promptText="First Name" GridPane.rowIndex="14" />
+                                    <Label text="Gender" GridPane.columnIndex="3" GridPane.rowIndex="13" />
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="5.0" GridPane.columnIndex="3" GridPane.rowIndex="14">
+                                        <RadioButton mnemonicParsing="false" text="Male" />
+                                        <RadioButton mnemonicParsing="false" text="Female" />
+                                    </HBox>
+                                    <ComboBox prefWidth="150.0" promptText="- Select Relation -" GridPane.rowIndex="16" />
+                                    <Label text="Date of Birth" GridPane.columnIndex="4" GridPane.rowIndex="13" />
+                                    <DatePicker promptText="Date of Birth" GridPane.columnIndex="4" GridPane.rowIndex="14" />
+                                    <Label text="Relation to Orphan" GridPane.rowIndex="15" />
+                                    <Label text="Email" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+                                    <TextField promptText="Email" GridPane.columnIndex="1" GridPane.rowIndex="16" />
+                                    <Label text="Mobile Number" GridPane.columnIndex="2" GridPane.rowIndex="15" />
+                                    <Label text="Nationality" GridPane.columnIndex="4" GridPane.rowIndex="15" />
+                                    <Label text="Telephone Number" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+                                    <TextField promptText="Mobile Number" GridPane.columnIndex="2" GridPane.rowIndex="16" />
+                                    <TextField promptText="Telephone Number" GridPane.columnIndex="3" GridPane.rowIndex="16" />
+                                    <ComboBox prefWidth="150.0" promptText="Nationality" GridPane.columnIndex="4" GridPane.rowIndex="16" />
+                           <Button fx:id="famInfoNext" mnemonicParsing="false" onAction="#famInfoNextHandler" text="Next" GridPane.columnIndex="4" GridPane.rowIndex="16" />
+                                </GridPane>
+                            </ScrollPane>
+                        </TitledPane>
+                        <TitledPane text="Documents and Photos">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </TitledPane>
+                    </panes>
+                </Accordion>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+    <TextField fx:id="searchTextField" layoutX="753.0" layoutY="37.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="243.0" promptText="search by full name or part of it" style="-fx-background-radius: 5px 0 0 5px; -fx-border-radius: 5px 0 0 5px;" text=" " />
+    <Button fx:id="searchButton" layoutX="996.0" layoutY="37.0" mnemonicParsing="false" prefHeight="30.0" style="-fx-border-radius: 0px 5px 5px 0px; -fx-background-radius: 0px 5px 5px 0px;" text="Search" />
+    <Button fx:id="showDetails" layoutX="1079.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="ShowDetails">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Button>
+    <Button layoutX="1079.0" layoutY="59.0" mnemonicParsing="false" onAction="#showDetails" prefHeight="25.0" prefWidth="96.0" text="Sample" />
+    <Label layoutX="53.0" layoutY="14.0" prefHeight="70.0" prefWidth="784.0" text="CDA / ORPHAN DEPARTMENT">
+        <font>
+            <Font size="48.0" />
+        </font>
+    </Label>
+    <Button layoutX="1079.0" layoutY="84.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="HOME" />
+    <Button fx:id="neworphan" layoutX="1079.0" layoutY="109.0" mnemonicParsing="false" onAction="#neworphan" prefHeight="25.0" prefWidth="96.0" text="Add new orphan" />
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+    </padding>
+</Pane>

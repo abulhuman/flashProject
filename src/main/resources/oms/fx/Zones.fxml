@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oms.fx.ZonesController">
+    <children>
+        <Label layoutX="53.0" layoutY="14.0" prefHeight="70.0" prefWidth="176.0" text="Zones">
+         <font>
+            <Font size="48.0" />
+         </font></Label>
+        <TableView layoutX="53.0" layoutY="90.0" prefHeight="520.0" prefWidth="900.0">
+            <columns>
+                <TableColumn fx:id="colZoneName" prefWidth="650.0" text="Zone Name" />
+                <TableColumn fx:id="colNumOfDistricts" prefWidth="250.0" text="Number of Districts" />
+            </columns>
+        </TableView>
+        <Button fx:id="btnAddNewZone" layoutX="990.0" layoutY="90.0" mnemonicParsing="false" onAction="#AddNewZone" prefHeight="25.0" prefWidth="125.0" text="Add New Zone" />
+        <Button fx:id="btnZonesNext" layoutX="1130.0" layoutY="650.0" mnemonicParsing="false" onAction="#GoToDistrict" text="Next" />
+        <Button layoutX="1070.0" layoutY="650.0" mnemonicParsing="false" onAction="#BackToRegion" text="Back" />
+    </children>
+</Pane>

@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile 'junit:junit:4.12'
+
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.15'
+    runtime "mysql:mysql-connector-java:8.0.15"
+}
+javafx {
+    version = "15.0.1"
+    modules = [ 'javafx.controls', 'javafx.base', 'javafx.fxml' ]
+}
+//mainClassName = 'oms.fx.OrphanManagement'
+mainClassName = 'oms.Main'

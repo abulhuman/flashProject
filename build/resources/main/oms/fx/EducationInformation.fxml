@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oms.fx.EducationInformationController">
+    <children>
+        <Label layoutX="34.0" layoutY="48.0" text="The inputs marked by * are all required" textFill="#a49f9f" />
+        <Label layoutX="34.0" layoutY="72.0" text="Enrollment Stauts*" />
+        <Label layoutX="34.0" layoutY="138.0" text="Hobbies &amp; Ambitions" />
+        <TextArea fx:id="hobbiesAndAmbitions" layoutX="37.0" layoutY="167.0" prefHeight="75.0" prefWidth="544.0" promptText="Mention..." />
+        <Button layoutX="700.0" layoutY="533.0" mnemonicParsing="false" onAction="#next" text="Next" textFill="#1505fa" />
+        <Label layoutX="320.0" layoutY="20.0" text="Education Information">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <RadioButton fx:id="Enrolled" layoutX="39.0" layoutY="99.0" mnemonicParsing="false" onAction="#enrolled" text="Enrolled" />
+        <RadioButton fx:id="Unenrolled" layoutX="309.0" layoutY="99.0" mnemonicParsing="false" onAction="#unenrolled" text="Un-Enrolled" />
+        <RadioButton fx:id="Droppedout" layoutX="151.0" layoutY="99.0" mnemonicParsing="false" onAction="#droppedout" text="Dropped-out" />
+
+    </children>
+</Pane>
