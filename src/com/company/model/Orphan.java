@@ -1,5 +1,7 @@
 package com.company.model;
 
+import java.sql.Blob;
+
 public class Orphan {
     private int id;
     private String firstName;
@@ -8,7 +10,7 @@ public class Orphan {
     private String dateOfBirth;
     private String spokenLanguages;
     private Orphan_religion_enum religion;
-    private String birthCertificateUrl;
+    private Blob birthCertificate;
     private String healthDescription;
     private Orphan_psychologicalStatus_enum psychologicalStatus;
     private Mother mother;
@@ -81,12 +83,12 @@ public class Orphan {
         this.religion = religion;
     }
 
-    public String getBirthCertificateUrl() {
-        return birthCertificateUrl;
+    public Blob getBirthCertificate() {
+        return birthCertificate;
     }
 
-    public void setBirthCertificateUrl(String birthCertificateUrl) {
-        this.birthCertificateUrl = birthCertificateUrl;
+    public void setBirthCertificate(Blob birthCertificate) {
+        this.birthCertificate = birthCertificate;
     }
 
     public String getHealthDescription() {

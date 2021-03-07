@@ -1,5 +1,7 @@
 package com.company.model;
 
+import java.sql.Blob;
+
 public class EducationalRecord {
     private int id;
     private EducationalRecord_yearDivision_enum yearDivision;
@@ -9,7 +11,7 @@ public class EducationalRecord {
     private int numberOfSubjects;
     private float average;
     private int rank;
-    private String reportCardUrl;
+    private Blob reportCard;
     private float SemesterGPA;
     private float CumulativeGPA;
     private int educationId;
@@ -78,12 +80,12 @@ public class EducationalRecord {
         this.rank = rank;
     }
 
-    public String getReportCardUrl() {
-        return reportCardUrl;
+    public Blob getReportCard() {
+        return reportCard;
     }
 
-    public void setReportCardUrl(String reportCardUrl) {
-        this.reportCardUrl = reportCardUrl;
+    public void setReportCard(Blob reportCard) {
+        this.reportCard = reportCard;
     }
 
     public float getSemesterGPA() {

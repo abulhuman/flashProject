@@ -1,5 +1,7 @@
 package com.company.model;
 
+import java.sql.Blob;
+
 public class Guardian {
     private int id;
     private String firstName;
@@ -12,8 +14,8 @@ public class Guardian {
     private String mobileNumber;
     private String telephoneNumber;
     private Guardian_nationality_enum nationality;
-    private String iDCardUrl;
-    private String confirmationLetterUrl;
+    private Blob iDCard;
+    private Blob confirmationLetter;
 
     public int getId() {
         return id;
@@ -103,19 +105,19 @@ public class Guardian {
         this.nationality = nationality;
     }
 
-    public String getiDCardUrl() {
-        return iDCardUrl;
+    public Blob getiDCard() {
+        return iDCard;
     }
 
-    public void setiDCardUrl(String iDCardUrl) {
-        this.iDCardUrl = iDCardUrl;
+    public void setiDCard(Blob iDCard) {
+        this.iDCard = iDCard;
     }
 
-    public String getConfirmationLetterUrl() {
-        return confirmationLetterUrl;
+    public Blob getConfirmationLetter() {
+        return confirmationLetter;
     }
 
-    public void setConfirmationLetterUrl(String confirmationLetterUrl) {
-        this.confirmationLetterUrl = confirmationLetterUrl;
+    public void setConfirmationLetter(Blob confirmationLetter) {
+        this.confirmationLetter = confirmationLetter;
     }
 }

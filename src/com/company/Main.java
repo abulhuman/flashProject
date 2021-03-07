@@ -31,15 +31,6 @@ public class Main {
         System.out.println("\nCoordinator: ");
         System.out.println("ID: " + coordinator.getId() + "\nName: " + coordinator.getFullName() +
                             "\nUserId: " + coordinator.getUserId());
-        Donor donor = datasource.queryDonor(1);
-        if(donor == null) {
-            System.out.println("\nNo Donor");
-            return;
-        }
-        System.out.println("\nDonor: ");
-        System.out.println("ID: " + donor.getId() + "\nCompanyName: " + donor.getCompanyName() +
-                           "\nNameInitial: " + donor.getNameInitials() + "\nUserId: " + donor.getUserId()
-                           + "\nCoordinatorId: " + donor.getCoordinatorId());
         Education education = datasource.queryEducation(1);
         if (education == null) {
             System.out.println("\nNo Education");
@@ -78,10 +69,7 @@ public class Main {
                             "DateOfBirth: " + guardian.getDateOfBirth() + "\n" + "RelationToOrphan: " +
                             guardian.getRelationToOrphan() + "\n" + "E-mail: " + guardian.getEmail() + "\n" +
                             "MobileNumber: " + guardian.getMobileNumber() + "\n" + "TelephoneNumber: " +
-                            guardian.getTelephoneNumber() + "\n" + "Nationality: " + guardian.getNationality()
-                            + "\n" + "GuardianIdCard: " + guardian.getGuardianIDCardUrl() + "\n" +
-                            "GuardianConfirmationLetter: " + guardian.getGuardianConfirmationLetterUrl() + "\n"
-                            + "GuardianLegalConfirmationLetter: " + guardian.getGuardianLegalConfirmationLetterUrl());
+                            guardian.getTelephoneNumber() + "\n" + "Nationality: " + guardian.getNationality());
 
         // ---------------------------------------------------------------------------------------------------
 
@@ -108,9 +96,7 @@ public class Main {
                            "GuardianName: " + orphan.getGuardian().getFirstName() + " " +
                            orphan.getGuardian().getMiddleName() + " " + orphan.getGuardian().getLastName() + "\n" +
                            "EnrollmentStatus: " + orphan.getEducation().getEnrollmentStatus() + "\n" +
-                           "DonorCompanyName: " + orphan.getDonor().getCompanyName() + "\n" +
-                           "VillageName: " + orphan.getVillage().getName() + "\n" +
-                           "House: " + orphan.getHouse_property().getHousingSituation() + "\n");
+                           "VillageName: " + orphan.getVillage().getName() + "\n");
 
 
 //        List<Orphan> orphans = datasource.queryAllOrphans(1);

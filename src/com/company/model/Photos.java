@@ -1,9 +1,11 @@
 package com.company.model;
 
+import java.sql.Blob;
+
 public class Photos {
     private int id;
-    private String portraitUrl;
-    private String pongUrl;
+    private Blob portrait;
+    private Blob pong;
     private int orphanId;
 
     public int getId() {
@@ -14,20 +16,20 @@ public class Photos {
         this.id = id;
     }
 
-    public String getPortraitUrl() {
-        return portraitUrl;
+    public Blob getPortrait() {
+        return portrait;
     }
 
-    public void setPortraitUrl(String portraitUrl) {
-        this.portraitUrl = portraitUrl;
+    public void setPortrait(Blob portrait) {
+        this.portrait = portrait;
     }
 
-    public String getPongUrl() {
-        return pongUrl;
+    public Blob getPong() {
+        return pong;
     }
 
-    public void setPongUrl(String pongUrl) {
-        this.pongUrl = pongUrl;
+    public void setPong(Blob pong) {
+        this.pong = pong;
     }
 
     public int getOrphanId() {

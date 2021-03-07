@@ -1,7 +1,5 @@
 package com.company.model;
 
-import javax.lang.model.element.NestingKind;
-import java.security.Guard;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,22 +20,19 @@ public class Datasource {
     public static final String COLUMN_ORPHAN_DATE_OF_BIRTH = "dateOfBirth";
     public static final String COLUMN_ORPHAN_SPOKEN_LANGUAGE = "spokenLanguages";
     public static final String COLUMN_ORPHAN_RELIGION = "religion";
-    public static final String COLUMN_ORPHAN_BIRTH_CERTIFICATE_URL = "birthCertificateUrl";
+    public static final String COLUMN_ORPHAN_BIRTH_CERTIFICATE = "birthCertificate";
     public static final String COLUMN_ORPHAN_HEALTH_DESCRIPTION = "healthDescription";
     public static final String COLUMN_ORPHAN_PSYCHOLOGICAL_STATUS = "psychologicalStatus";
-    public static final String COLUMN_ORPHAN_SIBLING_ID = "siblingId";
     public static final String COLUMN_ORPHAN_MOTHER_ID = "motherId";
     public static final String COLUMN_ORPHAN_FATHER_ID = "fatherId";
     public static final String COLUMN_ORPHAN_GUARDIAN_ID = "guardianId";
     public static final String COLUMN_ORPHAN_EDUCATION_ID = "educationId";
-    public static final String COLUMN_ORPHAN_DONOR_ID = "donorId";
-    public static final String COLUMN_ORPHAN_HOUSE_PROPERTY_ID = "house_propertyId";
     public static final String COLUMN_ORPHAN_VILLAGE_ID = "villageId";
 
     public static final String TABLE_ORPHAN_PHOTOS = "OrphanPhotos";
     public static final String COLUMN_PHOTOS_ID = "id";
-    public static final String COLUMN_PHOTO_PORTRAIT_URL = "photoPortraitUrl";
-    public static final String COLUMN_PHOTO_LONG_URL = "photoLongUrl";
+    public static final String COLUMN_PHOTO_PORTRAIT = "photoPortrait";
+    public static final String COLUMN_PHOTO_LONG = "photoLong";
     public static final String COLUMN_PHOTOS_ORPHAN_ID = "orphanId";
 
     public static final String TABLE_REGION = "region";
@@ -78,7 +73,7 @@ public class Datasource {
     public static final String COLUMN_EDUCATIONAL_RECORD_NUMBER_OF_SUBJECTS = "numberOfSubjects";
     public static final String COLUMN_EDUCATIONAL_RECORD_AVERAGE = "average";
     public static final String COLUMN_EDUCATIONAL_RECORD_RANK = "rank";
-    public static final String COLUMN_EDUCATIONAL_RECORD_REPORT_CARD_URL = "reportCardUrl";
+    public static final String COLUMN_EDUCATIONAL_RECORD_REPORT_CARD = "reportCard";
     public static final String COLUMN_EDUCATIONAL_RECORD_SEMESTER_GPA = "SemesterGPA";
     public static final String COLUMN_EDUCATIONAL_RECORD_CUMULATIVE_GPA = "CumulativeGPA";
     public static final String COLUMN_EDUCATIONAL_RECORD_EDUCATION_ID = "educationId";
@@ -101,7 +96,7 @@ public class Datasource {
     public static final String COLUMN_FATHER_DATE_OF_DEATH = "dateOfDeath";
     public static final String COLUMN_FATHER_CAUSE_OF_DEATH = "causeOfDeath";
     public static final String COLUMN_FATHER_DATE_OF_BIRTH = "dateOfBirth";
-    public static final String COLUMN_FATHER_DEATH_CERTIFICATE_URL = "deathCertificateUrl";
+    public static final String COLUMN_FATHER_DEATH_CERTIFICATE = "deathCertificate";
 
     public static final String TABLE_GUARDIAN = "guardian";
     public static final String COLUMN_GUARDIAN_ID = "id";
@@ -115,13 +110,13 @@ public class Datasource {
     public static final String COLUMN_GUARDIAN_MOBILE_NUMBER = "mobileNumber";
     public static final String COLUMN_GUARDIAN_TELEPHONE_NUMBER = "telephoneNumber";
     public static final String COLUMN_GUARDIAN_NATIONALITY = "nationality";
-    public static final String COLUMN_GUARDIAN_GUARDIAN_ID_CARD_URL = "guardianIdCardUrl";
-    public static final String COLUMN_GUARDIAN_GUARDIAN_CONFIRMATION_LETTER_URL = "guardianConfirmationLetterUrl";
-    public static final String COLUMN_GUARDIAN_GUARDIAN_LEGAL_CONFIRMATION_LETTER_URL = "guardianLegalConfirmationLetterUrl";
+    public static final String COLUMN_GUARDIAN_GUARDIAN_ID_CARD = "guardianIdCard";
+    public static final String COLUMN_GUARDIAN_GUARDIAN_CONFIRMATION_LETTER= "guardianConfirmationLetter";
+    public static final String COLUMN_GUARDIAN_GUARDIAN_LEGAL_CONFIRMATION_LETTER = "guardianLegalConfirmationLetter";
 
     public static final String TABLE_HEALTH_RECORD = "healthrecord";
     public static final String COLUMN_HEALTH_RECORD_ID = "id";
-    public static final String COLUMN_HEALTH_RECORD_MEDICAL_CERTIFICATE_URL = "medicalCertificateUrl";
+    public static final String COLUMN_HEALTH_RECORD_MEDICAL_CERTIFICATE = "medicalCertificate";
     public static final String COLUMN_HEALTH_RECORD_ORPHAN_ID = "orphanId";
 
     public static final String TABLE_MOTHER = "mother";
@@ -169,7 +164,7 @@ public class Datasource {
             "INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?)",
             TABLE_FATHER, COLUMN_FATHER_FIRST_NAME, COLUMN_FATHER_LAST_NAME,
             COLUMN_FATHER_DATE_OF_DEATH, COLUMN_FATHER_CAUSE_OF_DEATH,
-            COLUMN_FATHER_DATE_OF_BIRTH, COLUMN_FATHER_DEATH_CERTIFICATE_URL);
+            COLUMN_FATHER_DATE_OF_BIRTH, COLUMN_FATHER_DEATH_CERTIFICATE);
     public static final String INSERT_MOTHER = String.format(
             "INSERT INTO %s (%s,%s, %s,%s, %s,%s, %s,%s, %s,%s, %s, %s) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", TABLE_MOTHER,
@@ -183,9 +178,9 @@ public class Datasource {
             COLUMN_GUARDIAN_FIRST_NAME, COLUMN_GUARDIAN_MIDDLE_NAME, COLUMN_GUARDIAN_LAST_NAME,
             COLUMN_GUARDIAN_GENDER, COLUMN_GUARDIAN_DATE_OF_BIRTH, COLUMN_GUARDIAN_RELATION_TO_ORPHAN,
             COLUMN_GUARDIAN_EMAIL, COLUMN_GUARDIAN_MOBILE_NUMBER, COLUMN_GUARDIAN_TELEPHONE_NUMBER,
-            COLUMN_GUARDIAN_NATIONALITY, COLUMN_GUARDIAN_GUARDIAN_ID_CARD_URL,
-            COLUMN_GUARDIAN_GUARDIAN_CONFIRMATION_LETTER_URL,
-            COLUMN_GUARDIAN_GUARDIAN_LEGAL_CONFIRMATION_LETTER_URL);
+            COLUMN_GUARDIAN_NATIONALITY, COLUMN_GUARDIAN_GUARDIAN_ID_CARD,
+            COLUMN_GUARDIAN_GUARDIAN_CONFIRMATION_LETTER,
+            COLUMN_GUARDIAN_GUARDIAN_LEGAL_CONFIRMATION_LETTER);
     public static final String INSERT_EDUCATION = String.format(
             "INSERT INTO %s (%s, %s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?)",
             TABLE_EDUCATION, COLUMN_EDUCATION_ENROLLMENT_STATUS, COLUMN_EDUCATION_SCHOOL_NAME,
@@ -195,7 +190,7 @@ public class Datasource {
             "INSERT INTO %s (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, %s, %s, %s, %s) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             TABLE_ORPHAN, COLUMN_ORPHAN_FIRST_NAME, COLUMN_ORPHAN_GENDER, COLUMN_ORPHAN_PLACE_OF_BIRTH,
             COLUMN_ORPHAN_DATE_OF_BIRTH, COLUMN_ORPHAN_SPOKEN_LANGUAGE, COLUMN_ORPHAN_RELIGION,
-            COLUMN_ORPHAN_BIRTH_CERTIFICATE_URL, COLUMN_ORPHAN_HEALTH_DESCRIPTION,
+            COLUMN_ORPHAN_BIRTH_CERTIFICATE, COLUMN_ORPHAN_HEALTH_DESCRIPTION,
             COLUMN_ORPHAN_PSYCHOLOGICAL_STATUS, COLUMN_ORPHAN_FATHER_ID, COLUMN_ORPHAN_MOTHER_ID,
             COLUMN_ORPHAN_GUARDIAN_ID, COLUMN_ORPHAN_EDUCATION_ID, COLUMN_ORPHAN_VILLAGE_ID
     );
@@ -300,7 +295,7 @@ public class Datasource {
 
     public boolean open() {
         try {
-            conn = DriverManager.getConnection(CONNECTION_STRING, DB_USERNAME, DB_PASSWORD);
+            conn = DriverManager.getConnection(CONNECTION_STRING, DB_USER, DB_PASSWORD);
 
             insertIntoRegions = conn.prepareStatement(INSERT_REGION, Statement.RETURN_GENERATED_KEYS);
             insertIntoZones = conn.prepareStatement(INSERT_ZONE, Statement.RETURN_GENERATED_KEYS);
@@ -432,7 +427,7 @@ public class Datasource {
 
                 orphan.setReligion(religion);
 
-                orphan.setBirthCertificateUrl(results.getString(COLUMN_ORPHAN_BIRTH_CERTIFICATE_URL));
+                orphan.setBirthCertificate(results.getBlob(COLUMN_ORPHAN_BIRTH_CERTIFICATE));
                 orphan.setHealthDescription(results.getString(COLUMN_ORPHAN_HEALTH_DESCRIPTION));
 
                 Orphan_psychologicalStatus_enum pschStat = switch (results.getString(COLUMN_ORPHAN_PSYCHOLOGICAL_STATUS)) {
@@ -482,29 +477,6 @@ public class Datasource {
             System.out.println("coordinatorQuery failed: " + e.getMessage());
             return null;
         }
-    }
-
-    public Donor queryDonor(int id) {
-        final String sqlQueryDonor = "SELECT id, companyName, nameInitials, userId, coordinatorId " +
-                                      "FROM " + TABLE_DONOR + " WHERE id=" + id;
-        try(Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(sqlQueryDonor)) {
-
-            result.next();
-            Donor donor = new Donor();
-            donor.setId(result.getInt(COLUMN_DISTRICT_ID));
-            donor.setCompanyName(result.getString(COLUMN_DONOR_COMPANY_NAME));
-            donor.setNameInitials(result.getString(COLUMN_DONOR_NAME_INITIALS));
-            donor.setUserId(result.getInt(COLUMN_DONOR_USER_ID));
-            donor.setCoordinatorId(result.getInt(COLUMN_DONOR_COORDINATOR_ID));
-
-            return donor;
-
-        } catch (SQLException e) {
-            System.out.println("donorQuery failed: " + e.getMessage());
-            return null;
-        }
-
     }
 
     public Education queryEducation(int id) {
@@ -587,7 +559,7 @@ public class Datasource {
                 educationalRecord.setNumberOfSubjects(results.getInt(COLUMN_EDUCATIONAL_RECORD_NUMBER_OF_SUBJECTS));
                 educationalRecord.setAverage(results.getFloat(COLUMN_EDUCATIONAL_RECORD_AVERAGE));
                 educationalRecord.setRank(results.getInt(COLUMN_EDUCATIONAL_RECORD_RANK));
-                educationalRecord.setReportCardUrl(results.getString(COLUMN_EDUCATIONAL_RECORD_REPORT_CARD_URL));
+                educationalRecord.setReportCard(results.getBlob(COLUMN_EDUCATIONAL_RECORD_REPORT_CARD));
                 educationalRecord.setSemesterGPA(results.getFloat(COLUMN_EDUCATIONAL_RECORD_SEMESTER_GPA));
                 educationalRecord.setCumulativeGPA(results.getFloat(COLUMN_EDUCATIONAL_RECORD_CUMULATIVE_GPA));
                 educationalRecord.setEducationId(results.getInt(COLUMN_EDUCATIONAL_RECORD_EDUCATION_ID));
@@ -665,7 +637,7 @@ public class Datasource {
             father.setDateOfBirth(result.getString(COLUMN_FATHER_DATE_OF_BIRTH));
             father.setDateOfDeath(result.getString(COLUMN_FATHER_DATE_OF_DEATH));
             father.setCauseOfDeath(result.getString(COLUMN_FATHER_CAUSE_OF_DEATH));
-            father.setDeathCertificateUrl(result.getString(COLUMN_FATHER_DEATH_CERTIFICATE_URL));
+            father.setDeathCertificate(result.getBlob(COLUMN_FATHER_DEATH_CERTIFICATE));
 
             return father;
 
@@ -742,9 +714,6 @@ public class Datasource {
                 default -> Guardian_nationality_enum.SUDANESE;
             };
             guardian.setNationality(nationality);
-            guardian.setGuardianIDCardUrl(result.getString(COLUMN_GUARDIAN_GUARDIAN_ID_CARD_URL));
-            guardian.setGuardianConfirmationLetterUrl(result.getString(COLUMN_GUARDIAN_GUARDIAN_CONFIRMATION_LETTER_URL));
-            guardian.setGuardianLegalConfirmationLetterUrl(result.getString(COLUMN_GUARDIAN_GUARDIAN_LEGAL_CONFIRMATION_LETTER_URL));
 
             return guardian;
 
@@ -825,8 +794,6 @@ public class Datasource {
             orphan.setGender(result.getString("orphanGender").equals("M") ? Gender_enum.M : Gender_enum.F);
             orphan.setDateOfBirth(result.getString("orphanDateOfBirth"));
             orphan.setSpokenLanguages(result.getString("orphanSpokenLanguages"));
-            orphan.setGradeAgeMismatchReason(result.getString("orphanGradeAgeMismatchReason"));
-            orphan.setHobbies(result.getString("orphanHobbies"));
             orphan.setReligion(switch (result.getString("orphanReligion")) {
                 case "Christianity" -> Orphan_religion_enum.CHRISTIANITY;
                 case "Islam" -> Orphan_religion_enum.ISLAM;
@@ -835,7 +802,7 @@ public class Datasource {
                 case "Judaism" -> Orphan_religion_enum.JUDAISM;
                 default ->  Orphan_religion_enum.OTHER;
             });
-            orphan.setBirthCertificateUrl(result.getString("orphanBirthCertificateUrl"));
+            orphan.setBirthCertificate(result.getBlob("orphanBirthCertificate"));
             orphan.setHealthDescription(result.getString("orphanHealthDescription"));
             orphan.setPsychologicalStatus(switch (result.getString("orphanPsychologicalStatus")) {
                case "isolated" -> Orphan_psychologicalStatus_enum.ISOLATED;
@@ -866,7 +833,7 @@ public class Datasource {
             orphan.getFather().setDateOfBirth(result.getString("fatherDateOfBirth"));
             orphan.getFather().setDateOfDeath(result.getString("fatherDateOfDeath"));
             orphan.getFather().setCauseOfDeath(result.getString("fatherCauseOfDeath"));
-            orphan.getFather().setDeathCertificateUrl(result.getString("fatherDeathCertificateUrl"));
+            orphan.getFather().setDeathCertificate(result.getBlob("fatherDeathCertificate"));
             orphan.getGuardian().setFirstName(result.getString("guardianFirstName"));
             orphan.getGuardian().setMiddleName(result.getString("guardianMiddleName"));
             orphan.getGuardian().setLastName(result.getString("guardianLastName"));
@@ -898,9 +865,6 @@ public class Datasource {
                 default -> Guardian_nationality_enum.SUDANESE;
             };
             orphan.getGuardian().setNationality(nationality);
-            orphan.getGuardian().setGuardianIDCardUrl(result.getString("guardianIDCardUrl"));
-            orphan.getGuardian().setGuardianConfirmationLetterUrl(result.getString("guardianConfirmationLetterUrl"));
-            orphan.getGuardian().setGuardianLegalConfirmationLetterUrl(result.getString("guardianLegalConfirmationLetterUrl"));
             Education_enrollmentStatus_enum enrollmentStatus = Education_enrollmentStatus_enum.UNENROLLED;
             switch (result.getString("educationEnrollmentStatus")){
                 case "enrolled":
@@ -925,12 +889,8 @@ public class Datasource {
             };
             orphan.getEducation().setLevel(level);
             orphan.getEducation().setReason(result.getString("educationReason"));
-            orphan.getDonor().setCompanyName(result.getString("donorCompanyName"));
-            orphan.getDonor().setNameInitials(result.getString("donorNameInitials"));
             orphan.getVillage().setName(result.getString("villageName"));
             orphan.getVillage().setRegistrationDate(result.getString("villageRegistrationDate"));
-            orphan.getHouse_property().setHousingSituation(result.getString("housingSituation"));
-            orphan.getHouse_property().setHousingSituation(result.getString("housingSituationOtherProperty"));
             return orphan;
         } catch (SQLException e) {
             System.out.println("OrphanQuery failed: " + e.getMessage());
@@ -1024,9 +984,11 @@ public class Datasource {
     }
 
     private int searchRegionIdByName(String name) throws SQLException {
+        // sets the first question mark with name field
         queryRegion.setString(1, name);
-
+        // executes the name set statement
         ResultSet results = queryRegion.executeQuery();
+        // if the name exists return the id which is basicly what the statement does
         if (results.next()) return results.getInt(1);
         else throw new SQLException("Couldn't find a region with that name");
     }
@@ -1056,19 +1018,27 @@ public class Datasource {
     }
 
     public int insertRegion(String name) throws SQLException {
+        // sets the first question mark with name field
         queryRegion.setString(1, name);
+        // executes the name set statement
         ResultSet results = queryRegion.executeQuery();
 
+        // if the name exists return the id which is basicly what the statement does
         if (results.next()) return results.getInt(COLUMN_REGION_ID);
         else {
+            // assigns the name field to the first place of the question mark in the prepared
+            // statement 'insertIntoRegion'
             insertIntoRegions.setString(1, name);
 
+            // executes the prepared statement returns the rows affected by the statement
             int affectedRows = insertIntoRegions.executeUpdate();
 
             if (affectedRows != 1) throw new SQLException("Couldn't insert region!");
 
+            // gets the generated keys of the affected rows
             ResultSet generatedKeys = insertIntoRegions.getGeneratedKeys();
 
+            // gets the value of the affected row, first column
             if (generatedKeys.next()) return generatedKeys.getInt(1);
             else throw new SQLException("Couldn't get id for region");
 
@@ -1172,10 +1142,13 @@ public class Datasource {
     public int insertDistrict(
             String districtName, int coordinatorId, String fullName,
             int zoneId, String zoneName) throws SQLException {
+        // check if the district already exists
         queryDistrict.setString(1, districtName);
         ResultSet results = queryDistrict.executeQuery();
 
+        // if it does return the that row's id
         if (results.next()) return results.getInt(COLUMN_DISTRICT_ID);
+        // else create a new one
         else {
             insertIntoDistricts.setString(1, districtName);
             insertIntoDistricts.setInt(2, zoneId != 0 ?
@@ -1425,7 +1398,7 @@ public class Datasource {
             String educationYear,
             Education_level_enum educationLevel,
             String educationReason
-    ) {
+    )  {
         try {
             conn.setAutoCommit(false);
 
