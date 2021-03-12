@@ -6,9 +6,9 @@ import java.util.List;
 
 public class Datasource {
 
-    public static final String DB_NAME = "minidepOrph";
-    public static final String DB_USERNAME = "devAdem";
-    public static final String DB_PASSWORD = "Shangquan1!";
+    public static final String DB_NAME = "orphman";
+    public static final String DB_USERNAME = "root";
+    public static final String DB_PASSWORD = "Believer747";
 
     public static final String CONNECTION_STRING = "jdbc:mysql://localhost/" + DB_NAME;
 
@@ -458,7 +458,7 @@ public class Datasource {
 //                orphan.setEducationId(results.getInt(COLUMN_ORPHAN_EDUCATION_ID));
 //                orphan.setDonorId(results.getInt(COLUMN_ORPHAN_DONOR_ID));
 //                orphan.setHouse_propertyId(results.getInt(COLUMN_ORPHAN_HOUSE_PROPERTY_ID));
-//                orphan.setVillageId(results.getInt(COLUMN_ORPHAN_VILLAGE_ID));
+//                orphan.setVillageId(results.getInt(z_VILLAGE_ID));
 
                 orphans.add(orphan);
             }
@@ -787,38 +787,7 @@ public class Datasource {
     }
 
     public Orphan queryOrphan (int id) {
-        final String sqlQueryOrphan = "select o.id, o.firstName as orphanFirstName, o.gender as orphanGender, o.placeOfBirth as orphanPlaceOfBirth," +
-                " o.dateOfBirth as orphanDateOfBirth, o.spokenLanguages as orphanSpokenLanguages," +
-                " o.gradeAgeMismatchReason as orphanGradeAgeMismatchReason, o.hobbies as orphanHobbies," +
-                " o.religion as orphanReligion, o.birthCertificateUrl as orphanBirthCertificateUrl," +
-                " o.healthDescription as orphanHealthDescription, o.psychologicalStatus as orphanPsychologicalStatus," +
-                " m.firstName as motherFirstName, m.middleName as motherMiddleName, m.lastName as motherLastName," +
-                " m.dateOfBirth as motherDateOfBirth, m.vitalStatus as motherVitalStatus, m.dateOfDeath as motherDateOfDeath," +
-                " m.causeOfDeath as motherCauseOfDeath, m.mobileNumber as motherMobileNumber," +
-                " m.maritalStatus as motherMaritalStatus, m.currentJobTitle as motherCurrentJobTitle," +
-                " m.monthlyIncome as motherMonthlyIncome, m.monthlyExpense as motherMonthlyExpense," +
-                " f.firstName as fatherFirstName, f.lastName as fatherLastName, f.dateOfBirth as fatherDateOfBirth," +
-                " f.dateOfDeath as fatherDateOfDeath, f.causeOfDeath as fatherCauseOfDeath," +
-                " f.deathCertificateUrl as fatherDeathCertificateUrl, g.firstName as guardianFirstName," +
-                " g.middleName as guardianMiddleName, g.lastName as guardianLastName, g.gender as guardianGender," +
-                " g.dateOfBirth as guardianDateOfBirth,g.relationToOrphan as guardianRelationToOrphan," +
-                " g.email as guardianEmail, g.mobileNumber as guardianMobileNumber," +
-                " g.telephoneNumber as guardianTelephoneNumber, g.nationality as guardianNationality," +
-                " g.guardianIDCardUrl , g.guardianConfirmationLetterUrl, g.guardianLegalConfirmationLetterUrl," +
-                " e.enrollmentStatus educationEnrollmentStatus, e.schoolName as educationSchoolName," +
-                " e.typeOfSchool as educationTypeOfSchool, e.year as educationYear, e.level as educationLevel," +
-                " e.reason as educationReason, d.companyName as donorCompanyName,d.nameInitials as donorNameInitials," +
-                " v.name as villageName, v.registrationDate as villageRegistrationDate," +
-                " hp.housingSituation, hp.otherProperty  as housingSituationOtherProperty" +
-                " from orphan o" +
-                " join mother m on o.motherId = m.id" +
-                " join father f on o.fatherId = f.id" +
-                " join guardian g on o.guardianId = g.id" +
-                " join education e on o.educationId = e.id" +
-                " join donor d on o.donorId = d.id" +
-                " join village v on o.villageId = v.id" +
-                " join house_property hp on o.house_PropertyId = hp.id" +
-                " where o.id=" + id;
+        final String sqlQueryOrphan = "select o.id, o.firstName as orphanFirstName, o.gender as orphanGender, o.placeOfBirth as orphanPlaceOfBirth, o.dateOfBirth as orphanDateOfBirth, o.spokenLanguages as orphanSpokenLanguages, o.religion as orphanReligion, o.birthCertificateUrl as orphanBirthCertificateUrl, o.healthDescription as orphanHealthDescription, o.psychologicalStatus as orphanPsychologicalStatus, m.firstName as motherFirstName, m.middleName as motherMiddleName, m.lastName as motherLastName, m.dateOfBirth as motherDateOfBirth, m.vitalStatus as motherVitalStatus, m.dateOfDeath as motherDateOfDeath, m.causeOfDeath as motherCauseOfDeath, m.mobileNumber as motherMobileNumber, m.maritalStatus as motherMaritalStatus, m.currentJobTitle as motherCurrentJobTitle, m.monthlyIncome as motherMonthlyIncome, m.monthlyExpense as motherMonthlyExpense, f.firstName as fatherFirstName, f.lastName as fatherLastName, f.dateOfBirth as fatherDateOfBirth, f.dateOfDeath as fatherDateOfDeath, f.causeOfDeath as fatherCauseOfDeath, f.deathCertificateUrl as fatherDeathCertificateUrl, g.firstName as guardianFirstName, g.middleName as guardianMiddleName, g.lastName as guardianLastName, g.gender as guardianGender, g.dateOfBirth as guardianDateOfBirth,g.relationToOrphan as guardianRelationToOrphan, g.email as guardianEmail, g.mobileNumber as guardianMobileNumber, g.telephoneNumber as guardianTelephoneNumber, g.nationality as guardianNationality, g.guardianIDCardUrl , g.guardianConfirmationLetterUrl, g.guardianLegalConfirmationLetterUrl, e.enrollmentStatus educationEnrollmentStatus, e.schoolName as educationSchoolName, e.typeOfSchool as educationTypeOfSchool, e.year as educationYear, e.level as educationLevel, e.reason as educationReason, v.name as villageName, v.registrationDate as villageRegistrationDate from orphan o join mother m on o.motherId = m.id join father f on o.fatherId = f.id join guardian g on o.guardianId = g.id join education e on o.educationId = e.id join village v on o.villageId = v.id where o.id=" + id;
         try (Statement statement = conn.createStatement();
              ResultSet result = statement.executeQuery(sqlQueryOrphan)) {
 

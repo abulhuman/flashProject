@@ -37,9 +37,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Main.stage = stage;
-        Parent root = FXMLLoader.load(getClass().getResource("fx/LoginPage.fxml"));
-
-
+//        Parent root = FXMLLoader.load(getClass().getResource("fx/LoginPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fx/ShowDetails.fxml"));
 
 
 

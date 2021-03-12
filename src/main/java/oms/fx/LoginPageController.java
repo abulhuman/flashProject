@@ -47,8 +47,8 @@ public class LoginPageController implements Initializable {
 
         User user = Datasource.getInstance().searchUserByEmail(loginEmail.getText());
 
-//        if (user != null && user.getPassword().equals(loginPassword.getText())) {
-        if (true){ // logion out of the way, for testing
+        if (user != null && user.getPassword().equals(loginPassword.getText())) {
+//        if (true){ // login out of the way, for testing
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Regions.fxml"));
             Parent root = loader.load();
             RegionController regionController = loader.getController();
