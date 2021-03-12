@@ -70,7 +70,7 @@ public class EducationInformationController implements Initializable {
 //        Stage stage2=new Stage();
         stage2.setTitle("Household Information");
         stage2.setScene(scene);
-        stage2.initModality(Modality.APPLICATION_MODAL);
+//        stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.show();
       
          

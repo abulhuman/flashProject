@@ -48,7 +48,7 @@ public class AddNewOrphanController implements Initializable {
        
         stage.setTitle("Home");
         stage.setScene(scene);
-          stage.initModality(Modality.APPLICATION_MODAL);
+//          stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
       
          
@@ -63,7 +63,7 @@ public class AddNewOrphanController implements Initializable {
         Stage stage2= new Stage();
         stage2.setTitle("Personal Information");
         stage2.setScene(scene);
-          stage2.initModality(Modality.APPLICATION_MODAL);
+//          stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.show();
       
          
@@ -78,7 +78,7 @@ public class AddNewOrphanController implements Initializable {
         Stage stage2= new Stage();
         stage2.setTitle("Health Information");
         stage2.setScene(scene);
-          stage2.initModality(Modality.APPLICATION_MODAL);
+//          stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.show();
       
          
@@ -93,7 +93,7 @@ public class AddNewOrphanController implements Initializable {
         Stage stage2= new Stage();
         stage2.setTitle("Education Information");
         stage2.setScene(scene);
-          stage2.initModality(Modality.APPLICATION_MODAL);
+//          stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.show();
       
          
@@ -108,7 +108,7 @@ public class AddNewOrphanController implements Initializable {
         Stage stage2= new Stage();
         stage2.setTitle("Household Information");
         stage2.setScene(scene);
-          stage2.initModality(Modality.APPLICATION_MODAL);
+//          stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.show();
       
          
@@ -123,7 +123,7 @@ public class AddNewOrphanController implements Initializable {
         Stage stage2= new Stage();
         stage2.setTitle("Guardian Information");
         stage2.setScene(scene);
-          stage2.initModality(Modality.APPLICATION_MODAL);
+//          stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.show();
       
          
@@ -138,7 +138,7 @@ public class AddNewOrphanController implements Initializable {
         Stage stage2= new Stage();
         stage2.setTitle("Upload File");
         stage2.setScene(scene);
-          stage2.initModality(Modality.APPLICATION_MODAL);
+//          stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.show();
       
          

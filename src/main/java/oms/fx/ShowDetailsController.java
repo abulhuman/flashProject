@@ -145,7 +145,7 @@ public class ShowDetailsController implements Initializable {
        
         stage.setTitle("Home");
         stage.setScene(scene5);
-          stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
 

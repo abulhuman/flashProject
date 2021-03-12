@@ -45,7 +45,7 @@ public class VillagesController implements Initializable {
         Scene scene = new Scene(root);
         stage.setTitle("Districts");
         stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
 
@@ -56,7 +56,7 @@ public class VillagesController implements Initializable {
         Stage stage2= new Stage();
         stage2.setTitle("Add New Village");
         stage2.setScene(scene);
-        stage2.initModality(Modality.APPLICATION_MODAL);
+//        stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.show();
     }
 
@@ -66,7 +66,7 @@ public class VillagesController implements Initializable {
         Scene scene = new Scene(root);
         stage.setTitle("Home");
         stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
     

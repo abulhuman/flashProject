@@ -48,7 +48,7 @@ public class DistrictsController implements Initializable {
         Scene scene = new Scene(root);
         stage.setTitle("Zones");
         stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
 
@@ -59,7 +59,7 @@ public class DistrictsController implements Initializable {
         Stage stage2= new Stage();
         stage2.setTitle("Add New District");
         stage2.setScene(scene);
-        stage2.initModality(Modality.APPLICATION_MODAL);
+//        stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.show();
     }
 
@@ -69,7 +69,7 @@ public class DistrictsController implements Initializable {
         Scene scene = new Scene(root);
         stage.setTitle("Villages");
         stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
+//        stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
     

@@ -4,8 +4,8 @@ oms/model/Education_enrollmentStatus_enum.java
  oms.model.Education_enrollmentStatus_enum
 oms/fx/HealthInformationController.java
  oms.fx.HealthInformationController
-oms/model/User.java
- oms.model.User
+oms/model/Region.java
+ oms.model.Region
 oms/model/Village.java
  oms.model.Village
 oms/model/Coordinator.java
@@ -22,8 +22,9 @@ oms/fx/LoginPageController.java
  oms.fx.LoginPageController
 oms/model/Guardian_nationality_enum.java
  oms.model.Guardian_nationality_enum
-oms/model/Zone.java
- oms.model.Zone
+oms/fx/RegionController.java
+ oms.fx.GetAllRegionsTask
+ oms.fx.RegionController
 oms/model/EducationalRecord.java
  oms.model.EducationalRecord
 oms/fx/DistrictsController.java
@@ -50,8 +51,8 @@ oms/model/Guardian.java
  oms.model.Guardian
 oms/fx/AddNewVillageController.java
  oms.fx.AddNewVillageController
-oms/fx/AddNewZoneController.java
- oms.fx.AddNewZoneController
+oms/model/Datasource.java
+ oms.model.Datasource
 oms/model/Guardian_relationToOrphan_enum.java
  oms.model.Guardian_relationToOrphan_enum
 oms/model/Mother_vitalStatus_enum.java
@@ -86,12 +87,11 @@ oms/fx/AddNewOrphanController.java
  oms.fx.AddNewOrphanController
 oms/model/DistrictJoin.java
  oms.model.DistrictJoin
-oms/model/Datasource.java
- oms.model.Datasource
-oms/model/Region.java
- oms.model.Region
-oms/fx/RegionController.java
- oms.fx.GetAllRegionsTask
- oms.fx.RegionController
+oms/fx/AddNewZoneController.java
+ oms.fx.AddNewZoneController
+oms/model/User.java
+ oms.model.User
+oms/model/Zone.java
+ oms.model.Zone
 oms/fx/CoordinatorController.java
  oms.fx.CoordinatorController

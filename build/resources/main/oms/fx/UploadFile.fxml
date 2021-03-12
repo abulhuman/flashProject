@@ -6,33 +6,31 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
       prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="oms.fx.UploadFileController">
-    <children>
-        <Label layoutX="257.0" layoutY="21.0" text="Upload File">
-            <font>
-                <Font size="14.0"/>
-            </font>
-        </Label>
-        <Label layoutX="32.0" layoutY="48.0" text="The inputs marked by * are all required" textFill="#a49f9f"/>
-        <Label layoutX="14.0" layoutY="153.0" text="Father Death Certificate*"/>
-        <TextField fx:id="fatherDeathCertificate" layoutX="14.0" layoutY="175.0" prefHeight="25.0" prefWidth="149.0"
-                   promptText="Upload Death Certificate"/>
-        <Button layoutX="163.0" layoutY="175.0" mnemonicParsing="false" text="Browse"/>
-        <Label layoutX="14.0" layoutY="71.0" text="Child Birth Certificate*"/>
-        <TextField fx:id="childBirthCertificate" layoutX="14.0" layoutY="98.0" prefHeight="25.0" prefWidth="149.0"
-                   promptText="Upload Birth Certificate"/>
-        <Button layoutX="163.0" layoutY="98.0" mnemonicParsing="false" text="Browse"/>
-        <Label layoutX="320.0" layoutY="71.0" text="Child Portrait Photo*"/>
-        <TextField fx:id="childProfilePhoto" layoutX="320.0" layoutY="98.0" prefHeight="25.0" prefWidth="149.0"
-                   promptText="Upload Portrait Photo"/>
-        <Button layoutX="469.0" layoutY="98.0" mnemonicParsing="false" text="Browse"/>
-        <Label layoutX="320.0" layoutY="153.0" text="Guardian Confirmation Letter*"/>
-        <TextField fx:id="guardianConfirmationLetter" layoutX="320.0" layoutY="175.0" prefHeight="25.0"
-                   prefWidth="160.0" promptText="Upload Confirmation Letter"/>
-        <Button layoutX="480.0" layoutY="175.0" mnemonicParsing="false" text="Browse"/>
-        <Label layoutX="14.0" layoutY="228.0" text="Guardian  ID card Photocopied*"/>
-        <TextField fx:id="guardianIDcardPhotocopied" layoutX="14.0" layoutY="251.0" prefHeight="25.0" prefWidth="149.0"
-                   promptText="Upload Death Certificate"/>
-        <Button layoutX="163.0" layoutY="251.0" mnemonicParsing="false" text="Browse"/>
-        <Button layoutX="469.0" layoutY="347.0" mnemonicParsing="false" text="Submit"/>
-    </children>
+    <Label layoutX="257.0" layoutY="21.0" text="Upload File">
+        <font>
+            <Font size="14.0"/>
+        </font>
+    </Label>
+    <Label layoutX="32.0" layoutY="48.0" text="The inputs marked by * are all required" textFill="#a49f9f"/>
+    <Label layoutX="14.0" layoutY="153.0" text="Father Death Certificate*"/>
+    <TextField fx:id="fatherDeathCertificate" layoutX="14.0" layoutY="175.0" prefHeight="25.0" prefWidth="149.0"
+               promptText="Upload Death Certificate"/>
+    <Button layoutX="163.0" layoutY="175.0" mnemonicParsing="false" text="Browse"/>
+    <Label layoutX="14.0" layoutY="71.0" text="Child Birth Certificate*"/>
+    <TextField fx:id="childBirthCertificate" layoutX="14.0" layoutY="98.0" prefHeight="25.0" prefWidth="149.0"
+               promptText="Upload Birth Certificate"/>
+    <Button layoutX="163.0" layoutY="98.0" mnemonicParsing="false" text="Browse"/>
+    <Label layoutX="320.0" layoutY="71.0" text="Child Portrait Photo*"/>
+    <TextField fx:id="childProfilePhoto" layoutX="320.0" layoutY="98.0" prefHeight="25.0" prefWidth="149.0"
+               promptText="Upload Portrait Photo"/>
+    <Button layoutX="469.0" layoutY="98.0" mnemonicParsing="false" text="Browse"/>
+    <Label layoutX="320.0" layoutY="153.0" text="Guardian Confirmation Letter*"/>
+    <TextField fx:id="guardianConfirmationLetter" layoutX="320.0" layoutY="175.0" prefHeight="25.0"
+               prefWidth="160.0" promptText="Upload Confirmation Letter"/>
+    <Button layoutX="480.0" layoutY="175.0" mnemonicParsing="false" text="Browse"/>
+    <Label layoutX="14.0" layoutY="228.0" text="Guardian  ID card Photocopied*"/>
+    <TextField fx:id="guardianIDcardPhotocopied" layoutX="14.0" layoutY="251.0" prefHeight="25.0" prefWidth="149.0"
+               promptText="Upload Death Certificate"/>
+    <Button layoutX="163.0" layoutY="251.0" mnemonicParsing="false" text="Browse"/>
+    <Button layoutX="469.0" layoutY="347.0" mnemonicParsing="false" text="Submit"/>
 </Pane>

@@ -6,9 +6,9 @@ import java.util.List;
 
 public class Datasource {
 
-    public static final String DB_NAME = "minidepOrph";
-    public static final String DB_USERNAME = "devAdem";
-    public static final String DB_PASSWORD = "Shangquan1!";
+    public static final String DB_NAME = "OMS";
+    public static final String DB_USERNAME = "root";
+    public static final String DB_PASSWORD = "w@duuminMySQL";
 
     public static final String CONNECTION_STRING = "jdbc:mysql://localhost/" + DB_NAME;
 
@@ -802,6 +802,7 @@ public class Datasource {
              ResultSet result = statement.executeQuery(sqlQueryOrphan)) {
 
             result.next();
+//            System.out.println(result.getString("orphanFirstName"));
             Orphan orphan = new Orphan();
             orphan.setId(result.getInt("id"));
             orphan.setFirstName(result.getString("orphanFirstName"));

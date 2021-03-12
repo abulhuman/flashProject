@@ -5,7 +5,7 @@ import java.sql.Blob;
 public class Photos {
     private int id;
     private Blob portrait;
-    private Blob pong;
+    private Blob longPhoto;
     private int orphanId;
 
     public int getId() {
@@ -24,12 +24,12 @@ public class Photos {
         this.portrait = portrait;
     }
 
-    public Blob getPong() {
-        return pong;
+    public Blob getLongPhoto() {
+        return longPhoto;
     }
 
-    public void setPong(Blob pong) {
-        this.pong = pong;
+    public void setLongPhoto(Blob longPhoto) {
+        this.longPhoto = longPhoto;
     }
 
     public int getOrphanId() {

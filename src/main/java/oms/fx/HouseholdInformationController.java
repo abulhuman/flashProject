@@ -39,8 +39,8 @@ public class HouseholdInformationController implements Initializable {
     
     @FXML
     private RadioButton Other;
-    @FXML
-    private TextField fatherDateOfBirth;
+//    @FXML
+//    private TextField fatherDateOfBirth;
     @FXML
     private TextField fatherDateOfDeath;
     @FXML
