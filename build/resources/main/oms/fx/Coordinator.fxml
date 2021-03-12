@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oms.fx.CoordinatorController">
-    <TabPane layoutX="53.0" layoutY="90.0" prefHeight="520.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
+    <TabPane layoutX="53.0" layoutY="90.0" prefHeight="528.0" prefWidth="900.0" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Home">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <TableView fx:id="table" prefHeight="497.0" prefWidth="900.0">
+                <TableView fx:id="orphansTable" prefHeight="497.0" prefWidth="900.0">
                     <columns>
-                        <TableColumn id="id" fx:id="id" prefWidth="36.79998779296875" text="ID" />
-                        <TableColumn id="name" fx:id="name" prefWidth="284.0" text="Name" />
-                        <TableColumn id="age" fx:id="age" prefWidth="45.5999755859375" text="Age" />
-                        <TableColumn id="gender" fx:id="gender" prefWidth="60.800018310546875" text="Gender" />
-                        <TableColumn id="sponsorshipStatus" fx:id="sponsorshipStatus" prefWidth="172.7999267578125" text="Sponsorship Status" />
+                        <TableColumn prefWidth="50.0" text="ID">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="id"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="150.0" text="Full Name">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="fullName"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="75.0" text="Age">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="age"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn prefWidth="75.0" text="Gender">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="gender"/>
+                            </cellValueFactory>
+                        </TableColumn>
                     </columns>
                 </TableView>
             </AnchorPane>
@@ -24,27 +39,39 @@
             <AnchorPane minHeight="0.0" minWidth="0.0">
                 <Accordion fx:id="newOrphanAccordion" maxHeight="375.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="520">
                     <panes>
-                        <TitledPane text="Personal Information">
-                            <AnchorPane layoutX="-30.0" maxHeight="425.0" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="375.0" prefWidth="897.0">
-                                <Label layoutX="18.0" layoutY="14.0" text="The inputs marked by * are all required" textFill="#a49f9f" />
-                                <Label layoutX="12.0" layoutY="48.0" text="Child Name*" />
-                                <Label layoutX="188.0" layoutY="48.0" text="Father Name*" />
-                                <Label layoutX="363.0" layoutY="48.0" text="Grandfather Name*" />
-                                <TextField fx:id="childName" layoutX="12.0" layoutY="70.0" promptText="Child Name" />
-                                <TextField fx:id="fatherName" layoutX="189.0" layoutY="70.0" promptText="Father Name" />
-                                <TextField fx:id="grandfatherName" layoutX="363.0" layoutY="70.0" promptText="Grandfather Name" />
-                                <Label layoutX="532.0" layoutY="48.0" prefHeight="17.0" prefWidth="75.0" text="Gender*" />
-                                <Label layoutX="690.0" layoutY="48.0" text="Date of Birth*" />
-                                <Label layoutX="9.0" layoutY="104.0" text="Place of Birth*" />
-                                <TextField fx:id="childDateOfBirth" layoutX="690.0" layoutY="70.0" promptText="Date of Birth" />
-                                <TextField fx:id="childPlaceOfBirth" layoutX="13.0" layoutY="130.0" promptText="Place of Birth" />
-                                <Label layoutX="189.0" layoutY="104.0" text="Spoken Language(s)" />
-                                <TextField fx:id="spokenLanguages" layoutX="189.0" layoutY="130.0" promptText="Add Languages" />
-                                <RadioButton fx:id="Male" layoutX="607.0" layoutY="74.0" mnemonicParsing="false" onAction="#male" text="Male" />
-                                <RadioButton fx:id="Female" layoutX="532.0" layoutY="74.0" mnemonicParsing="false" onAction="#female" text="Female" />
-                                <Label layoutX="361.0" layoutY="105.0" prefHeight="17.0" prefWidth="118.0" text="Health Description" />
-                                <TextField fx:id="childPlaceOfBirth1" layoutX="365.0" layoutY="131.0" promptText="Health Description" />
-                                <ComboBox layoutX="532.0" layoutY="130.0" prefWidth="150.0" promptText="- Select Status -" />
+                        <TitledPane fx:id="personalInformationTitledPane" text="Personal Information">
+                            <AnchorPane layoutX="-30.0" maxHeight="425.0" maxWidth="-Infinity" minHeight="-Infinity"
+                                        minWidth="-Infinity" prefHeight="375.0" prefWidth="897.0">
+                                <Label layoutX="18.0" layoutY="14.0" text="The inputs marked by * are all required"
+                                       textFill="#a49f9f"/>
+                                <Label layoutX="12.0" layoutY="48.0" text="Child Name*"/>
+                                <Label layoutX="188.0" layoutY="48.0" text="Father Name*"/>
+                                <Label layoutX="363.0" layoutY="48.0" text="Grandfather Name*"/>
+                                <TextField fx:id="childName" layoutX="12.0" layoutY="70.0" promptText="Child Name"/>
+                                <TextField fx:id="fatherName" layoutX="189.0" layoutY="70.0" promptText="Father Name"/>
+                                <TextField fx:id="grandfatherName" layoutX="363.0" layoutY="70.0"
+                                           promptText="Grandfather Name"/>
+                                <Label layoutX="532.0" layoutY="48.0" prefHeight="17.0" prefWidth="75.0"
+                                       text="Gender*"/>
+                                <Label layoutX="690.0" layoutY="48.0" text="Date of Birth*"/>
+                                <Label layoutX="9.0" layoutY="104.0" text="Place of Birth*"/>
+                                <TextField fx:id="childDateOfBirth" layoutX="690.0" layoutY="70.0"
+                                           promptText="Date of Birth"/>
+                                <TextField fx:id="childPlaceOfBirth" layoutX="13.0" layoutY="130.0"
+                                           promptText="Place of Birth"/>
+                                <Label layoutX="189.0" layoutY="104.0" text="Spoken Language(s)"/>
+                                <TextField fx:id="spokenLanguages" layoutX="189.0" layoutY="130.0"
+                                           promptText="Add Languages"/>
+                                <RadioButton fx:id="Male" layoutX="607.0" layoutY="74.0" mnemonicParsing="false"
+                                             onAction="#male" text="Male"/>
+                                <RadioButton fx:id="Female" layoutX="532.0" layoutY="74.0" mnemonicParsing="false"
+                                             onAction="#female" text="Female"/>
+                                <Label layoutX="361.0" layoutY="105.0" prefHeight="17.0" prefWidth="118.0"
+                                       text="Health Description"/>
+                                <TextField fx:id="childPlaceOfBirth1" layoutX="365.0" layoutY="131.0"
+                                           promptText="Health Description"/>
+                                <ComboBox layoutX="532.0" layoutY="130.0" prefWidth="150.0"
+                                          promptText="- Select Status -"/>
                                 <Label layoutX="532.0" layoutY="104.0" prefHeight="17.0" prefWidth="118.0" text="Psychological Status" />
                                 <Separator layoutX="12.0" layoutY="155.0" prefHeight="39.0" prefWidth="875.0" />
                                 <Label layoutX="18.0" layoutY="186.0" text="Education Information">
@@ -175,29 +202,29 @@
                             </ScrollPane>
                         </TitledPane>
                         <TitledPane text="Documents and Photos">
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
                         </TitledPane>
                     </panes>
                 </Accordion>
             </AnchorPane>
         </Tab>
     </TabPane>
-    <TextField fx:id="searchTextField" layoutX="753.0" layoutY="37.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="243.0" promptText="search by full name or part of it" style="-fx-background-radius: 5px 0 0 5px; -fx-border-radius: 5px 0 0 5px;" text=" " />
-    <Button fx:id="searchButton" layoutX="996.0" layoutY="37.0" mnemonicParsing="false" prefHeight="30.0" style="-fx-border-radius: 0px 5px 5px 0px; -fx-background-radius: 0px 5px 5px 0px;" text="Search" />
-    <Button fx:id="showDetails" layoutX="1079.0" layoutY="34.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="ShowDetails">
-        <font>
-            <Font name="System Bold" size="12.0" />
-        </font>
-    </Button>
-    <Button layoutX="1079.0" layoutY="59.0" mnemonicParsing="false" onAction="#showDetails" prefHeight="25.0" prefWidth="96.0" text="Sample" />
+    <TextField fx:id="searchTextField" layoutX="753.0" layoutY="37.0" minHeight="-Infinity" minWidth="-Infinity"
+               prefHeight="30.0" prefWidth="243.0" promptText="Search orphan by full name or part of it"
+               style="-fx-background-radius: 5px 0 0 5px; -fx-border-radius: 5px 0 0 5px;"/>
+    <Button fx:id="searchButton" layoutX="996.0" layoutY="37.0" mnemonicParsing="false" onAction="#searchOrphan"
+            prefHeight="30.0" style="-fx-border-radius: 0px 5px 5px 0px; -fx-background-radius: 0px 5px 5px 0px;"
+            text="Search"/>
+    <Button fx:id="showDetails" layoutX="1030.0" layoutY="90.0" mnemonicParsing="false" onAction="#showDetails"
+            prefHeight="25.0" prefWidth="100.0" text="Show Details"/>
     <Label layoutX="53.0" layoutY="14.0" prefHeight="70.0" prefWidth="784.0" text="CDA / ORPHAN DEPARTMENT">
         <font>
-            <Font size="48.0" />
+            <Font size="48.0"/>
         </font>
     </Label>
-    <Button layoutX="1079.0" layoutY="84.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="HOME" />
-    <Button fx:id="neworphan" layoutX="1079.0" layoutY="109.0" mnemonicParsing="false" onAction="#neworphan" prefHeight="25.0" prefWidth="96.0" text="Add new orphan" />
+    <Button fx:id="btnBackToVillages" layoutX="1100.0" layoutY="640.0" mnemonicParsing="false"
+            onAction="#backToVillages" prefHeight="25.0" text="Back"/>
     <padding>
-        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
     </padding>
 </Pane>

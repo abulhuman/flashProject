@@ -128,30 +128,11 @@ public class ShowDetailsController implements Initializable {
     @FXML
     private ScrollBar showDetailsScrollBar;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         
-    }    
-
-    @FXML
-    private void BackToCoordinator(ActionEvent event)  throws IOException{
-        
-         Parent root5 = FXMLLoader.load(getClass().getResource("Coordinator.fxml"));
-        Scene scene5 = new Scene(root5);
-       
-        stage.setTitle("Home");
-        stage.setScene(scene5);
-          stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
     }
 
-    @FXML
-    private void scroll(ScrollEvent event) {
-//        showDetailsScrollBar.setContent(showDetailsPane);
-    
-}
+    public void populateTable(int id){}
 }

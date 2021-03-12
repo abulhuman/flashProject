@@ -1,5 +1,8 @@
 package oms.fx;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,27 +10,27 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.stage.Modality;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import oms.model.Datasource;
+import oms.model.Region;
+import oms.model.Zone;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static oms.Main.stage;
-
 
 public class ZonesController implements Initializable {
 
     @FXML
-    private TableColumn<?, ?> colZoneName;
+    public TableView<Zone> zonesTable;
+
     @FXML
-    private TableColumn<?, ?> colNumOfDistricts;
+    public Button btnShowDistricts;
+
     @FXML
-    private Button btnAddNewZone;
-    @FXML
-    private Button btnZonesNext;
+    public Button btnAddNewZone;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -38,31 +41,70 @@ public class ZonesController implements Initializable {
     private void AddNewZone(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("AddNewZone.fxml"));
         Scene scene = new Scene(root);
-        Stage stage2= new Stage();
-        stage2.setTitle("Add New Zone");
-        stage2.setScene(scene);
-        stage2.initModality(Modality.APPLICATION_MODAL);
-        stage2.show();
+        Stage addNewZoneStage= new Stage();
+        addNewZoneStage.setTitle("Add New Zone");
+        addNewZoneStage.setScene(scene);
+        addNewZoneStage.show();
+    }
+
+    public void listZonesByRegion(Region selectedRegion) {
+        if (selectedRegion != null){
+            Task<ObservableList<Zone>> task = new Task<>() {
+                @Override
+                protected ObservableList<Zone> call() {
+                    return FXCollections.observableArrayList(Datasource.getInstance().queryAllZones(selectedRegion.getId()));
+                }
+            };
+        zonesTable.itemsProperty().bind(task.valueProperty());
+        new Thread(task).start();
+        }
+    }
+
+    public void listZonesById(int id){
+        Task<ObservableList<Zone>> task = new Task<>() {
+            @Override
+            protected ObservableList<Zone> call() {
+                return FXCollections.observableArrayList(Datasource.getInstance().queryAllZones(id));
+            }
+        };
+        zonesTable.itemsProperty().bind(task.valueProperty());
+        new Thread(task).start();
     }
 
     @FXML
-    private void GoToDistrict(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Districts.fxml"));
+    private void backToRegion(ActionEvent event) throws IOException {
+        Stage regionStage = (Stage) zonesTable.getScene().getWindow();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Regions.fxml"));
+
+        Parent root = loader.load();
+
+        RegionController regionController = loader.getController();
+        regionController.listRegions();
+
         Scene scene = new Scene(root);
-        stage.setTitle("Districts");
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
+        regionStage.setTitle("Regions");
+        regionStage.setScene(scene);
+        regionStage.show();
     }
 
-    @FXML
-    private void BackToRegion(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Regions.fxml"));
-        Scene scene = new Scene(root);
-        stage.setTitle("Regions");
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
+    public void showDistricts(ActionEvent actionEvent) throws IOException {
+        Stage zonesStage = (Stage) zonesTable.getScene().getWindow();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Districts.fxml"));
+
+        Parent root = loader.load();
+
+        DistrictsController districtsController = loader.getController();
+
+        Zone zone = zonesTable.getSelectionModel().getSelectedItem();
+
+        if (zone != null){
+            districtsController.listDistrictsByZone(zone);
+
+            zonesStage.setTitle("Zones");
+            zonesStage.setScene(new Scene(root));
+            zonesStage.show();
+        }
     }
-    
 }

@@ -14,206 +14,256 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oms.fx.ShowDetailsController">
     <AnchorPane prefHeight="600.0" prefWidth="800.0">
-        <children>
-            <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#BackToCoordinator" prefHeight="26.0" prefWidth="53.0" text="Back" />
-         <ScrollPane layoutX="9.0" layoutY="44.0">
-            <content>
-                  <AnchorPane prefHeight="600.0" prefWidth="782.0">
-                      <children>
-                          <Label layoutX="307.0" layoutY="66.0" text="Name: " />
-                          <Label layoutX="307.0" layoutY="90.0" text="Gender: " />
-                          <Label layoutX="307.0" layoutY="114.0" text="Age: " />
-                          <Label layoutX="307.0" layoutY="138.0" text="Place of birth: " />
-                          <Label layoutX="306.0" layoutY="166.0" text="Clan: " />
-                          <Label layoutX="307.0" layoutY="193.0" text="Spoken languages:" />
-                          <Label layoutX="307.0" layoutY="220.0" text="Sponsorship status: " />
-                          <Label layoutX="523.0" layoutY="220.0" text="Sponsorship date:" />
-                          <Label layoutX="52.0" layoutY="308.0" text="Health">
-                              <font>
-                                  <Font size="14.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="50.0" layoutY="360.0" text="Pysical Health: " />
-                          <Label layoutX="50.0" layoutY="384.0" text="Psychological Health: " />
-                          <Label layoutX="53.0" layoutY="408.0" text="Other Health Issues: " />
-                          <Label fx:id="showDetailsName" layoutX="352.0" layoutY="66.0" prefHeight="18.0" prefWidth="344.0" />
-                          <Label fx:id="showDetailsGender" layoutX="357.0" layoutY="90.0" prefHeight="18.0" prefWidth="138.0" />
-                          <Label fx:id="showDetailsAge" layoutX="343.0" layoutY="114.0" prefHeight="18.0" prefWidth="112.0" />
-                          <Label fx:id="showDetailsPlaceOfBirth" layoutX="393.0" layoutY="138.0" prefHeight="18.0" prefWidth="251.0" />
-                          <Label fx:id="showDetailsClan" layoutX="343.0" layoutY="166.0" prefHeight="18.0" prefWidth="310.0" />
-                          <Label fx:id="showDetailsSpokenLanguages" layoutX="426.0" layoutY="193.0" prefHeight="18.0" prefWidth="329.0" />
-                          <Label fx:id="showDetailsSponsorshipStatus" layoutX="426.0" layoutY="220.0" prefHeight="18.0" prefWidth="95.0" />
-                          <Label fx:id="showDetailsSponsorshipDate" layoutX="630.0" layoutY="221.0" prefHeight="18.0" prefWidth="127.0" />
-                          <Label fx:id="showDetailsPysicalHealth" layoutX="138.0" layoutY="360.0" prefHeight="18.0" prefWidth="209.0" />
-                          <Label fx:id="showDetailsPsychologicalHealth" layoutX="175.0" layoutY="384.0" prefHeight="18.0" prefWidth="294.0" />
-                          <Label fx:id="showDetailsOtherHealthIssues" layoutX="175.0" layoutY="408.0" prefHeight="18.0" prefWidth="266.0" />
-                          <Line endX="602.5999755859375" layoutX="138.0" layoutY="274.0" startX="-100.0" stroke="#c2bdbd" />
-                          <Line endX="602.5999755859375" layoutX="141.0" layoutY="458.0" startX="-100.0" stroke="#c2bdbd" />
-                          <Label layoutX="50.0" layoutY="493.0" prefHeight="18.0" prefWidth="108.0" text="Education">
-                              <font>
-                                  <Font size="14.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="50.0" layoutY="544.0" prefHeight="18.0" prefWidth="121.0" text="Enrollment Status:" />
-                          <Label layoutX="50.0" layoutY="570.0" prefHeight="18.0" prefWidth="117.0" text="School Name: " />
-                          <Label layoutX="50.0" layoutY="595.0" text="Education Level: " />
-                          <Label layoutX="50.0" layoutY="622.0" text="Year: " />
-                          <Label layoutX="51.0" layoutY="648.0" text="Hobbies and Ambitions: " />
-                          <Label fx:id="showDetailsEnrollmentStatus" layoutX="171.0" layoutY="545.0" prefHeight="18.0" prefWidth="265.0" />
-                          <Label fx:id="showDetailsSchoolName" layoutX="138.0" layoutY="571.0" prefHeight="18.0" prefWidth="302.0" />
-                          <Label fx:id="showDetailsEducationLevel" layoutX="147.0" layoutY="595.0" prefHeight="18.0" prefWidth="239.0" />
-                          <Label fx:id="showDetailsYear" layoutX="90.0" layoutY="622.0" prefHeight="18.0" prefWidth="164.0" />
-                          <Label fx:id="showDetailsHobbiesAndAmbitions" layoutX="189.0" layoutY="648.0" prefHeight="18.0" prefWidth="339.0" />
-                          <Line endX="602.5999755859375" layoutX="139.0" layoutY="694.0" startX="-100.0" stroke="#c2bdbd" />
-                          <Label layoutX="48.0" layoutY="727.0" prefHeight="20.0" prefWidth="85.0" text="Household">
-                              <font>
-                                  <Font size="14.0" />
-                              </font>
-                          </Label>
-                          <TextArea editable="false" layoutX="47.0" layoutY="755.0" prefHeight="255.0" prefWidth="240.0" />
-                          <TextArea editable="false" layoutX="355.0" layoutY="756.0" prefHeight="367.0" prefWidth="398.0" />
-                          <Label layoutX="58.0" layoutY="767.0" prefHeight="18.0" prefWidth="118.0" text="Father">
-                              <font>
-                                  <Font size="14.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="58.0" layoutY="802.0" text="Name: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="58.0" layoutY="841.0" text="Date of birth: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="58.0" layoutY="882.0" text="Date of death: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="367.0" layoutY="767.0" prefHeight="18.0" prefWidth="118.0" text="Mother">
-                              <font>
-                                  <Font size="14.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="372.0" layoutY="802.0" text="Name: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="372.0" layoutY="832.0" text="Date of birth: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="371.0" layoutY="859.0" text="Vital Status: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="374.0" layoutY="885.0" text="Phone Number: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="58.0" layoutY="920.0" text="Cause of death: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="58.0" layoutY="954.0" text="Job:">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="58.0" layoutY="990.0" prefHeight="18.0" prefWidth="123.0" text="Monthly Income: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="372.0" layoutY="911.0" text="Marital Status: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="374.0" layoutY="938.0" text="Monthly Expense: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <TableView layoutX="369.0" layoutY="938.0" prefHeight="170.0" prefWidth="383.0">
-                              <columns>
-                                  <TableColumn fx:id="showDetailsMotherJob" editable="false" prefWidth="53.5999755859375" text="Job Title" />
-                                  <TableColumn fx:id="showDetailsMotherStartingDate" editable="false" prefWidth="101.60003662109375" text="Starting Date" />
-                                  <TableColumn fx:id="showDetailsMotherMonthlyIncome" editable="false" prefWidth="123.199951171875" text="Monthly Income" />
-                                  <TableColumn fx:id="showDetailsMotherEndingDate" editable="false" prefWidth="104.0" text="Ending Date" />
-                              </columns>
-                          </TableView>
-                          <Label fx:id="showDetailsFatherName" layoutX="98.0" layoutY="802.0" prefHeight="18.0" prefWidth="190.0" />
-                          <Label fx:id="showDetailsFatherDoB" layoutX="137.0" layoutY="840.0" prefHeight="18.0" prefWidth="146.0" />
-                          <Label fx:id="showDetailsFatherDoD" layoutX="142.0" layoutY="881.0" prefHeight="18.0" prefWidth="139.0" />
-                          <Label fx:id="showDetailsFatherCoD" layoutX="147.0" layoutY="919.0" prefHeight="18.0" prefWidth="135.0" />
-                          <Label fx:id="showDetailsFatherJob" layoutX="86.0" layoutY="953.0" prefHeight="18.0" prefWidth="190.0" />
-                          <Label fx:id="showDetailsFatherIncome" layoutX="159.0" layoutY="990.0" prefHeight="18.0" prefWidth="123.0" />
-                          <Label fx:id="showDetailsMotherName" layoutX="412.0" layoutY="802.0" prefHeight="18.0" prefWidth="284.0" />
-                          <Label fx:id="showDetailsMotherDoB" layoutX="455.0" layoutY="832.0" prefHeight="18.0" prefWidth="178.0" />
-                          <Label fx:id="showDetailsMotherVital" layoutX="442.0" layoutY="858.0" prefHeight="18.0" prefWidth="164.0" />
-                          <Label fx:id="showDetailsMotherPhone" layoutX="469.0" layoutY="884.0" prefHeight="18.0" prefWidth="174.0" />
-                          <Label fx:id="showDetailsMotherMarital" layoutX="458.0" layoutY="910.0" prefHeight="18.0" prefWidth="210.0" />
-                          <Line endX="602.5999755859375" layoutX="134.0" layoutY="1332.0" startX="-100.0" stroke="#c2bdbd" />
-                          <TextArea editable="false" layoutX="43.0" layoutY="1163.0" prefHeight="142.0" prefWidth="266.0" />
-                          <Label layoutX="58.0" layoutY="1180.0" text="IGA and Family Property">
-                              <font>
-                                  <Font size="14.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="58.0" layoutY="1270.0" prefHeight="18.0" prefWidth="123.0" text="Other properties: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="58.0" layoutY="1228.0" prefHeight="18.0" prefWidth="123.0" text="House ownership: ">
-                              <font>
-                                  <Font name="System Bold" size="12.0" />
-                              </font>
-                          </Label>
-                          <Label layoutX="44.0" layoutY="1364.0" text="Guardian">
-                              <font>
-                                  <Font size="14.0" />
-                              </font>
-                          </Label>
-                          <Label fx:id="showDetailsHouseOwnership" layoutX="167.0" layoutY="1229.0" prefHeight="18.0" prefWidth="134.0" />
-                          <Label fx:id="showDetailsOtherProperties" layoutX="160.0" layoutY="1270.0" prefHeight="18.0" prefWidth="134.0" />
-                          <Label layoutX="50.0" layoutY="1408.0" text="Name: " />
-                          <Label layoutX="50.0" layoutY="1429.0" prefHeight="18.0" prefWidth="103.0" text="Date of birth: " />
-                          <Label layoutX="51.0" layoutY="1452.0" prefHeight="18.0" prefWidth="53.0" text="Gender: " />
-                          <Label layoutX="51.0" layoutY="1474.0" text="Relation to orphan: " />
-                          <Label layoutX="50.0" layoutY="1497.0" text="Nationality: " />
-                          <Label layoutX="248.0" layoutY="1495.0" text="Address: " />
-                          <Label layoutX="475.0" layoutY="1495.0" text="P.O.Box: " />
-                          <Label layoutX="51.0" layoutY="1525.0" text="Email:" />
-                          <Label layoutX="278.0" layoutY="1525.0" text="Mobile: " />
-                          <Label layoutX="479.0" layoutY="1525.0" text="Telephone: " />
-                          <Label layoutX="51.0" layoutY="1554.0" text="Job: " />
-                          <Label layoutX="289.0" layoutY="1554.0" text="Monthly Expense: " />
-                          <Label fx:id="showDetailsGuardianName" layoutX="91.0" layoutY="1408.0" prefHeight="18.0" prefWidth="311.0" />
-                          <Label fx:id="showDetailsGuardianDoB" layoutX="125.0" layoutY="1429.0" prefHeight="18.0" prefWidth="311.0" />
-                          <Label fx:id="showDetailsGuardianGender" layoutX="110.0" layoutY="1452.0" prefHeight="18.0" prefWidth="311.0" />
-                          <Label fx:id="showDetailsGuardianRelationToOrphan" layoutX="175.0" layoutY="1473.0" prefHeight="18.0" prefWidth="311.0" />
-                          <Label fx:id="showDetailsGuardianNationality" layoutX="117.0" layoutY="1497.0" prefHeight="18.0" prefWidth="128.0" />
-                          <Label fx:id="showDetailsGuardianAddress" layoutX="299.0" layoutY="1496.0" prefHeight="18.0" prefWidth="172.0" />
-                          <Label fx:id="showDetailsGuardianPOBox" layoutX="526.0" layoutY="1493.0" prefHeight="18.0" prefWidth="215.0" />
-                          <Label fx:id="showDetailsGuardianEmail" layoutX="89.0" layoutY="1524.0" prefHeight="18.0" prefWidth="172.0" />
-                          <Label fx:id="showDetailsGuardianMobile" layoutX="322.0" layoutY="1524.0" prefHeight="18.0" prefWidth="154.0" />
-                          <Label fx:id="showDetailsGuardianTelephone" layoutX="544.0" layoutY="1524.0" prefHeight="18.0" prefWidth="172.0" />
-                          <Label fx:id="showDetailsGuardianJob" layoutX="95.0" layoutY="1553.0" prefHeight="18.0" prefWidth="172.0" />
-                          <Label fx:id="showDetailsGuardianMonthlyExpense" layoutX="386.0" layoutY="1555.0" prefHeight="18.0" prefWidth="172.0" />
-                          <ImageView fx:id="ProfileImage" fitHeight="222.0" fitWidth="232.0" layoutX="37.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true" />
-                      </children>
-                  </AnchorPane>
-            </content>
-         </ScrollPane>
-        </children>
+        <ScrollPane layoutX="9.0" layoutY="44.0">
+            <AnchorPane prefHeight="600.0" prefWidth="782.0">
+                <Label layoutX="307.0" layoutY="66.0" text="Name: "/>
+                <Label layoutX="307.0" layoutY="90.0" text="Gender: "/>
+                <Label layoutX="307.0" layoutY="114.0" text="Age: "/>
+                <Label layoutX="307.0" layoutY="138.0" text="Place of birth: "/>
+                <Label layoutX="306.0" layoutY="166.0" text="Clan: "/>
+                <Label layoutX="307.0" layoutY="193.0" text="Spoken languages:"/>
+                <Label layoutX="307.0" layoutY="220.0" text="Sponsorship status: "/>
+                <Label layoutX="523.0" layoutY="220.0" text="Sponsorship date:"/>
+                <Label layoutX="52.0" layoutY="308.0" text="Health">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="50.0" layoutY="360.0" text="Pysical Health: "/>
+                <Label layoutX="50.0" layoutY="384.0" text="Psychological Health: "/>
+                <Label layoutX="53.0" layoutY="408.0" text="Other Health Issues: "/>
+                <Label fx:id="showDetailsName" layoutX="352.0" layoutY="66.0" prefHeight="18.0"
+                       prefWidth="344.0"/>
+                <Label fx:id="showDetailsGender" layoutX="357.0" layoutY="90.0" prefHeight="18.0"
+                       prefWidth="138.0"/>
+                <Label fx:id="showDetailsAge" layoutX="343.0" layoutY="114.0" prefHeight="18.0"
+                       prefWidth="112.0"/>
+                <Label fx:id="showDetailsPlaceOfBirth" layoutX="393.0" layoutY="138.0" prefHeight="18.0"
+                       prefWidth="251.0"/>
+                <Label fx:id="showDetailsClan" layoutX="343.0" layoutY="166.0" prefHeight="18.0"
+                       prefWidth="310.0"/>
+                <Label fx:id="showDetailsSpokenLanguages" layoutX="426.0" layoutY="193.0" prefHeight="18.0"
+                       prefWidth="329.0"/>
+                <Label fx:id="showDetailsSponsorshipStatus" layoutX="426.0" layoutY="220.0" prefHeight="18.0"
+                       prefWidth="95.0"/>
+                <Label fx:id="showDetailsSponsorshipDate" layoutX="630.0" layoutY="221.0" prefHeight="18.0"
+                       prefWidth="127.0"/>
+                <Label fx:id="showDetailsPysicalHealth" layoutX="138.0" layoutY="360.0" prefHeight="18.0"
+                       prefWidth="209.0"/>
+                <Label fx:id="showDetailsPsychologicalHealth" layoutX="175.0" layoutY="384.0" prefHeight="18.0"
+                       prefWidth="294.0"/>
+                <Label fx:id="showDetailsOtherHealthIssues" layoutX="175.0" layoutY="408.0" prefHeight="18.0"
+                       prefWidth="266.0"/>
+                <Line endX="602.5999755859375" layoutX="138.0" layoutY="274.0" startX="-100.0"
+                      stroke="#c2bdbd"/>
+                <Line endX="602.5999755859375" layoutX="141.0" layoutY="458.0" startX="-100.0"
+                      stroke="#c2bdbd"/>
+                <Label layoutX="50.0" layoutY="493.0" prefHeight="18.0" prefWidth="108.0" text="Education">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="50.0" layoutY="544.0" prefHeight="18.0" prefWidth="121.0"
+                       text="Enrollment Status:"/>
+                <Label layoutX="50.0" layoutY="570.0" prefHeight="18.0" prefWidth="117.0" text="School Name: "/>
+                <Label layoutX="50.0" layoutY="595.0" text="Education Level: "/>
+                <Label layoutX="50.0" layoutY="622.0" text="Year: "/>
+                <Label layoutX="51.0" layoutY="648.0" text="Hobbies and Ambitions: "/>
+                <Label fx:id="showDetailsEnrollmentStatus" layoutX="171.0" layoutY="545.0" prefHeight="18.0"
+                       prefWidth="265.0"/>
+                <Label fx:id="showDetailsSchoolName" layoutX="138.0" layoutY="571.0" prefHeight="18.0"
+                       prefWidth="302.0"/>
+                <Label fx:id="showDetailsEducationLevel" layoutX="147.0" layoutY="595.0" prefHeight="18.0"
+                       prefWidth="239.0"/>
+                <Label fx:id="showDetailsYear" layoutX="90.0" layoutY="622.0" prefHeight="18.0"
+                       prefWidth="164.0"/>
+                <Label fx:id="showDetailsHobbiesAndAmbitions" layoutX="189.0" layoutY="648.0" prefHeight="18.0"
+                       prefWidth="339.0"/>
+                <Line endX="602.5999755859375" layoutX="139.0" layoutY="694.0" startX="-100.0"
+                      stroke="#c2bdbd"/>
+                <Label layoutX="48.0" layoutY="727.0" prefHeight="20.0" prefWidth="85.0" text="Household">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <TextArea editable="false" layoutX="47.0" layoutY="755.0" prefHeight="255.0" prefWidth="240.0"/>
+                <TextArea editable="false" layoutX="355.0" layoutY="756.0" prefHeight="367.0"
+                          prefWidth="398.0"/>
+                <Label layoutX="58.0" layoutY="767.0" prefHeight="18.0" prefWidth="118.0" text="Father">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="58.0" layoutY="802.0" text="Name: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="58.0" layoutY="841.0" text="Date of birth: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="58.0" layoutY="882.0" text="Date of death: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="367.0" layoutY="767.0" prefHeight="18.0" prefWidth="118.0" text="Mother">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="372.0" layoutY="802.0" text="Name: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="372.0" layoutY="832.0" text="Date of birth: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="371.0" layoutY="859.0" text="Vital Status: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="374.0" layoutY="885.0" text="Phone Number: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="58.0" layoutY="920.0" text="Cause of death: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="58.0" layoutY="954.0" text="Job:">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="58.0" layoutY="990.0" prefHeight="18.0" prefWidth="123.0"
+                       text="Monthly Income: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="372.0" layoutY="911.0" text="Marital Status: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="374.0" layoutY="938.0" text="Monthly Expense: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <TableView layoutX="369.0" layoutY="938.0" prefHeight="170.0" prefWidth="383.0">
+                    <columns>
+                        <TableColumn fx:id="showDetailsMotherJob" editable="false" prefWidth="53.5999755859375"
+                                     text="Job Title"/>
+                        <TableColumn fx:id="showDetailsMotherStartingDate" editable="false"
+                                     prefWidth="101.60003662109375" text="Starting Date"/>
+                        <TableColumn fx:id="showDetailsMotherMonthlyIncome" editable="false"
+                                     prefWidth="123.199951171875" text="Monthly Income"/>
+                        <TableColumn fx:id="showDetailsMotherEndingDate" editable="false" prefWidth="104.0"
+                                     text="Ending Date"/>
+                    </columns>
+                </TableView>
+                <Label fx:id="showDetailsFatherName" layoutX="98.0" layoutY="802.0" prefHeight="18.0"
+                       prefWidth="190.0"/>
+                <Label fx:id="showDetailsFatherDoB" layoutX="137.0" layoutY="840.0" prefHeight="18.0"
+                       prefWidth="146.0"/>
+                <Label fx:id="showDetailsFatherDoD" layoutX="142.0" layoutY="881.0" prefHeight="18.0"
+                       prefWidth="139.0"/>
+                <Label fx:id="showDetailsFatherCoD" layoutX="147.0" layoutY="919.0" prefHeight="18.0"
+                       prefWidth="135.0"/>
+                <Label fx:id="showDetailsFatherJob" layoutX="86.0" layoutY="953.0" prefHeight="18.0"
+                       prefWidth="190.0"/>
+                <Label fx:id="showDetailsFatherIncome" layoutX="159.0" layoutY="990.0" prefHeight="18.0"
+                       prefWidth="123.0"/>
+                <Label fx:id="showDetailsMotherName" layoutX="412.0" layoutY="802.0" prefHeight="18.0"
+                       prefWidth="284.0"/>
+                <Label fx:id="showDetailsMotherDoB" layoutX="455.0" layoutY="832.0" prefHeight="18.0"
+                       prefWidth="178.0"/>
+                <Label fx:id="showDetailsMotherVital" layoutX="442.0" layoutY="858.0" prefHeight="18.0"
+                       prefWidth="164.0"/>
+                <Label fx:id="showDetailsMotherPhone" layoutX="469.0" layoutY="884.0" prefHeight="18.0"
+                       prefWidth="174.0"/>
+                <Label fx:id="showDetailsMotherMarital" layoutX="458.0" layoutY="910.0" prefHeight="18.0"
+                       prefWidth="210.0"/>
+                <Line endX="602.5999755859375" layoutX="134.0" layoutY="1332.0" startX="-100.0"
+                      stroke="#c2bdbd"/>
+                <TextArea editable="false" layoutX="43.0" layoutY="1163.0" prefHeight="142.0"
+                          prefWidth="266.0"/>
+                <Label layoutX="58.0" layoutY="1180.0" text="IGA and Family Property">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="58.0" layoutY="1270.0" prefHeight="18.0" prefWidth="123.0"
+                       text="Other properties: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="58.0" layoutY="1228.0" prefHeight="18.0" prefWidth="123.0"
+                       text="House ownership: ">
+                    <font>
+                        <Font name="System Bold" size="12.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="44.0" layoutY="1364.0" text="Guardian">
+                    <font>
+                        <Font size="14.0"/>
+                    </font>
+                </Label>
+                <Label fx:id="showDetailsHouseOwnership" layoutX="167.0" layoutY="1229.0" prefHeight="18.0"
+                       prefWidth="134.0"/>
+                <Label fx:id="showDetailsOtherProperties" layoutX="160.0" layoutY="1270.0" prefHeight="18.0"
+                       prefWidth="134.0"/>
+                <Label layoutX="50.0" layoutY="1408.0" text="Name: "/>
+                <Label layoutX="50.0" layoutY="1429.0" prefHeight="18.0" prefWidth="103.0"
+                       text="Date of birth: "/>
+                <Label layoutX="51.0" layoutY="1452.0" prefHeight="18.0" prefWidth="53.0" text="Gender: "/>
+                <Label layoutX="51.0" layoutY="1474.0" text="Relation to orphan: "/>
+                <Label layoutX="50.0" layoutY="1497.0" text="Nationality: "/>
+                <Label layoutX="248.0" layoutY="1495.0" text="Address: "/>
+                <Label layoutX="475.0" layoutY="1495.0" text="P.O.Box: "/>
+                <Label layoutX="51.0" layoutY="1525.0" text="Email:"/>
+                <Label layoutX="278.0" layoutY="1525.0" text="Mobile: "/>
+                <Label layoutX="479.0" layoutY="1525.0" text="Telephone: "/>
+                <Label layoutX="51.0" layoutY="1554.0" text="Job: "/>
+                <Label layoutX="289.0" layoutY="1554.0" text="Monthly Expense: "/>
+                <Label fx:id="showDetailsGuardianName" layoutX="91.0" layoutY="1408.0" prefHeight="18.0"
+                       prefWidth="311.0"/>
+                <Label fx:id="showDetailsGuardianDoB" layoutX="125.0" layoutY="1429.0" prefHeight="18.0"
+                       prefWidth="311.0"/>
+                <Label fx:id="showDetailsGuardianGender" layoutX="110.0" layoutY="1452.0" prefHeight="18.0"
+                       prefWidth="311.0"/>
+                <Label fx:id="showDetailsGuardianRelationToOrphan" layoutX="175.0" layoutY="1473.0"
+                       prefHeight="18.0" prefWidth="311.0"/>
+                <Label fx:id="showDetailsGuardianNationality" layoutX="117.0" layoutY="1497.0" prefHeight="18.0"
+                       prefWidth="128.0"/>
+                <Label fx:id="showDetailsGuardianAddress" layoutX="299.0" layoutY="1496.0" prefHeight="18.0"
+                       prefWidth="172.0"/>
+                <Label fx:id="showDetailsGuardianPOBox" layoutX="526.0" layoutY="1493.0" prefHeight="18.0"
+                       prefWidth="215.0"/>
+                <Label fx:id="showDetailsGuardianEmail" layoutX="89.0" layoutY="1524.0" prefHeight="18.0"
+                       prefWidth="172.0"/>
+                <Label fx:id="showDetailsGuardianMobile" layoutX="322.0" layoutY="1524.0" prefHeight="18.0"
+                       prefWidth="154.0"/>
+                <Label fx:id="showDetailsGuardianTelephone" layoutX="544.0" layoutY="1524.0" prefHeight="18.0"
+                       prefWidth="172.0"/>
+                <Label fx:id="showDetailsGuardianJob" layoutX="95.0" layoutY="1553.0" prefHeight="18.0"
+                       prefWidth="172.0"/>
+                <Label fx:id="showDetailsGuardianMonthlyExpense" layoutX="386.0" layoutY="1555.0"
+                       prefHeight="18.0" prefWidth="172.0"/>
+                <ImageView fx:id="ProfileImage" fitHeight="222.0" fitWidth="232.0" layoutX="37.0" layoutY="9.0"
+                           pickOnBounds="true" preserveRatio="true"/>
+            </AnchorPane>
+        </ScrollPane>
     </AnchorPane>
 </Pane>

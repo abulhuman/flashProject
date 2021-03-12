@@ -1,10 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package oms.fx;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,14 +10,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Border;
-import javafx.stage.Modality;
+import javafx.stage.Stage;
+import oms.model.Datasource;
+import oms.model.Orphan;
+import oms.model.OrphanRow;
+import oms.model.Village;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-
-import static oms.Main.stage;
 
 
 public class CoordinatorController implements Initializable {
@@ -35,6 +36,9 @@ public class CoordinatorController implements Initializable {
     public TextField childPlaceOfBirth1;
     public Accordion newOrphanAccordion;
     public Button perInfoNext;
+    public TableView<OrphanRow> orphansTable;
+    public Button btnBackToVillages;
+    public Button showDetails;
 
     @FXML
     private RadioButton Male;
@@ -43,57 +47,32 @@ public class CoordinatorController implements Initializable {
     private RadioButton Female;
     @FXML
     private TextField search;
-    @FXML
-    private TableView<?> table;
-    @FXML
-    private TableColumn<?, ?> id;
-    @FXML
-    private TableColumn<?, ?> name;
-    @FXML
-    private TableColumn<?, ?> age;
-    @FXML
-    private TableColumn<?, ?> gender;
-    @FXML
-    private TableColumn<?, ?> sponsorshipStatus;
-    @FXML
-    private Button showDetails;
-
-
 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-//        System.out.println(" inside controller");
-    }    
-    @FXML
-    private void neworphan(ActionEvent event) throws IOException {
-        
-        System.out.println(" inside controller");
-        Parent root2 = FXMLLoader.load(getClass().getResource("AddNewOrphan.fxml"));
-        Scene scene = new Scene(root2);
-       
-        stage.setTitle("Add New Orphan");
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
-      
-         
     }
-    
-
-
-
 
     @FXML
     private void showDetails(ActionEvent event) throws IOException {
-        Parent root3 = FXMLLoader.load(getClass().getResource("ShowDetails.fxml"));
-        Scene scene = new Scene(root3);
-       
-        stage.setTitle("Information");
-        stage.setScene(scene);
-          stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowDetails.fxml"));
+
+        Parent root = loader.load();
+
+        OrphanRow selectedRow = orphansTable.getSelectionModel().getSelectedItem();
+
+        ShowDetailsController showDetailsController = loader.getController();
+
+        if (selectedRow != null){
+            showDetailsController.populateTable(selectedRow.getId());
+
+            stage.setTitle("Information");
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 
 
@@ -104,7 +83,7 @@ public class CoordinatorController implements Initializable {
     }
 
     @FXML
-    private void female(ActionEvent event){
+    private void female(ActionEvent event) {
         Male.setSelected(false);
     }
 
@@ -112,5 +91,57 @@ public class CoordinatorController implements Initializable {
     }
 
     public void famInfoNextHandler(ActionEvent actionEvent) {
+    }
+
+
+    public void listOrphansByVillage(Village selectedVillage) {
+        if (selectedVillage != null) {
+            Task<ObservableList<OrphanRow>> task = new Task<>() {
+                @Override
+                protected ObservableList<OrphanRow> call() {
+
+                    List<Orphan> orphans = Datasource.getInstance().queryAllOrphans(selectedVillage.getId());
+
+                    List<OrphanRow> rows = new ArrayList<>();
+
+                    for (Orphan orphan :
+                            orphans) {
+                        OrphanRow row = new OrphanRow(orphan);
+                        System.out.println(orphan.getId() + " " + row.getId());
+                        System.out.println(orphan.getFirstName() + " " + row.getFullName());
+                        System.out.println(orphan.getGender() + " " + row.getGender());
+                        System.out.println(orphan.getDateOfBirth() + " " + row.getAge());
+                        System.out.println(orphan.getVillage().getId() + " " + row.getVillageId());
+                        rows.add(row);
+                    }
+
+                    return FXCollections.observableArrayList(rows);
+                }
+            };
+            orphansTable.itemsProperty().bind(task.valueProperty());
+            new Thread(task).start();
+        }
+    }
+
+    public void searchOrphan(ActionEvent actionEvent) {
+    }
+
+    public void backToVillages(ActionEvent actionEvent) throws IOException {
+        Stage villagesStage = (Stage) orphansTable.getScene().getWindow();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Villages.fxml"));
+
+        Parent root = loader.load();
+
+        VillagesController villagesController = loader.getController();
+
+        System.out.println(orphansTable.getItems().get(0).getVillageId());
+
+        villagesController.listVillagesById(orphansTable.getItems().get(0).getVillageId());
+
+        villagesStage.setTitle("Villages");
+        villagesStage.setScene(new Scene(root));
+        villagesStage.show();
+
     }
 }
