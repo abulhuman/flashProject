@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oms.fx.LoginPageController">
     <Pane layoutX="425.0" layoutY="147.0" prefHeight="407.0" prefWidth="351.0" style="-fx-background-color: #cccccc;">
         <effect>
-            <Blend />
+            <Blend/>
         </effect>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="98.0" layoutY="46.0" prefHeight="17.0" prefWidth="155.0" text="Login ">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="98.0" layoutY="46.0" prefHeight="17.0"
+               prefWidth="155.0" text="Login ">
             <font>
-                <Font name="SansSerif Regular" size="48.0" />
+                <Font name="SansSerif Regular" size="48.0"/>
             </font>
         </Label>
-        <Label layoutX="63.0" layoutY="168.0" prefHeight="17.0" prefWidth="50.0" text="E-Mail :" />
-        <Label layoutX="61.0" layoutY="222.0" text="Password" />
-        <PasswordField fx:id="loginPassword" layoutX="141.0" layoutY="218.0" />
-        <Label fx:id="loginInfo" layoutX="63.0" layoutY="128.0" textFill="#d00000" visible="false" />
-        <TextField fx:id="loginEmail" layoutX="140.0" layoutY="164.0" />
-        <Button fx:id="btnLogin" layoutX="279.0" layoutY="354.0" mnemonicParsing="false" onAction="#login" text="Login" />
+        <Label layoutX="63.0" layoutY="168.0" prefHeight="17.0" prefWidth="50.0" text="E-Mail :"/>
+        <Label layoutX="61.0" layoutY="222.0" text="Password"/>
+        <PasswordField fx:id="loginPassword" layoutX="141.0" layoutY="218.0"/>
+        <Label fx:id="loginInfo" layoutX="63.0" layoutY="128.0" textFill="#d00000" visible="false"/>
+        <TextField fx:id="loginEmail" layoutX="140.0" layoutY="164.0"/>
+        <Button fx:id="btnLogin" layoutX="279.0" layoutY="354.0" mnemonicParsing="false" onAction="#login"
+                text="Login"/>
     </Pane>
 </Pane>

@@ -68,7 +68,7 @@ oms/fx/AddNewDistrictController.java
  oms.fx.AddNewDistrictController
 oms/fx/RegionController.java
  oms.fx.GetAllRegionsTask
- oms.fx.RegionController
+ oms.fx.RegionsController
 oms/fx/DistrictsController.java
  oms.fx.DistrictsController
 oms/fx/AddNewZoneController.java

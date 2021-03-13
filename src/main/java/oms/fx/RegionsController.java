@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RegionController implements Initializable {
+public class RegionsController implements Initializable {
 
     @FXML
     public Button btnAddNewRegion;

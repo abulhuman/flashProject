@@ -107,11 +107,6 @@ public class CoordinatorController implements Initializable {
                     for (Orphan orphan :
                             orphans) {
                         OrphanRow row = new OrphanRow(orphan);
-                        System.out.println(orphan.getId() + " " + row.getId());
-                        System.out.println(orphan.getFirstName() + " " + row.getFullName());
-                        System.out.println(orphan.getGender() + " " + row.getGender());
-                        System.out.println(orphan.getDateOfBirth() + " " + row.getAge());
-                        System.out.println(orphan.getVillage().getId() + " " + row.getVillageId());
                         rows.add(row);
                     }
 
