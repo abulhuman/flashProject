@@ -79,8 +79,8 @@ public class ZonesController implements Initializable {
 
         Parent root = loader.load();
 
-        RegionController regionController = loader.getController();
-        regionController.listRegions();
+        RegionsController regionsController = loader.getController();
+        regionsController.listRegions();
 
         Scene scene = new Scene(root);
         regionStage.setTitle("Regions");

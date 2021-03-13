@@ -1,8 +1,5 @@
 package oms.model;
 
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-
 public class Orphan {
     private int id;
     private String firstName;

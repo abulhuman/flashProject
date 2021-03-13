@@ -7,12 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import oms.model.Datasource;
-import oms.model.Orphan;
-import oms.model.OrphanRow;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Main extends Application {

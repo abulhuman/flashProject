@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<?import javafx.scene.control.cell.PropertyValueFactory?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oms.fx.ZonesController">
     <Label layoutX="53.0" layoutY="14.0" prefHeight="70.0" prefWidth="176.0" text="Zones">
         <font>
-        <Font size="48.0" />
+            <Font size="48.0" />
         </font>
     </Label>
     <TableView fx:id="zonesTable" layoutX="53.0" layoutY="90.0" prefHeight="520.0" prefWidth="900.0">
         <columns>
-            <TableColumn prefWidth="650.0" text="Region Name">
+            <TableColumn prefWidth="50.0" text="ID">
                 <cellValueFactory>
-                    <PropertyValueFactory property="name"/>
+                    <PropertyValueFactory property="id" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn fx:id="colNumOfDistricts" prefWidth="250.0" text="Number of Districts" />
+            <TableColumn prefWidth="650.0" text="Zone Name">
+                <cellValueFactory>
+                    <PropertyValueFactory property="name" />
+                </cellValueFactory>
+            </TableColumn>
+            <!--            <TableColumn fx:id="colNumOfDistricts" prefWidth="250.0" text="Number of Districts"/>-->
         </columns>
     </TableView>
-    <Button fx:id="btnAddNewZone" layoutX="990.0" layoutY="90.0" mnemonicParsing="false" onAction="#AddNewZone" prefHeight="25.0" prefWidth="125.0" text="Add New Zone" />
-    <Button fx:id="btnZonesNext" layoutX="1130.0" layoutY="650.0" mnemonicParsing="false" onAction="#GoToDistrict" text="Next" />
-    <Button layoutX="1070.0" layoutY="650.0" mnemonicParsing="false" onAction="#backToRegion" text="Back" />
+    <Button fx:id="btnAddNewZone" layoutX="1030.0" layoutY="90.0" mnemonicParsing="false" onAction="#AddNewZone" prefHeight="25.0" prefWidth="100.0" text="New Zone" />
+    <Button fx:id="btnShowDistricts" layoutX="1030.0" layoutY="135.0" mnemonicParsing="false" onAction="#showDistricts" prefHeight="25.0" prefWidth="100.0" text="Show Districts" />
+    <Button layoutX="1100.0" layoutY="640.0" mnemonicParsing="false" onAction="#backToRegion" text="Back" />
 </Pane>

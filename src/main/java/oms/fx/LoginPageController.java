@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static oms.Main.stage;
-
 
 public class LoginPageController implements Initializable {
 
@@ -43,22 +41,18 @@ public class LoginPageController implements Initializable {
 
 //        if (user != null && user.getPassword().equals(loginPassword.getText())) {
         if (true){ // login out of the way, for testing
-
-            Stage loginStage = (Stage) btnLogin.getScene().getWindow();
-            loginStage.close();
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Regions.fxml"));
             Parent root = loader.load();
 
-            RegionController regionController = loader.getController();
-            regionController.listRegions();
+            RegionsController regionsController = loader.getController();
+            regionsController.listRegions();
 
             Scene scene = new Scene(root);
 
-            Stage stage = new Stage();
-            stage.setTitle("Home");
-            stage.setScene(scene);
-            stage.show();
+            Stage loginStage = (Stage) btnLogin.getScene().getWindow();
+            loginStage.setTitle("Home");
+            loginStage.setScene(scene);
+            loginStage.show();
         } else {
             loginInfo.setText("Incorrect Email or Password");
             loginInfo.setVisible(true);

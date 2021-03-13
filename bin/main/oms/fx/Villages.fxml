@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oms.fx.VillagesController">
-    <children>
-        <Label layoutX="53.0" layoutY="14.0" text="Villages">
-         <font>
+    <Label layoutX="53.0" layoutY="14.0" text="Villages">
+        <font>
             <Font size="48.0" />
-         </font></Label>
-        <TableView layoutX="53.0" layoutY="90.0" prefHeight="520.0" prefWidth="900.0">
-            <columns>
-                <TableColumn fx:id="colVillageName" prefWidth="650.0" text="Village Name" />
-                <TableColumn fx:id="colNumOfOrphans" prefWidth="250.0" text="Number of Orphans" />
-            </columns>
-        </TableView>
-        <Button fx:id="btnAddNewVillage" layoutX="990.0" layoutY="90.0" mnemonicParsing="false" onAction="#AddNewVillage" text="Add New Village" />
-        <Button fx:id="btnNextVillages" layoutX="1130.0" layoutY="650.0" mnemonicParsing="false" onAction="#GoToAddNewOrphan" text="Next" />
-        <Button layoutX="1070.0" layoutY="650.0" mnemonicParsing="false" onAction="#BackToDistrict" text="Back" />
-    </children>
+        </font>
+    </Label>
+    <TableView fx:id="villagesTable" layoutX="53.0" layoutY="90.0" prefHeight="520.0" prefWidth="900.0">
+        <columns>
+
+            <TableColumn editable="false" prefWidth="50.0" resizable="false" text="ID">
+                <cellValueFactory>
+                    <PropertyValueFactory property="id" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn editable="false" prefWidth="648.0" resizable="false" text="Village Name">
+                <cellValueFactory>
+                    <PropertyValueFactory property="name" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn editable="false" prefWidth="200.0" resizable="false" text="Registration Date">
+                <cellValueFactory>
+                    <PropertyValueFactory property="registrationDate" />
+                </cellValueFactory>
+            </TableColumn>
+            <!--                <TableColumn fx:id="colNumOfOrphans" prefWidth="250.0" text="Number of Orphans" />-->
+        </columns>
+    </TableView>
+    <Button fx:id="btnAddNewVillage" layoutX="1030.0" layoutY="90.0" mnemonicParsing="false" onAction="#AddNewVillage" prefHeight="25.0" prefWidth="100.0" text="New Village" />
+    <Button fx:id="btnShowOrphans" layoutX="1030.0" layoutY="135.0" mnemonicParsing="false" onAction="#showOrphans" prefHeight="25.0" prefWidth="100.0" text="Show Orphans" />
+    <Button layoutX="1100.0" layoutY="640.0" mnemonicParsing="false" onAction="#backToDistrict" text="Back" />
 </Pane>
