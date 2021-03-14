@@ -32,7 +32,7 @@
             <!--                <TableColumn fx:id="colNumOfOrphans" prefWidth="250.0" text="Number of Orphans" />-->
         </columns>
     </TableView>
-    <Button fx:id="btnAddNewVillage" layoutX="1030.0" layoutY="90.0" mnemonicParsing="false" onAction="#AddNewVillage" prefHeight="25.0" prefWidth="100.0" text="New Village" />
+    <Button fx:id="btnAddNewVillage" layoutX="1030.0" layoutY="90.0" mnemonicParsing="false" onAction="#addNewVillage" prefHeight="25.0" prefWidth="100.0" text="New Village" />
     <Button fx:id="btnShowOrphans" layoutX="1030.0" layoutY="135.0" mnemonicParsing="false" onAction="#showOrphans" prefHeight="25.0" prefWidth="100.0" text="Show Orphans" />
     <Button layoutX="1100.0" layoutY="640.0" mnemonicParsing="false" onAction="#backToDistrict" text="Back" />
 </Pane>

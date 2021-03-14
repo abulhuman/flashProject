@@ -15,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import oms.model.Datasource;
@@ -26,21 +25,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import static oms.Main.stage;
-
 
 public class VillagesController implements Initializable {
 
     public TableView<Village> villagesTable;
     public Button btnShowOrphans;
-    @FXML
-    private TableColumn<?, ?> colVillageName;
-    @FXML
-    private TableColumn<?, ?> colNumOfOrphans;
-    @FXML
-    private Button btnNextVillages;
-    @FXML
-    private Button btnAddNewVillage;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -48,20 +37,11 @@ public class VillagesController implements Initializable {
     }
 
     @FXML
-    private void AddNewVillage(ActionEvent event) throws IOException {
+    private void addNewVillage(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("AddNewVillage.fxml"));
         Scene scene = new Scene(root);
-        Stage stage2= new Stage();
-        stage2.setTitle("Add New Village");
-        stage2.setScene(scene);
-        stage2.show();
-    }
-
-    @FXML
-    private void GoToAddNewOrphan(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Coordinator.fxml"));
-        Scene scene = new Scene(root);
-        stage.setTitle("Home");
+        Stage stage = new Stage();
+        stage.setTitle("Add New Village");
         stage.setScene(scene);
         stage.show();
     }
