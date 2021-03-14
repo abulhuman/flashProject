@@ -7,7 +7,7 @@ public class Region {
     private SimpleIntegerProperty id;
     private SimpleStringProperty name;
 
-    public Region() {
+    public Region(){
         this.id = new SimpleIntegerProperty();
         this.name = new SimpleStringProperty();
     }

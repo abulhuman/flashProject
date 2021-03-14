@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package oms.fx;
 
 import javafx.event.ActionEvent;
@@ -15,15 +10,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Modality;
+import javafx.stage.Stage;
 import oms.model.Datasource;
 import oms.model.User;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static oms.Main.stage;
 
 
 public class LoginPageController implements Initializable {
@@ -39,7 +32,6 @@ public class LoginPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        System.out.println(url.getPath());
     }
 
     @FXML
@@ -51,27 +43,20 @@ public class LoginPageController implements Initializable {
         if (true){ // login out of the way, for testing
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Regions.fxml"));
             Parent root = loader.load();
-            RegionController regionController = loader.getController();
-            regionController.listRegions();
+
+            RegionsController regionsController = loader.getController();
+            regionsController.listRegions();
+
             Scene scene = new Scene(root);
-            stage.setTitle("Home");
-            stage.setScene(scene);
-//            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.show();
+
+            Stage loginStage = (Stage) btnLogin.getScene().getWindow();
+            loginStage.setTitle("Home");
+            loginStage.setScene(scene);
+            loginStage.show();
         } else {
             loginInfo.setText("Incorrect Email or Password");
             loginInfo.setVisible(true);
         }
-
-
-//        System.out.println(loginEmail.getText(), loginPassword.getText());
-
-//        Parent root = FXMLLoader.load(getClass().getResource("Regions.fxml"));
-//        Scene scene = new Scene(root);
-//        stage.setTitle("Home");
-//        stage.setScene(scene);
-//        stage.initModality(Modality.APPLICATION_MODAL);
-//        stage.show();
 
 
     }
