@@ -29,10 +29,6 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -348,9 +344,12 @@ public class CoordinatorController implements Initializable {
                     " linear-gradient(from 0px 0px to 0px 5px, derive" +
                     "(-fx-control-inner-background, -9%), -fx-control-inner-background);" +
                     "-fx-background-insets: 0, 1; -fx-background-radius: 3, 2;");
-            personalInfo.getChildren().remove(errorLabel);
+//            personalInfo.getChildren().remove(errorLabel);
+            // -----------------------------------------------
 //            errorLabel.setText("Valid " + tf.getId());
 //            errorLabel.setTextFill(Color.web("green",0));
+            // -----------------------------------------------
+            errorLabel.setText("");
 
 //            System.out.println("valid");
 //            System.out.println(personalInfo.getChildren().indexOf(errorLabel));
@@ -395,8 +394,10 @@ public class CoordinatorController implements Initializable {
             errorLabel.setText("Select " + toggleGroup.getUserData());
             errorLabel.setTextFill(Color.web("red",0.75));
         } else {
-            personalInfo.getChildren().remove(errorLabel);
+//            personalInfo.getChildren().remove(errorLabel);
+            errorLabel.setText("");
         }
+
 //        System.out.println(toggleGroup.getUserData());
     }
 
@@ -455,52 +456,47 @@ public class CoordinatorController implements Initializable {
                 status = false;
             }
         }
-        return status;
+        return !status;
     }
 
-    // validates datePicker value using is ValidDate function
+    // sets the validation for datepicker
+    private void isValidDate(DatePicker datePicker, Label errorLabel) {
+        if (datePicker.getEditor().getText().length() > 0) {
+            if(checkDate(datePicker.getEditor().getText())) {
+                String[] tempDateValues = datePicker.getEditor().getText().split("/");
+                // changed the date format from "MM/dd/yyyy" to "dd/MM/yyyy"
+                String formattedInputDate =
+                        tempDateValues[1]+"/"+tempDateValues[0]+"/"+tempDateValues[2];
+                if(isValidDate(formattedInputDate)) {
+                    datePicker.setStyle("-fx-text-box-border: red;");
+                    errorLabel.setText("Invalid date format use (MM/dd/yyyy)");
+                    errorLabel.setTextFill(Color.web("red",0.75));
+                } else {
+                    errorLabel.setText("");
+                }
+            } else {
+                datePicker.setStyle("-fx-text-box-border: red;");
+                errorLabel.setText("Enter a valid date");
+                errorLabel.setTextFill(Color.web("red",0.75));
+            }
+        } else {
+            datePicker.setStyle("-fx-text-box-border: red;");
+            errorLabel.setText(datePicker.getId() + " can't be empty");
+            errorLabel.setTextFill(Color.web("red",0.75));
+        }
+    }
+
+    // sets the label to a position below the datepicker which itr represents
     private void validateDP(DatePicker datePicker, Label errorLabel) throws ParseException {
         errorLabel.setLayoutX(datePicker.getLayoutX());
         errorLabel.setLayoutY(datePicker.getLayoutY() + datePicker.getHeight());
 
-        if (datePicker.getEditor().getText().length() > 0) {
-            String[] tempDateValues = datePicker.getEditor().getText().split("/");
-            // changed the date format from "MM/dd/yyyy" to "dd/MM/yyyy"
-            String formattedInputDate =
-                    tempDateValues[1]+"/"+tempDateValues[0]+"/"+tempDateValues[2];
-            if(!isValidDate(formattedInputDate)) {
-                datePicker.setStyle("-fx-text-box-border: red;");
-                errorLabel.setText("Invalid date format use (MM/dd/yyyy)");
-                errorLabel.setTextFill(Color.web("red",0.75));
-            } else {
-                errorLabel.setText("");
-            }
-        } else {
-            datePicker.setStyle("-fx-text-box-border: red;");
-            errorLabel.setText(datePicker.getId() + " can't be empty");
-            errorLabel.setTextFill(Color.web("red",0.75));
-        }
+        isValidDate(datePicker, errorLabel);
     }
 
     // same as validateDP except it work on existing labels
     private void validateNativeDP(DatePicker datePicker, Label errorLabel) throws ParseException {
-        if (datePicker.getEditor().getText().length() > 0) {
-            String[] tempDateValues = datePicker.getEditor().getText().split("/");
-            // changed the date format from "MM/dd/yyyy" to "dd/MM/yyyy"
-            String formattedInputDate =
-                    tempDateValues[1]+"/"+tempDateValues[0]+"/"+tempDateValues[2];
-            if(!isValidDate(formattedInputDate)) {
-                datePicker.setStyle("-fx-text-box-border: red;");
-                errorLabel.setText("Invalid date format use (MM/dd/yyyy)");
-                errorLabel.setTextFill(Color.web("red",0.75));
-            } else {
-                errorLabel.setText("");
-            }
-        } else {
-            datePicker.setStyle("-fx-text-box-border: red;");
-            errorLabel.setText(datePicker.getId() + " can't be empty");
-            errorLabel.setTextFill(Color.web("red",0.75));
-        }
+        isValidDate(datePicker, errorLabel);
     }
 
     public void perInfoNextHandler(ActionEvent actionEvent) throws ParseException {
