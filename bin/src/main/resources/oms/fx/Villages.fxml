@@ -16,7 +16,7 @@
                 <TableColumn fx:id="colNumOfOrphans" prefWidth="250.0" text="Number of Orphans" />
             </columns>
         </TableView>
-        <Button fx:id="btnAddNewVillage" layoutX="990.0" layoutY="90.0" mnemonicParsing="false" onAction="#AddNewVillage" text="Add New Village" />
+        <Button fx:id="btnAddNewVillage" layoutX="990.0" layoutY="90.0" mnemonicParsing="false" onAction="#addNewVillage" text="Add New Village" />
         <Button fx:id="btnNextVillages" layoutX="1130.0" layoutY="650.0" mnemonicParsing="false" onAction="#GoToAddNewOrphan" text="Next" />
         <Button layoutX="1070.0" layoutY="650.0" mnemonicParsing="false" onAction="#BackToDistrict" text="Back" />
     </children>

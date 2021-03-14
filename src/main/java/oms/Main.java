@@ -7,6 +7,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import oms.model.Datasource;
+import oms.model.Orphan;
+import org.w3c.dom.ls.LSOutput;
 
 
 public class Main extends Application {
@@ -54,8 +56,9 @@ public class Main extends Application {
     }
 
 
-
     public static void main(String[] args) {
+//        Datasource.getInstance().open();
+//        System.out.println(Datasource.getInstance().queryOrphan(2));
         launch(args);
     }
     

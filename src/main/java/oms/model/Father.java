@@ -1,5 +1,7 @@
 package oms.model;
 
+import java.sql.Blob;
+
 public class Father {
     private int id;
     private String firstName;
@@ -7,7 +9,7 @@ public class Father {
     private String dateOfDeath;
     private String causeOfDeath;
     private String dateOfBirth;
-    private String deathCertificateUrl;
+    private Blob deathCertificate;
 
     public int getId() {
         return id;
@@ -57,11 +59,11 @@ public class Father {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getDeathCertificateUrl() {
-        return deathCertificateUrl;
+    public Blob getDeathCertificate() {
+        return deathCertificate;
     }
 
-    public void setDeathCertificateUrl(String deathCertificateUrl) {
-        this.deathCertificateUrl = deathCertificateUrl;
+    public void setDeathCertificate(Blob deathCertificate) {
+        this.deathCertificate = deathCertificate;
     }
 }

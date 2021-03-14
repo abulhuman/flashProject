@@ -1,8 +1,10 @@
 package oms.model;
 
+import java.sql.Blob;
+
 public class HealthRecord {
     private int id;
-    private String medicalCertificateUrl;
+    private Blob medicalCertificate;
     private int orphanId;
 
     public int getId() {
@@ -13,12 +15,12 @@ public class HealthRecord {
         this.id = id;
     }
 
-    public String getMedicalCertificateUrl() {
-        return medicalCertificateUrl;
+    public Blob getMedicalCertificateUrl() {
+        return medicalCertificate;
     }
 
-    public void setMedicalCertificateUrl(String medicalCertificateUrl) {
-        this.medicalCertificateUrl = medicalCertificateUrl;
+    public void setMedicalCertificate(Blob medicalCertificate) {
+        this.medicalCertificate = medicalCertificate;
     }
 
     public int getOrphanId() {
