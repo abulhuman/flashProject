@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
+      prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="oms.fx.VillagesController">
+    <Label layoutX="53.0" layoutY="14.0" text="Villages">
+        <font>
+        <Font size="48.0"/>
+        </font>
+    </Label>
+    <TableView layoutX="53.0" layoutY="90.0" prefHeight="520.0" prefWidth="900.0">
+        <columns>
+            <TableColumn fx:id="colVillageName" prefWidth="650.0" text="Village Name"/>
+            <TableColumn fx:id="colNumOfOrphans" prefWidth="250.0" text="Number of Orphans"/>
+        </columns>
+    </TableView>
+    <Button fx:id="btnAddNewVillage" layoutX="990.0" layoutY="90.0" mnemonicParsing="false" onAction="#addNewVillage"
+            text="Add New Village"/>
+    <Button fx:id="btnNextVillages" layoutX="1130.0" layoutY="650.0" mnemonicParsing="false"
+            onAction="#showOrphans" text="Next"/>
+    <Button layoutX="1070.0" layoutY="650.0" mnemonicParsing="false" onAction="#backToDistrict" text="Back"/>
+</Pane>

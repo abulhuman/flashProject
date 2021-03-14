@@ -1,26 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package oms.fx;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import oms.model.Datasource;
+import oms.model.Orphan;
+import oms.model.OrphanRow;
+import oms.model.Village;
 
 import java.awt.*;
 import java.io.File;
@@ -29,11 +30,11 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static oms.Main.stage;
 
 
 public class CoordinatorController implements Initializable {
@@ -52,6 +53,9 @@ public class CoordinatorController implements Initializable {
     public ComboBox<String> childPsychologicalStatus;
     public Accordion newOrphanAccordion;
     public Button perInfoNext;
+    public TableView<OrphanRow> orphansTable;
+    public Button btnBackToVillages;
+    public Button showDetails;
     public ComboBox<String> childEnrollmentStatus;
     public TextField childSchoolName;
     public RadioButton Private;
@@ -135,20 +139,6 @@ public class CoordinatorController implements Initializable {
 
     @FXML
     private TextField search;
-    @FXML
-    private TableView<?> table;
-    @FXML
-    private TableColumn<?, ?> id;
-    @FXML
-    private TableColumn<?, ?> name;
-    @FXML
-    private TableColumn<?, ?> age;
-    @FXML
-    private TableColumn<?, ?> gender;
-    @FXML
-    private TableColumn<?, ?> sponsorshipStatus;
-    @FXML
-    private Button showDetails;
 
 
     @Override
@@ -265,29 +255,24 @@ public class CoordinatorController implements Initializable {
     }
 
     @FXML
-    private void neworphan(ActionEvent event) throws IOException {
-
-        System.out.println(" inside controller");
-        Parent root2 = FXMLLoader.load(getClass().getResource("AddNewOrphan.fxml"));
-        Scene scene = new Scene(root2);
-
-        stage.setTitle("Add New Orphan");
-        stage.setScene(scene);
-//        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
-
-
-    }
-
-    @FXML
     private void showDetails(ActionEvent event) throws IOException {
-        Parent root3 = FXMLLoader.load(getClass().getResource("ShowDetails.fxml"));
-        Scene scene = new Scene(root3);
+        Stage stage = new Stage();
 
-        stage.setTitle("Information");
-        stage.setScene(scene);
-//          stage.initModality(Modality.APPLICATION_MODAL);
-        stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ShowDetails.fxml"));
+
+        Parent root = loader.load();
+
+        OrphanRow selectedRow = orphansTable.getSelectionModel().getSelectedItem();
+
+        ShowDetailsController showDetailsController = loader.getController();
+
+        if (selectedRow != null){
+            showDetailsController.populateTable(selectedRow.getId());
+
+            stage.setTitle("Information");
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
     }
 
     private Desktop desktop = Desktop.getDesktop();
@@ -330,7 +315,7 @@ public class CoordinatorController implements Initializable {
             tf.setStyle("-fx-text-box-border: red;");
             errorLabel.setText("Invalid " + tf.getId());
             errorLabel.setTextFill(Color.web("red",0.75));
-            System.out.println("invalid");
+//            System.out.println("invalid");
 //            System.out.println(personalInfo.getChildren().indexOf(errorLabel));
         } else {
 //            tf.setStyle("-fx-background-color: linear-gradient(to bottom, " +
@@ -437,7 +422,7 @@ public class CoordinatorController implements Initializable {
 
     // returns true is the date is valid
     static boolean checkDate(String date) {
-        String pattern = "(0?[1-9]|[12][0-9]|3[01])\\/(0?[1-9]|1[0-2])\\/([0-9]{4})";
+        String pattern = "(0?[1-9]|1[0-2])\\/(0?[1-9]|[12][0-9]|3[01])\\/([0-9]{4})";
         return date.matches(pattern);
     }
 
@@ -446,7 +431,7 @@ public class CoordinatorController implements Initializable {
         boolean status = false;
         if (checkDate(date)) {
             // sets the date format
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             dateFormat.setLenient(false);
             // if the data matches the date format sets status to true else false
             try {
@@ -462,12 +447,14 @@ public class CoordinatorController implements Initializable {
     // sets the validation for datepicker
     private void isValidDate(DatePicker datePicker, Label errorLabel) {
         if (datePicker.getEditor().getText().length() > 0) {
+            System.out.println(datePicker.getEditor().getText());
+            System.out.println(checkDate(datePicker.getEditor().getText()));
             if(checkDate(datePicker.getEditor().getText())) {
-                String[] tempDateValues = datePicker.getEditor().getText().split("/");
-                // changed the date format from "MM/dd/yyyy" to "dd/MM/yyyy"
-                String formattedInputDate =
-                        tempDateValues[1]+"/"+tempDateValues[0]+"/"+tempDateValues[2];
-                if(isValidDate(formattedInputDate)) {
+//                String[] tempDateValues = datePicker.getEditor().getText().split("/");
+//                // changed the date format from "MM/dd/yyyy" to "dd/MM/yyyy"
+//                String formattedInputDate =
+//                        tempDateValues[1]+"/"+tempDateValues[0]+"/"+tempDateValues[2];
+                if(isValidDate(datePicker.getEditor().getText())) {
                     datePicker.setStyle("-fx-text-box-border: red;");
                     errorLabel.setText("Invalid date format use (MM/dd/yyyy)");
                     errorLabel.setTextFill(Color.web("red",0.75));
@@ -562,6 +549,8 @@ public class CoordinatorController implements Initializable {
         System.out.println("actionEvent..");
 
         configureFileChooser(fileChooser);
+
+        Stage stage = new Stage();
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             openFile(file);
@@ -589,5 +578,52 @@ public class CoordinatorController implements Initializable {
                     Level.SEVERE, null, ex
             );
         }
+    }
+
+
+    public void listOrphansByVillage(Village selectedVillage) {
+        if (selectedVillage != null) {
+            Task<ObservableList<OrphanRow>> task = new Task<>() {
+                @Override
+                protected ObservableList<OrphanRow> call() {
+
+                    List<Orphan> orphans = Datasource.getInstance().queryAllOrphans(selectedVillage.getId());
+
+                    List<OrphanRow> rows = new ArrayList<>();
+
+                    for (Orphan orphan :
+                            orphans) {
+                        OrphanRow row = new OrphanRow(orphan);
+                        rows.add(row);
+                    }
+
+                    return FXCollections.observableArrayList(rows);
+                }
+            };
+            orphansTable.itemsProperty().bind(task.valueProperty());
+            new Thread(task).start();
+        }
+    }
+
+    public void searchOrphan(ActionEvent actionEvent) {
+    }
+
+    public void backToVillages(ActionEvent actionEvent) throws IOException {
+        Stage villagesStage = (Stage) orphansTable.getScene().getWindow();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Villages.fxml"));
+
+        Parent root = loader.load();
+
+        VillagesController villagesController = loader.getController();
+
+        System.out.println(orphansTable.getItems().get(0).getVillageId());
+
+        villagesController.listVillagesById(orphansTable.getItems().get(0).getVillageId());
+
+        villagesStage.setTitle("Villages");
+        villagesStage.setScene(new Scene(root));
+        villagesStage.show();
+
     }
 }

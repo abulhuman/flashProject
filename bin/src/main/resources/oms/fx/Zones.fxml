@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
+      prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="oms.fx.ZonesController">
+    <Label layoutX="53.0" layoutY="14.0" prefHeight="70.0" prefWidth="176.0" text="Zones">
+        <font>
+            <Font size="48.0"/>
+        </font>
+    </Label>
+    <TableView fx:id="zonesTable" layoutX="53.0" layoutY="90.0" prefHeight="520.0" prefWidth="900.0">
+        <columns>
+            <TableColumn prefWidth="650.0" text="District Name" >
+                <cellValueFactory>
+                    <PropertyValueFactory property="name"/>
+                </cellValueFactory>
+            </TableColumn>
+<!--            <TableColumn fx:id="colNumOfDistricts" prefWidth="250.0" text="Number of Districts"/>-->
+        </columns>
+    </TableView>
+    <Button fx:id="btnAddNewZone" layoutX="990.0" layoutY="90.0" mnemonicParsing="false" onAction="#AddNewZone"
+            prefHeight="25.0" prefWidth="125.0" text="New Zone"/>
+    <Button layoutX="1070.0" layoutY="650.0" mnemonicParsing="false" onAction="#backToRegion" text="Back"/>
+</Pane>

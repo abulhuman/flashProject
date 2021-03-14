@@ -296,13 +296,9 @@ public class Datasource {
     private Datasource() {
     }
 
-    ;
-
     public static Datasource getInstance() {
         return instance;
     }
-
-    ;
 
 
     public boolean open() {
@@ -388,10 +384,91 @@ public class Datasource {
         }
     }
 
+
+    public List<Zone> queryAllZonesById(int id) {
+        final String sqlQueryZone = String.format("SELECT * FROM %s WHERE %s = %s", TABLE_ZONE, COLUMN_ZONE_ID, id);
+
+        List<Zone> zones = new ArrayList<>();
+
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery(sqlQueryZone)) {
+
+            while(results.next()) {
+                Zone zone = new Zone();
+
+                zone.setId(results.getInt(COLUMN_ZONE_ID));
+                zone.setName(results.getString(COLUMN_ZONE_NAME));
+                zone.setRegionId(results.getInt(COLUMN_ZONE_REGION_ID));
+
+                zones.add(zone);
+            }
+
+            return zones;
+
+        } catch (SQLException e) {
+            System.out.println("zone Query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<District> queryAllDistrictsById(int id) {
+        final String sqlQueryDistrict = String.format("SELECT * FROM %s WHERE %s = %s", TABLE_DISTRICT, COLUMN_DISTRICT_ID, id);
+
+        List<District> districts = new ArrayList<>();
+
+        try (Statement statement = conn.createStatement();
+             ResultSet results = statement.executeQuery(sqlQueryDistrict)) {
+
+            while(results.next()) {
+                District district = new District();
+
+                district.setId(results.getInt(COLUMN_DISTRICT_ID));
+                district.setName(results.getString(COLUMN_DISTRICT_NAME));
+                district.setZoneId(results.getInt(COLUMN_DISTRICT_ID));
+
+                districts.add(district);
+            }
+
+            return districts;
+
+        } catch (SQLException e) {
+            System.out.println("districts Query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Village> queryAllVillagesById(int id) {
+        try (
+                Statement statement = conn.createStatement();
+                ResultSet results = statement.executeQuery(String.format("SELECT * FROM %s WHERE %s = %s",
+                        TABLE_VILLAGE,
+                        COLUMN_VILLAGE_ID,
+                        id))
+        ) {
+            List<Village> villages = new ArrayList<>();
+
+            while (results.next()) {
+                Village village = new Village();
+                village.setId(results.getInt(COLUMN_VILLAGE_ID));
+                village.setRegistrationDate(results.getString(COLUMN_VILLAGE_REGISTRATION_DATE));
+                village.setName(results.getString(COLUMN_VILLAGE_NAME));
+                village.setDistrictId(results.getInt(COLUMN_VILLAGE_DISTRICT_ID));
+
+                villages.add(village);
+            }
+
+            return villages;
+        } catch (SQLException e) {
+            System.out.println("Query failed: " + e.getMessage());
+            return null;
+        }
+
+    }
+
     // Query District by Id
     public District queryDistrict(int id) {
         final String sqlQueryDistrict = "SELECT id, name, zoneId, coordinatorId FROM "
-                + TABLE_DISTRICT + " WHERE id=" + id;
+                + TABLE_DISTRICT + " WHERE id =" + id;
         try (Statement statement = conn.createStatement();
              ResultSet result = statement.executeQuery(sqlQueryDistrict)) {
 
@@ -406,7 +483,7 @@ public class Datasource {
             return district;
 
         } catch (SQLException e) {
-            System.out.println("districtQuery failed: " + e.getMessage());
+            System.out.println("district query failed: " + e.getMessage());
             return null;
         }
     }
@@ -414,52 +491,38 @@ public class Datasource {
     public List<Orphan> queryAllOrphans(int villageId) {
         try (
                 Statement statement = conn.createStatement();
-                ResultSet results = statement.executeQuery(String.format("SELECT * FROM %s WHERE %s = %s",
-                        TABLE_ORPHAN,
-                        COLUMN_ORPHAN_VILLAGE_ID,
+                ResultSet results = statement.executeQuery(
+                        String.format(
+                                "select o.id, o.firstName as orphanFirstName, " +
+                                        "f.firstName as fatherFirstName, " +
+                                        "f.lastName as fatherLastName, " +
+                                        "o.dateOfBirth as orphanDateOfBirth, " +
+                                        "o.gender as orphanGender, " +
+                                        "v.id as villageId " +
+                                        "from orphan o " +
+                                        "join father f on o.fatherId = f.id " +
+                                        "join village v on o.villageId = v.id " +
+                                        "where o.villageId = %s",
                         villageId))
         ) {
             List<Orphan> orphans = new ArrayList<>();
             while (results.next()) {
                 Orphan orphan = new Orphan();
                 orphan.setId(results.getInt(COLUMN_ORPHAN_ID));
-                orphan.setFirstName(results.getString(COLUMN_ORPHAN_FIRST_NAME));
-                orphan.setGender(results.getString(COLUMN_ORPHAN_GENDER).equals("F") ? Gender_enum.F : Gender_enum.M);
-                orphan.setPlaceOfBirth(results.getString(COLUMN_ORPHAN_PLACE_OF_BIRTH));
-                orphan.setDateOfBirth(results.getString(COLUMN_ORPHAN_DATE_OF_BIRTH));
-                orphan.setSpokenLanguages(results.getString(COLUMN_ORPHAN_SPOKEN_LANGUAGE));
 
-                Orphan_religion_enum religion = switch (results.getString(COLUMN_ORPHAN_RELIGION)) {
-                    case "Christianity" -> Orphan_religion_enum.CHRISTIANITY;
-                    case "Buddhism" -> Orphan_religion_enum.BUDDHISM;
-                    case "Hinduism" -> Orphan_religion_enum.HINDUISM;
-                    case "Judaism" -> Orphan_religion_enum.JUDAISM;
-                    case "Other" -> Orphan_religion_enum.OTHER;
-                    default -> Orphan_religion_enum.ISLAM;
-                };
+                orphan.setFirstName(results.getString("orphanFirstName"));
+                orphan.getFather().setFirstName(results.getString("fatherFirstName"));
+                orphan.getFather().setLastName(results.getString("fatherLastName"));
 
-                orphan.setReligion(religion);
-
+                orphan.setGender(results.getString("orphanGender").equals("F") ? Gender_enum.F : Gender_enum.M);
+                orphan.setDateOfBirth(results.getString("orphanDateOfBirth"));
                 orphan.setBirthCertificate(results.getBlob(COLUMN_ORPHAN_BIRTH_CERTIFICATE));
                 orphan.setHealthDescription(results.getString(COLUMN_ORPHAN_HEALTH_DESCRIPTION));
 
-                Orphan_psychologicalStatus_enum pschStat = switch (results.getString(COLUMN_ORPHAN_PSYCHOLOGICAL_STATUS)) {
-                    case "isolated" -> Orphan_psychologicalStatus_enum.ISOLATED;
-                    case "stressed" -> Orphan_psychologicalStatus_enum.STRESSED;
-                    case "unsociable" -> Orphan_psychologicalStatus_enum.UNSOCIABLE;
-                    case "overlysociable" -> Orphan_psychologicalStatus_enum.OVERLYSOCIABLE;
-                    default -> Orphan_psychologicalStatus_enum.NORMAL;
-                };
+                Village village = new Village();
+                village.setId(results.getInt("villageId"));
 
-                orphan.setPsychologicalStatus(pschStat);
-
-//                orphan.setMotherId(results.getInt(COLUMN_ORPHAN_MOTHER_ID));
-//                orphan.setFatherId(results.getInt(COLUMN_ORPHAN_FATHER_ID));
-//                orphan.setGuardianId(results.getInt(COLUMN_ORPHAN_GUARDIAN_ID));
-//                orphan.setEducationId(results.getInt(COLUMN_ORPHAN_EDUCATION_ID));
-//                orphan.setDonorId(results.getInt(COLUMN_ORPHAN_DONOR_ID));
-//                orphan.setHouse_propertyId(results.getInt(COLUMN_ORPHAN_HOUSE_PROPERTY_ID));
-//                orphan.setVillageId(results.getInt(COLUMN_ORPHAN_VILLAGE_ID));
+                orphan.setVillage(village);
 
                 orphans.add(orphan);
             }
@@ -467,7 +530,7 @@ public class Datasource {
             return orphans;
 
         } catch (SQLException e) {
-            System.out.println("Query failed: " + e.getMessage());
+            System.out.println("queryAllOrphans query failed: " + e.getMessage());
             return null;
         }
     }
@@ -502,15 +565,11 @@ public class Datasource {
             result.next();
             Education education = new Education();
             education.setId(result.getInt(COLUMN_EDUCATION_ID));
-            Education_enrollmentStatus_enum enrollmentStatus = Education_enrollmentStatus_enum.UNENROLLED;
-            switch (result.getString(COLUMN_EDUCATION_ENROLLMENT_STATUS)) {
-                case "enrolled":
-                    enrollmentStatus = Education_enrollmentStatus_enum.ENROLLED;
-                    break;
-                case "droppedout":
-                    enrollmentStatus = Education_enrollmentStatus_enum.DROPPEDOUT;
-                    break;
-            }
+            Education_enrollmentStatus_enum enrollmentStatus = switch (result.getString(COLUMN_EDUCATION_ENROLLMENT_STATUS)) {
+                case "enrolled" -> Education_enrollmentStatus_enum.ENROLLED;
+                case "droppedout" -> Education_enrollmentStatus_enum.DROPPEDOUT;
+                default -> Education_enrollmentStatus_enum.UNENROLLED;
+            };
             education.setEnrollmentStatus(enrollmentStatus);
             education.setSchoolName(result.getString(COLUMN_EDUCATION_SCHOOL_NAME));
             education.setTypeOfSchool(result.getString(COLUMN_EDUCATION_TYPE_OF_SCHOOL).equals("private") ?
@@ -621,7 +680,7 @@ public class Datasource {
         ) {
             List<Zone> zones = new ArrayList<>();
 
-            while (results.next()) {
+                        while (results.next()) {
                 Zone zone = new Zone();
                 zone.setId(results.getInt(COLUMN_ZONE_ID));
                 zone.setName(results.getString(COLUMN_ZONE_NAME));
@@ -629,6 +688,8 @@ public class Datasource {
 
                 zones.add(zone);
             }
+
+            if (zones.size() == 0) throw new SQLException("No Zones Found");
 
             return zones;
         } catch (SQLException e) {
@@ -766,38 +827,36 @@ public class Datasource {
     }
 
     public Orphan queryOrphan (int id) {
-        final String sqlQueryOrphan = "select o.id, o.firstName as orphanFirstName, o.gender as orphanGender, o.placeOfBirth as orphanPlaceOfBirth," +
-                " o.dateOfBirth as orphanDateOfBirth, o.spokenLanguages as orphanSpokenLanguages," +
-                " o.gradeAgeMismatchReason as orphanGradeAgeMismatchReason, o.hobbies as orphanHobbies," +
-                " o.religion as orphanReligion, o.birthCertificateUrl as orphanBirthCertificateUrl," +
-                " o.healthDescription as orphanHealthDescription, o.psychologicalStatus as orphanPsychologicalStatus," +
-                " m.firstName as motherFirstName, m.middleName as motherMiddleName, m.lastName as motherLastName," +
-                " m.dateOfBirth as motherDateOfBirth, m.vitalStatus as motherVitalStatus, m.dateOfDeath as motherDateOfDeath," +
-                " m.causeOfDeath as motherCauseOfDeath, m.mobileNumber as motherMobileNumber," +
-                " m.maritalStatus as motherMaritalStatus, m.currentJobTitle as motherCurrentJobTitle," +
-                " m.monthlyIncome as motherMonthlyIncome, m.monthlyExpense as motherMonthlyExpense," +
-                " f.firstName as fatherFirstName, f.lastName as fatherLastName, f.dateOfBirth as fatherDateOfBirth," +
-                " f.dateOfDeath as fatherDateOfDeath, f.causeOfDeath as fatherCauseOfDeath," +
-                " f.deathCertificateUrl as fatherDeathCertificateUrl, g.firstName as guardianFirstName," +
-                " g.middleName as guardianMiddleName, g.lastName as guardianLastName, g.gender as guardianGender," +
-                " g.dateOfBirth as guardianDateOfBirth,g.relationToOrphan as guardianRelationToOrphan," +
-                " g.email as guardianEmail, g.mobileNumber as guardianMobileNumber," +
-                " g.telephoneNumber as guardianTelephoneNumber, g.nationality as guardianNationality," +
-                " g.guardianIDCardUrl , g.guardianConfirmationLetterUrl, g.guardianLegalConfirmationLetterUrl," +
-                " e.enrollmentStatus educationEnrollmentStatus, e.schoolName as educationSchoolName," +
-                " e.typeOfSchool as educationTypeOfSchool, e.year as educationYear, e.level as educationLevel," +
-                " e.reason as educationReason, d.companyName as donorCompanyName,d.nameInitials as donorNameInitials," +
-                " v.name as villageName, v.registrationDate as villageRegistrationDate," +
-                " hp.housingSituation, hp.otherProperty  as housingSituationOtherProperty" +
-                " from orphan o" +
-                " join mother m on o.motherId = m.id" +
-                " join father f on o.fatherId = f.id" +
-                " join guardian g on o.guardianId = g.id" +
-                " join education e on o.educationId = e.id" +
-                " join donor d on o.donorId = d.id" +
-                " join village v on o.villageId = v.id" +
-                " join house_property hp on o.house_PropertyId = hp.id" +
-                " where o.id=" + id;
+        final String sqlQueryOrphan = "select o.id, o.firstName as orphanFirstName, o.gender as orphanGender,\n" +
+                " o.placeOfBirth as orphanPlaceOfBirth, o.dateOfBirth as orphanDateOfBirth,\n" +
+                " o.spokenLanguages as orphanSpokenLanguages, o.religion as orphanReligion,\n" +
+                " o.birthCertificateUrl as orphanBirthCertificateUrl, o.healthDescription as orphanHealthDescription,\n" +
+                " o.psychologicalStatus as orphanPsychologicalStatus,\n" +
+                " \n" +
+                " m.firstName as motherFirstName, m.middleName as motherMiddleName, m.lastName as motherLastName,\n" +
+                " m.dateOfBirth as motherDateOfBirth, m.vitalStatus as motherVitalStatus, m.dateOfDeath as motherDateOfDeath,\n" +
+                " m.causeOfDeath as motherCauseOfDeath, m.mobileNumber as motherMobileNumber, m.maritalStatus as motherMaritalStatus,\n" +
+                " m.currentJobTitle as motherCurrentJobTitle, m.monthlyIncome as motherMonthlyIncome, m.monthlyExpense as motherMonthlyExpense,\n" +
+                " \n" +
+                " f.firstName as fatherFirstName, f.lastName as fatherLastName, f.dateOfBirth as fatherDateOfBirth,\n" +
+                " f.dateOfDeath as fatherDateOfDeath, f.causeOfDeath as fatherCauseOfDeath,\n" +
+                " f.deathCertificateUrl as fatherDeathCertificateUrl, \n" +
+                " \n" +
+                " g.firstName as guardianFirstName, g.middleName as guardianMiddleName, g.lastName as guardianLastName,\n" +
+                " g.gender as guardianGender, g.dateOfBirth as guardianDateOfBirth,g.relationToOrphan as guardianRelationToOrphan,\n" +
+                " g.email as guardianEmail, g.mobileNumber as guardianMobileNumber, g.telephoneNumber as guardianTelephoneNumber,\n" +
+                " g.nationality as guardianNationality, g.iDCardUrl as guardianIDCardUrl, g.confirmationLetterUrl as guardianConfirmationLetterUrl,\n" +
+                " \n" +
+                "e.enrollmentStatus as educationEnrollmentStatus, e.schoolName as educationSchoolName, e.typeOfSchool as educationTypeOfSchool,\n" +
+                "e.year as educationYear, e.level as educationLevel, e.reason as educationReason, v.name as villageName,\n" +
+                " v.registrationDate as villageRegistrationDate \n" +
+                " from orphan o \n" +
+                " join mother m on o.motherId = m.id \n" +
+                " join father f on o.fatherId = f.id \n" +
+                " join guardian g on o.guardianId = g.id \n" +
+                " join education e on o.educationId = e.id \n" +
+                " join village v on o.villageId = v.id \n" +
+                " where o.id = " + id;
         try (Statement statement = conn.createStatement();
              ResultSet result = statement.executeQuery(sqlQueryOrphan)) {
 
@@ -807,6 +866,7 @@ public class Datasource {
             orphan.setId(result.getInt("id"));
             orphan.setFirstName(result.getString("orphanFirstName"));
             orphan.setGender(result.getString("orphanGender").equals("M") ? Gender_enum.M : Gender_enum.F);
+            orphan.setPlaceOfBirth(result.getString("orphanPlaceOfBirth"));
             orphan.setDateOfBirth(result.getString("orphanDateOfBirth"));
             orphan.setSpokenLanguages(result.getString("orphanSpokenLanguages"));
             orphan.setReligion(switch (result.getString("orphanReligion")) {
@@ -910,7 +970,7 @@ public class Datasource {
         }
     }
 
-    public List<Village> queryAllVillages(int districtId) {
+    public List<Village> queryAllVillagesByDistrictId(int districtId) {
         try (
                 Statement statement = conn.createStatement();
                 ResultSet results = statement.executeQuery(String.format("SELECT * FROM %s WHERE %s = %s",
