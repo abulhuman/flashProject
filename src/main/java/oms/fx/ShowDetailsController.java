@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package oms.fx;
 
 import javafx.event.ActionEvent;
@@ -15,13 +10,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import oms.model.Datasource;
 import oms.model.Orphan;
+import oms.model.OrphanRow;
 
 import java.io.IOException;
 import java.net.URL;
@@ -167,40 +162,51 @@ public class ShowDetailsController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        this.populateTable(1);
 
     }
 
     public void populateTable(int id) {
         Orphan orphan = Datasource.getInstance().queryOrphan(id);
         System.out.println(orphan);
-        childName.setText(childName.getText() + " " + orphan.getFirstName() + " " + orphan.getFather().getFirstName());
+        childName.setText(childName.getText() + " " + OrphanRow.capitalize(orphan.getFirstName()) + " " + OrphanRow.capitalize(orphan.getFather().getFirstName()));
         orphanGender.setText(orphanGender.getText() + " " + orphan.getGender());
-//        orphanAge.setText(orphanAge.getText()+" ");
-        orphanPoB.setText(orphanPoB.getText() + " " + orphan.getPlaceOfBirth());
+        orphanAge.setText(orphanAge.getText() + " " + OrphanRow.ageCalc(orphan.getDateOfBirth()));
+        orphanPoB.setText(orphanPoB.getText() + " " + OrphanRow.capitalize(orphan.getPlaceOfBirth()));
         orphanLang.setText(orphanLang.getText() + " " + orphan.getSpokenLanguages());
         orphanHealth.setText(orphanHealth.getText() + " " + orphan.getHealthDescription());
         orphanPsychHealth.setText(orphanPsychHealth.getText() + " " + orphan.getPsychologicalStatus());
+
         enrolStatus.setText(enrolStatus.getText() + " " + orphan.getEducation().getEnrollmentStatus());
         schoolName.setText(schoolName.getText() + " " + orphan.getEducation().getSchoolName());
         eduLevel.setText(eduLevel.getText() + " " + orphan.getEducation().getLevel());
         eduYear.setText(eduYear.getText() + " " + orphan.getEducation().getYear());
-        fatherName.setText(fatherName.getText() + " " + orphan.getFather().getFirstName() + " " + orphan.getFather().getLastName());
+
+        fatherName.setText(fatherName.getText() + " " +
+                OrphanRow.capitalize(orphan.getFather().getFirstName()) + " " +
+                OrphanRow.capitalize(orphan.getFather().getLastName()));
         fatherDoB.setText(fatherDoB.getText() + " " + orphan.getFather().getDateOfBirth());
         fatherCauseOfDeath.setText(fatherCauseOfDeath.getText() + " " + orphan.getFather().getCauseOfDeath());
         fatherDoD.setText(fatherDoD.getText() + " " + orphan.getFather().getDateOfDeath());
-        motherName.setText(motherName.getText() + " " + orphan.getMother().getFirstName() + " " + orphan.getMother().getMiddleName() + " " + orphan.getMother().getLastName());
+
+        motherName.setText(motherName.getText() + " " +
+                OrphanRow.capitalize(orphan.getMother().getFirstName()) + " " +
+                OrphanRow.capitalize(orphan.getMother().getMiddleName()) + " " +
+                OrphanRow.capitalize(orphan.getMother().getLastName()));
         motherDoB.setText(motherDoB.getText() + " " + orphan.getMother().getDateOfBirth());
         motherMaritalStat.setText(motherMaritalStat.getText() + " " + orphan.getMother().getMaritalStatus());
         motherPhone.setText(motherPhone.getText() + " " + orphan.getMother().getMobileNumber());
         motherVital.setText(motherVital.getText() + " " + orphan.getMother().getVitalStatus());
         motherMonthlyExpense.setText(motherMonthlyExpense.getText() + " " + orphan.getMother().getMonthlyExpense());
+
+        guardianName.setText(guardianName.getText() + " " +
+                OrphanRow.capitalize(orphan.getGuardian().getFirstName()) + " " +
+                OrphanRow.capitalize(orphan.getGuardian().getMiddleName()) + " " +
+                OrphanRow.capitalize(orphan.getGuardian().getLastName()));
         guardianEmail.setText(guardianEmail.getText() + " " + orphan.getGuardian().getEmail());
         guardianMobile.setText(guardianMobile.getText() + " " + orphan.getGuardian().getMobileNumber());
         guardianNation.setText(guardianNation.getText() + " " + orphan.getGuardian().getNationality());
         guardianDoB.setText(guardianNation.getText() + " " + orphan.getGuardian().getDateOfBirth());
         guardianGender.setText(guardianGender.getText() + " " + orphan.getGuardian().getGender());
-        guardianName.setText(guardianName.getText() + " " + orphan.getGuardian().getFirstName() + " " + orphan.getGuardian().getMiddleName() + " " + orphan.getGuardian().getLastName());
         guardianOrphanRel.setText(guardianOrphanRel.getText() + " " + orphan.getGuardian().getRelationToOrphan());
         guardianTelePhone.setText(guardianTelePhone.getText() + " " + orphan.getGuardian().getTelephoneNumber());
     }
@@ -216,12 +222,6 @@ public class ShowDetailsController implements Initializable {
         stage.setScene(scene5);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
-    }
-
-    @FXML
-    private void scroll(ScrollEvent event) {
-//        showDetailsScrollBar.setContent(showDetailsPane);
-
     }
 
     public void addEducationalRecords(ActionEvent actionEvent) throws IOException {
