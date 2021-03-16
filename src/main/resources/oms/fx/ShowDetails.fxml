@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="630.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="oms.fx.ShowDetailsController">
-     <ScrollPane prefHeight="670.0" prefWidth="630.0">
+     <ScrollPane prefHeight="1670.0" prefWidth="630.0">
          <AnchorPane fx:id="showDetails" prefHeight="1550.0" prefWidth="630.0">
              <Label layoutX="370.0" layoutY="91.0" text="Name: " />
              <Label layoutX="365.0" layoutY="126.0" text="Gender: " />
@@ -71,7 +71,7 @@
              <Label layoutX="310.0" layoutY="1206.0" text="Telephone: " />
              <ImageView fx:id="profileImage" fitHeight="179.0" fitWidth="231.0" layoutX="44.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" />
          <Separator layoutX="14.0" layoutY="444.0" prefHeight="3.0" prefWidth="597.0" />
-         <Button layoutX="344.0" layoutY="577.0" mnemonicParsing="false" onAction="#showEducationalRecords" prefHeight="25.0" prefWidth="194.0" text="Show Educational Records" />
+         <Button layoutX="344.0" layoutY="577.0" mnemonicParsing="false" onAction="#showEducationalRecords" prefHeight="25.0" prefWidth="193.0" text="Show Educational Records" />
          <Button layoutX="353.0" layoutY="530.0" mnemonicParsing="false" onAction="#addEducationalRecords" prefHeight="25.0" prefWidth="177.0" text="Add Educational Records" />
          <Separator layoutX="14.0" layoutY="655.0" prefHeight="3.0" prefWidth="596.0" />
          <Separator layoutX="17.0" layoutY="1014.0" prefHeight="15.0" prefWidth="593.0" />

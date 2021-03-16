@@ -8,8 +8,8 @@ import java.util.List;
 public class Datasource {
 
     public static final String DB_NAME = "J_OMS";
-    public static final String DB_USERNAME = "root";
-    public static final String DB_PASSWORD = "w@duuminMySQL";
+    public static final String DB_USERNAME = "devAdem";
+    public static final String DB_PASSWORD = "Shangquan1!";
 
     public static final String CONNECTION_STRING = "jdbc:mysql://localhost/" + DB_NAME;
 
