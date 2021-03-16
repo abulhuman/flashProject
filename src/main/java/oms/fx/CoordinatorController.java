@@ -18,10 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import oms.model.Datasource;
-import oms.model.Orphan;
-import oms.model.OrphanRow;
-import oms.model.Village;
+import oms.model.*;
 
 import java.awt.*;
 import java.io.*;
@@ -68,10 +65,10 @@ public class CoordinatorController implements Initializable {
     public ComboBox<String> childGradeYear;
     public TextField childReason;
     public AnchorPane personalInfo; //
-    public DatePicker fatherDateOfBirth; //
-    public DatePicker fatherDateOfDeath; //
+    public DatePicker fatherDateOfBirth;
+    public DatePicker fatherDateOfDeath;
     public TextField fatherCauseOfDeath;
-    public DatePicker motherDateOfBirth;//
+    public DatePicker motherDateOfBirth;
     public TextField motherFirstName;
     public TextField motherMiddleName;
     public TextField motherLastName;
@@ -141,6 +138,8 @@ public class CoordinatorController implements Initializable {
     ToggleGroup Gender;
     ToggleGroup SchoolType;
     ToggleGroup GuardianGender;
+
+    public Orphan orphan;
 
     @FXML
     private TextField search;
@@ -257,6 +256,8 @@ public class CoordinatorController implements Initializable {
         guardianNationality.setItems(nationality);
         guardianNationality.setUserData("Nationality");
 
+        orphan = new Orphan();
+
     }
 
     @FXML
@@ -280,7 +281,7 @@ public class CoordinatorController implements Initializable {
         }
     }
 
-    private Desktop desktop = Desktop.getDesktop();
+    private final Desktop desktop = Desktop.getDesktop();
     final FileChooser fileChooser = new FileChooser();
     static FileChooser.ExtensionFilter png = new FileChooser.ExtensionFilter("PNG", "*" +
             ".png");
@@ -344,6 +345,7 @@ public class CoordinatorController implements Initializable {
 //            errorLabel.setTextFill(Color.web("green",0));
             // -----------------------------------------------
             errorLabel.setText("");
+
 
 //            System.out.println("valid");
 //            System.out.println(personalInfo.getChildren().indexOf(errorLabel));
@@ -504,60 +506,127 @@ public class CoordinatorController implements Initializable {
         // -----------------------------------------------------------------------
 
         validateTF(childName, childNameError);
+        orphan.setFirstName(childName.getText());
         validateTF(fatherName, fatherNameError);
+        orphan.getFather().setFirstName(fatherName.getText());
         validateTF(grandfatherName, grandFatherError);
+        orphan.getFather().setLastName(grandfatherName.getText());
         validateTF(childPlaceOfBirth, placeOfBirthError);
+        orphan.setPlaceOfBirth(childPlaceOfBirth.getText());
         validateTF(spokenLanguages, spokenLanguagesError);
+        orphan.setSpokenLanguages(spokenLanguages.getText());
         validateTF(childHealthDescription, healthDescriptionError);
+        orphan.setHealthDescription(childHealthDescription.getText());
         validateTF(childSchoolName, schoolNameError);
+        orphan.getEducation().setSchoolName(childSchoolName.getText());
         validateTF(childReason, reasonError);
+        orphan.getEducation().setReason(childReason.getText());
 
         validateRB(Gender, genderError);
         validateRB(SchoolType, schoolTypeError);
 
         validateCB(childPsychologicalStatus, psychologicalStatusError);
+        orphan.setPsychologicalStatus(
+                childPsychologicalStatus.getSelectionModel().getSelectedItem() == "Normal" ? Orphan_psychologicalStatus_enum.NORMAL :
+                        childPsychologicalStatus.getSelectionModel().getSelectedItem() == "Isolated" ? Orphan_psychologicalStatus_enum.ISOLATED :
+                                childPsychologicalStatus.getSelectionModel().getSelectedItem() == "Stressed" ? Orphan_psychologicalStatus_enum.STRESSED :
+                                        childPsychologicalStatus.getSelectionModel().getSelectedItem() == "Sociable" ? Orphan_psychologicalStatus_enum.OVERLYSOCIABLE :
+                                                 Orphan_psychologicalStatus_enum.UNSOCIABLE
+                );
         validateCB(childEnrollmentStatus, enrollmentStatusError);
+        orphan.getEducation().setEnrollmentStatus(childEnrollmentStatus.getSelectionModel().getSelectedItem() == "Enrolled" ? Education_enrollmentStatus_enum.ENROLLED:
+                        childEnrollmentStatus.getSelectionModel().getSelectedItem() == "Unenrolled" ? Education_enrollmentStatus_enum.UNENROLLED:
+                                 Education_enrollmentStatus_enum.DROPPEDOUT
+                );
         validateCB(childEducationLevel, educationLevelError);
+        orphan.getEducation().setLevel(childEducationLevel.getSelectionModel().getSelectedItem() == "ReligiousEducation" ? Education_level_enum.RELIGIOUSEDUCATION :
+                        childEducationLevel.getSelectionModel().getSelectedItem() == "Preschool" ? Education_level_enum.PRESCHOOL :
+                                childEducationLevel.getSelectionModel().getSelectedItem() == "Gradeschool" ? Education_level_enum.GRADESCHOOL :
+                                        childEducationLevel.getSelectionModel().getSelectedItem() == "Undergraduate" ? Education_level_enum.UNDERGRADUATE :
+                                                childEducationLevel.getSelectionModel().getSelectedItem() == "Postgraduate" ? Education_level_enum.POSTGRADUATE :
+                                                        Education_level_enum.N_A
+                );
         validateCB(childGradeYear, gradeYearError);
+        orphan.getEducation().setYear(childGradeYear.getSelectionModel().getSelectedItem());
 
         validateDP(childDateOfBirth, dateOfBirthError);
+        orphan.setDateOfBirth(childDateOfBirth.getEditor().getText());
     }
 
     // handles the family info next button
     public void famInfoNextHandler(ActionEvent actionEvent) {
         validateNativeTF(fatherCauseOfDeath, fatherCauseOfDeathError);
+        orphan.getFather().setCauseOfDeath(fatherCauseOfDeath.getText());
         validateNativeTF(motherFirstName, motherFirstNameError);
+        orphan.getMother().setFirstName(motherFirstName.getText());
         validateNativeTF(motherMiddleName, motherMiddleNameError);
+        orphan.getMother().setMiddleName(motherMiddleName.getText());
         validateNativeTF(motherLastName, motherLastNameError);
+        orphan.getMother().setLastName(motherLastName.getText());
         validateNativeTF(motherCauseOfDeath, motherCauseOfDeathError);
+        orphan.getMother().setCauseOfDeath(motherCauseOfDeath.getText());
         validateNativeTF(motherMobileNumber, motherMobileNumberError);
+        orphan.getMother().setMobileNumber(motherMobileNumber.getText());
         validateNativeTF(motherMonthlyIncome, motherMonthlyIncomeError);
+        orphan.getMother().setMonthlyIncome(Float.parseFloat(motherMonthlyIncome.getText()));
         validateNativeTF(motherMonthlyExpense, motherMonthlyExpenseError);
+        orphan.getMother().setMonthlyExpense(Float.parseFloat(motherMonthlyExpense.getText()));
         validateNativeTF(guardianFirstName, guardianFirstNameError);
+        orphan.getGuardian().setFirstName(guardianFirstName.getText());
         validateNativeTF(guardianMiddleName, guardianMiddleNameError);
+        orphan.getGuardian().setMiddleName(guardianMiddleName.getText());
         validateNativeTF(guardianLastName, guardianLastNameError);
+        orphan.getGuardian().setLastName(guardianLastName.getText());
         validateNativeTF(guardianEmail, guardianEmailError);
+        orphan.getGuardian().setEmail(guardianEmail.getText());
         validateNativeTF(guardianMobileNumber, guardianMobileNumberError);
+        orphan.getGuardian().setMobileNumber(guardianMobileNumber.getText());
         validateNativeTF(guardianTelephoneNumber, guardianTelephoneNumberError);
+        orphan.getGuardian().setTelephoneNumber(guardianTelephoneNumber.getText());
 
         validateNativeRB(GuardianGender, guardianGenderError);
 
         validateNativeCB(motherVitalStatus, motherVitalStatusError);
+        orphan.getMother().setVitalStatus(motherVitalStatus.getSelectionModel().getSelectedItem() == "Alive" ? Mother_vitalStatus_enum.ALIVE : Mother_vitalStatus_enum.PASSED );
         validateNativeCB(motherMaritalStatus, motherMaritalStatusError);
+        orphan.getMother().setMaritalStatus(motherMaritalStatus.getSelectionModel().getSelectedItem() == "Married" ? Mother_maritalStatus_enum.MARRIED :
+                motherMaritalStatus.getSelectionModel().getSelectedItem().equals("Widow") ? Mother_maritalStatus_enum.WIDOW :
+                        Mother_maritalStatus_enum.N_A
+        );
         validateNativeCB(guardianRelationToOrphan, guardianRelationToOrphanError);
+        orphan.getGuardian().setRelationToOrphan(guardianRelationToOrphan.getSelectionModel().getSelectedItem().equals("Mother") ? Guardian_relationToOrphan_enum.MOTHER:
+                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Brother" ? Guardian_relationToOrphan_enum.BROTHER:
+                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Sister" ? Guardian_relationToOrphan_enum.SISTER:
+                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Aunt" ? Guardian_relationToOrphan_enum.AUNT:
+                                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Uncle" ? Guardian_relationToOrphan_enum.UNCLE:
+                                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Grandfather" ? Guardian_relationToOrphan_enum.GRANDFATHER:
+                                                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Grandmother" ? Guardian_relationToOrphan_enum.GRANDMOTHER:
+                                                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Niece" ? Guardian_relationToOrphan_enum.NIECE:
+                                                                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Nephew" ? Guardian_relationToOrphan_enum.NEPHEW:
+                                                                                        Guardian_relationToOrphan_enum.LEGALGUARDIAN
+                );
         validateNativeCB(guardianNationality, guardianNationalityError);
-
+        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Djiboutian") ? Guardian_nationality_enum.DJIBOUTIAN:
+                orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Ethiopian") ? Guardian_nationality_enum.ETHIOPIAN:
+                        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Eritrean") ? Guardian_nationality_enum.ERITREAN:
+                                orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Kenyan") ? Guardian_nationality_enum.KENYAN:
+                                        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Somali") ? Guardian_nationality_enum.SOMALI:
+                                                orphan.getGuardian().setNationality((guardianNationality.getSelectionModel().getSelectedItem().equals("Sudanese"))? Guardian_nationality_enum.SUDANESE: Guardian_nationality_enum.SOUTH_SUDANESE ))))));
         validateNativeDP(fatherDateOfBirth, fatherDateOfBirthError);
+        orphan.getFather().setDateOfBirth(fatherDateOfBirth.getEditor().getText());
         validateNativeDP(fatherDateOfDeath, fatherDateOfDeathError);
+        orphan.getFather().setDateOfDeath(fatherDateOfDeath.getEditor().getText());
         validateNativeDP(motherDateOfBirth, motherDateOfBirthError);
+        orphan.getMother().setDateOfBirth(motherDateOfBirth.getEditor().getText());
         validateNativeDP(motherDateOfDeath, motherDateOfDeathError);
+        orphan.getMother().setDateOfDeath(motherDateOfDeath.getEditor().getText());
         validateNativeDP(guardianDateOfBirth, guardianDateOfBirthError);
+        orphan.getGuardian().setDateOfBirth(guardianDateOfBirth.getEditor().getText());
     }
 
     // handles the Birth Certificate file picker
     public void birthCertificateChooser(ActionEvent actionEvent) {
         System.out.println("birthCertificateEvent...");
-
         int orphanId = 7;
 
         configureFileChooser(fileChooser);
