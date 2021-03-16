@@ -10,7 +10,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 import oms.model.Datasource;
 import oms.model.District;
@@ -18,6 +20,8 @@ import oms.model.Zone;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -36,12 +40,34 @@ public class DistrictsController implements Initializable {
     }
 
     @FXML
-    private void AddNewDistrict(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("AddNewDistrict.fxml"));
-        Stage stage = new Stage();
-        stage.setTitle("Add New District");
-        stage.setScene(new Scene(root));
-        stage.show();
+    private void AddNewDistrict(ActionEvent event) throws IOException, SQLException {
+        TextInputDialog newDistrictDialog = new TextInputDialog();
+        newDistrictDialog.setTitle("New District");
+        newDistrictDialog.setHeaderText("New District");
+        newDistrictDialog.setContentText("Name");
+
+        newDistrictDialog.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
+
+        int currentZoneId = districtsTable.getItems().get(0).getZoneId();
+
+        Optional<String> result = newDistrictDialog.showAndWait();
+        if (result.isPresent() && !result.get().equals("")) {
+            int newDistrictId = Datasource.getInstance().insertDistrict(result.get(), currentZoneId);
+
+            District newDistrict = new District();
+
+            newDistrict.setId(newDistrictId);
+            newDistrict.setName(result.get());
+            newDistrict.setZoneId(currentZoneId);
+
+            ObservableList<District> existingZones = districtsTable.getItems();
+
+
+            if (!existingZones.contains(newDistrict))
+                existingZones.add(newDistrict);
+
+
+        }
     }
 
     public void listDistrictsByZone(Zone selectedZone) {
