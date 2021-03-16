@@ -59,8 +59,6 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-//        Datasource.getInstance().open();
-//        System.out.println(Datasource.getInstance().queryOrphan(6));
         launch(args);
     }
     

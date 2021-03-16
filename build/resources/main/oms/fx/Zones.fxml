@@ -26,7 +26,7 @@
             <!--            <TableColumn fx:id="colNumOfDistricts" prefWidth="250.0" text="Number of Districts"/>-->
         </columns>
     </TableView>
-    <Button fx:id="btnAddNewZone" layoutX="1030.0" layoutY="90.0" mnemonicParsing="false" onAction="#AddNewZone" prefHeight="25.0" prefWidth="100.0" text="New Zone" />
+    <Button fx:id="btnAddNewZone" layoutX="1030.0" layoutY="90.0" mnemonicParsing="false" onAction="#addNewZone" prefHeight="25.0" prefWidth="100.0" text="New Zone" />
     <Button fx:id="btnShowDistricts" layoutX="1030.0" layoutY="135.0" mnemonicParsing="false" onAction="#showDistricts" prefHeight="25.0" prefWidth="100.0" text="Show Districts" />
     <Button layoutX="1100.0" layoutY="640.0" mnemonicParsing="false" onAction="#backToRegion" text="Back" />
 </Pane>

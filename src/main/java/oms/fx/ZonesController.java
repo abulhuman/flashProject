@@ -42,7 +42,7 @@ public class ZonesController implements Initializable {
     }
 
     @FXML
-    private void AddNewZone(ActionEvent event) throws SQLException {
+    private void addNewZone(ActionEvent event) throws SQLException {
         TextInputDialog newZoneDialog = new TextInputDialog();
         newZoneDialog.setTitle("New Zone");
         newZoneDialog.setHeaderText("New Zone");

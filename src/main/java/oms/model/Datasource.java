@@ -153,9 +153,8 @@ public class Datasource {
             COLUMN_COORDINATOR_USER_ID);
 
     public static final String INSERT_DISTRICT = String.format(
-            "INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?)",
-            TABLE_DISTRICT, COLUMN_DISTRICT_NAME, COLUMN_DISTRICT_ZONE_ID,
-            COLUMN_DISTRICT_COORDINATOR_ID);
+            "INSERT INTO %s (%s, %s) VALUES (?, ?)",
+            TABLE_DISTRICT, COLUMN_DISTRICT_NAME, COLUMN_DISTRICT_ZONE_ID);
     public static final String INSERT_VILLAGE = String.format(
             "INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?)",
             TABLE_VILLAGE, COLUMN_VILLAGE_REGISTRATION_DATE, COLUMN_VILLAGE_NAME,
@@ -1271,8 +1270,8 @@ public class Datasource {
 
 
     public int insertDistrict(
-            String districtName, int coordinatorId, String fullName,
-            int zoneId, String zoneName) throws SQLException {
+            String districtName,
+            int zoneId) throws SQLException {
         // check if the district already exists
         queryDistrict.setString(1, districtName);
         ResultSet results = queryDistrict.executeQuery();
@@ -1282,10 +1281,7 @@ public class Datasource {
         // else create a new one
         else {
             insertIntoDistricts.setString(1, districtName);
-            insertIntoDistricts.setInt(2, zoneId != 0 ?
-                    zoneId : searchZoneIdByName(zoneName));
-            insertIntoDistricts.setInt(3, coordinatorId != 0 ?
-                    coordinatorId : searchCoordinatorIdByFullName(fullName));
+            insertIntoDistricts.setInt(2, zoneId);
 
             int affectedRows = insertIntoDistricts.executeUpdate();
 
@@ -1301,7 +1297,7 @@ public class Datasource {
 
     public int insertVillage(
             String villageName, String registrationDate,
-            int districtId, String districtName) throws SQLException {
+            int districtId) throws SQLException {
         queryVillage.setString(1, villageName);
         ResultSet results = queryVillage.executeQuery();
 
@@ -1309,8 +1305,7 @@ public class Datasource {
         else {
             insertIntoVillages.setString(1, registrationDate);
             insertIntoVillages.setString(2, villageName);
-            insertIntoVillages.setInt(3, districtId != 0 ?
-                    districtId : searchDistrictIdByName(districtName));
+            insertIntoVillages.setInt(3, districtId);
 
             int affectedRows = insertIntoVillages.executeUpdate();
 

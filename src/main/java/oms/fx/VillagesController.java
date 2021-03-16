@@ -15,7 +15,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 import oms.model.Datasource;
 import oms.model.District;
@@ -23,6 +25,10 @@ import oms.model.Village;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -37,13 +43,40 @@ public class VillagesController implements Initializable {
     }
 
     @FXML
-    private void addNewVillage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("AddNewVillage.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = new Stage();
-        stage.setTitle("Add New Village");
-        stage.setScene(scene);
-        stage.show();
+    private void addNewVillage(ActionEvent event) throws SQLException {
+        TextInputDialog newVillageDialog = new TextInputDialog();
+        newVillageDialog.setTitle("New Village");
+        newVillageDialog.setHeaderText("New Village");
+        newVillageDialog.setContentText("Name");
+
+        newVillageDialog.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
+
+        int currentDistrictId = villagesTable.getItems().get(0).getDistrictId();String pattern = "yyyy-MM-dd";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+        String date = simpleDateFormat.format(new Date());
+
+
+        Optional<String> result = newVillageDialog.showAndWait();
+        if (result.isPresent() && !result.get().equals("")) {
+            int newDistrictId = Datasource.getInstance().insertVillage(result.get(), date, currentDistrictId);
+
+            Village newVillage = new Village();
+
+            newVillage.setId(newDistrictId);
+            newVillage.setName(result.get());
+            newVillage.setRegistrationDate(date);
+            newVillage.setDistrictId(currentDistrictId);
+
+            ObservableList<Village> existingZones = villagesTable.getItems();
+
+
+            if (!existingZones.contains(newVillage))
+                existingZones.add(newVillage);
+
+
+        }
+
     }
 
     public void listVillagesByDistrict(District selectedVillage) {
