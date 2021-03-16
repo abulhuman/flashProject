@@ -24,7 +24,7 @@
             <Font size="48.0" />
         </font>
     </Label>
-    <Button fx:id="btnAddNewRegion" layoutX="990.0" layoutY="90.0" mnemonicParsing="false" onAction="#AddNewRegion" prefHeight="25.0" prefWidth="152.0" text="Add New Region" />
+    <Button fx:id="btnAddNewRegion" layoutX="990.0" layoutY="90.0" mnemonicParsing="false" onAction="#addNewRegion" prefHeight="25.0" prefWidth="152.0" text="Add New Region" />
     <Button fx:id="btnShowZones" layoutX="53.0" layoutY="638.0" mnemonicParsing="false" onAction="#showZones" prefHeight="25.0" prefWidth="900.0" text="Show Zones" />
     <Button fx:id="btnRegionNext" layoutX="1130.0" layoutY="650.0" mnemonicParsing="false" onAction="#goToZone" text="Next" />
 </Pane>

@@ -1,9 +1,9 @@
 oms/model/Education_enrollmentStatus_enum.java
  oms.model.Education_enrollmentStatus_enum
-oms/model/Village.java
- oms.model.Village
 oms/model/Region.java
  oms.model.Region
+oms/model/Village.java
+ oms.model.Village
 oms/model/Education_level_enum.java
  oms.model.Education_level_enum
 oms/model/Coordinator.java
@@ -77,6 +77,8 @@ oms/fx/AddNewDistrictController.java
  oms.fx.AddNewDistrictController
 oms/model/Education_typeOfSchool_enum.java
  oms.model.Education_typeOfSchool_enum
+oms/fx/EducationalRecordsController.java
+ oms.fx.EducationalRecordsController
 oms/model/DistrictJoin.java
  oms.model.DistrictJoin
 oms/fx/AddNewZoneController.java
@@ -90,3 +92,11 @@ oms/model/Zone.java
  oms.model.Zone
 oms/fx/LoginPageController.java
  oms.fx.LoginPageController
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+oms/fx/EducationalRecordsController.java
+ oms.fx.EducationalRecordsController
+=======
+>>>>>>> ee03722d22bf8da5e31dc9966798343171306701
+>>>>>>> snowstorm4757-main

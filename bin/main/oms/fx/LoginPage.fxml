@@ -17,9 +17,9 @@
         </Label>
         <Label layoutX="63.0" layoutY="168.0" prefHeight="17.0" prefWidth="50.0" text="E-Mail :"/>
         <Label layoutX="61.0" layoutY="222.0" text="Password"/>
+        <TextField fx:id="loginEmail" layoutX="140.0" layoutY="164.0"/>
         <PasswordField fx:id="loginPassword" layoutX="141.0" layoutY="218.0"/>
         <Label fx:id="loginInfo" layoutX="63.0" layoutY="128.0" textFill="#d00000" visible="false"/>
-        <TextField fx:id="loginEmail" layoutX="140.0" layoutY="164.0"/>
         <Button fx:id="btnLogin" layoutX="279.0" layoutY="354.0" mnemonicParsing="false" onAction="#login"
                 text="Login"/>
     </Pane>

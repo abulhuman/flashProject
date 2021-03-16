@@ -13,5 +13,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/OMS</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="J_OMS@localhost" uuid="52634b1f-7c86-4750-9e7d-8a956242f25e">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/J_OMS</jdbc-url>
+    </data-source>
   </component>
 </project>

@@ -10,6 +10,8 @@ import oms.model.Datasource;
 import oms.model.Orphan;
 import org.w3c.dom.ls.LSOutput;
 
+import java.util.List;
+
 
 public class Main extends Application {
      public static Stage stage;
@@ -19,17 +21,17 @@ public class Main extends Application {
         super.init();
         if(!Datasource.getInstance().open()){
 //            TODO Create popup that says couldn't connect to db
-            System.out.print("""
-
-                    >>>>>>>>>>
-                    >>>>>>>>>>
-                    >>>>>>>>>>
-                    [FATAL ERROR]: Couldn't connect to database. Application is exiting!
-                    >>>>>>>>>>
-                    >>>>>>>>>>
-                    >>>>>>>>>>
-                    
-                    """);
+//            System.out.print("""
+//
+//                    >>>>>>>>>>
+//                    >>>>>>>>>>
+//                    >>>>>>>>>>
+//                    [FATAL ERROR]: Couldn't connect to database. Application is exiting!
+//                    >>>>>>>>>>
+//                    >>>>>>>>>>
+//                    >>>>>>>>>>
+//
+//                    """);
 
             Platform.exit();
         }
@@ -58,7 +60,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 //        Datasource.getInstance().open();
-//        System.out.println(Datasource.getInstance().queryOrphan(2));
+//        System.out.println(Datasource.getInstance().queryOrphan(6));
         launch(args);
     }
     

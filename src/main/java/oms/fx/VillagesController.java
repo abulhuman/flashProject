@@ -74,7 +74,8 @@ public class VillagesController implements Initializable {
     public void showOrphans(ActionEvent actionEvent) throws IOException {
         Stage villagesStage = (Stage) villagesTable.getScene().getWindow();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Coordinator.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                "Coordinator.fxml"));
 
         Parent root = loader.load();
 

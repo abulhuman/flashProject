@@ -17,7 +17,6 @@
                     <PropertyValueFactory property="name" />
                 </cellValueFactory>
             </TableColumn>
-            <!--            <TableColumn fx:id="colNumOfZones" maxWidth="500.0" prefWidth="250.0" text="Number of Zones"/>-->
         </columns>
     </TableView>
     <Label alignment="CENTER" layoutX="53.0" layoutY="14.0" prefHeight="70.0" prefWidth="175.0" text="Regions">
@@ -25,6 +24,6 @@
             <Font size="48.0" />
         </font>
     </Label>
-    <Button fx:id="btnAddNewRegion" layoutX="1030.0" layoutY="90.0" mnemonicParsing="false" onAction="#AddNewRegion" prefHeight="25.0" prefWidth="100.0" text="New Region" />
+    <Button fx:id="btnAddNewRegion" layoutX="1030.0" layoutY="90.0" mnemonicParsing="false" onAction="#addNewRegion" prefHeight="25.0" prefWidth="100.0" text="New Region" />
     <Button fx:id="btnShowZones" layoutX="1030.0" layoutY="135.0" mnemonicParsing="false" onAction="#showZones" prefHeight="25.0" prefWidth="100.0" text="Show Zones" />
 </Pane>

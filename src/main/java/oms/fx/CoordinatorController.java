@@ -18,21 +18,22 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import oms.model.Datasource;
-import oms.model.Orphan;
-import oms.model.OrphanRow;
-import oms.model.Village;
+import oms.model.*;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -64,10 +65,10 @@ public class CoordinatorController implements Initializable {
     public ComboBox<String> childGradeYear;
     public TextField childReason;
     public AnchorPane personalInfo; //
-    public DatePicker fatherDateOfBirth; //
-    public DatePicker fatherDateOfDeath; //
+    public DatePicker fatherDateOfBirth;
+    public DatePicker fatherDateOfDeath;
     public TextField fatherCauseOfDeath;
-    public DatePicker motherDateOfBirth;//
+    public DatePicker motherDateOfBirth;
     public TextField motherFirstName;
     public TextField motherMiddleName;
     public TextField motherLastName;
@@ -90,6 +91,7 @@ public class CoordinatorController implements Initializable {
     public ComboBox<String> guardianNationality;
     public TextField guardianTelephoneNumber;
     public Button famInfoNext;
+    public AnchorPane documentInfo; //
 
     // error label fields
     public Label childNameError;
@@ -136,6 +138,8 @@ public class CoordinatorController implements Initializable {
     ToggleGroup Gender;
     ToggleGroup SchoolType;
     ToggleGroup GuardianGender;
+
+    public Orphan orphan;
 
     @FXML
     private TextField search;
@@ -252,6 +256,8 @@ public class CoordinatorController implements Initializable {
         guardianNationality.setItems(nationality);
         guardianNationality.setUserData("Nationality");
 
+        orphan = new Orphan();
+
     }
 
     @FXML
@@ -275,8 +281,12 @@ public class CoordinatorController implements Initializable {
         }
     }
 
-    private Desktop desktop = Desktop.getDesktop();
+    private final Desktop desktop = Desktop.getDesktop();
     final FileChooser fileChooser = new FileChooser();
+    static FileChooser.ExtensionFilter png = new FileChooser.ExtensionFilter("PNG", "*" +
+            ".png");
+    static FileChooser.ExtensionFilter jpg = new FileChooser.ExtensionFilter("JPG", "*.jpg");
+
 
     @FXML
     private void male(ActionEvent event) {
@@ -289,7 +299,7 @@ public class CoordinatorController implements Initializable {
     }
 
     // returns true if the string doesn't contain none alphabet characters except '-' & '/'
-    private Boolean isValidText(String text) {
+    public static Boolean isValidText(String text) {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             if (!(c >= 'a' && c <= 'z') && !(c >= 'A' && c <= 'Z') && (c != ' ') && (c != '-') && (c != '/')) {
@@ -315,7 +325,7 @@ public class CoordinatorController implements Initializable {
             tf.setStyle("-fx-text-box-border: red;");
             errorLabel.setText("Invalid " + tf.getId());
             errorLabel.setTextFill(Color.web("red",0.75));
-            System.out.println("invalid");
+//            System.out.println("invalid");
 //            System.out.println(personalInfo.getChildren().indexOf(errorLabel));
         } else {
 //            tf.setStyle("-fx-background-color: linear-gradient(to bottom, " +
@@ -329,9 +339,13 @@ public class CoordinatorController implements Initializable {
                     " linear-gradient(from 0px 0px to 0px 5px, derive" +
                     "(-fx-control-inner-background, -9%), -fx-control-inner-background);" +
                     "-fx-background-insets: 0, 1; -fx-background-radius: 3, 2;");
-            personalInfo.getChildren().remove(errorLabel);
+//            personalInfo.getChildren().remove(errorLabel);
+            // -----------------------------------------------
 //            errorLabel.setText("Valid " + tf.getId());
 //            errorLabel.setTextFill(Color.web("green",0));
+            // -----------------------------------------------
+            errorLabel.setText("");
+
 
 //            System.out.println("valid");
 //            System.out.println(personalInfo.getChildren().indexOf(errorLabel));
@@ -376,8 +390,10 @@ public class CoordinatorController implements Initializable {
             errorLabel.setText("Select " + toggleGroup.getUserData());
             errorLabel.setTextFill(Color.web("red",0.75));
         } else {
-            personalInfo.getChildren().remove(errorLabel);
+//            personalInfo.getChildren().remove(errorLabel);
+            errorLabel.setText("");
         }
+
 //        System.out.println(toggleGroup.getUserData());
     }
 
@@ -417,7 +433,7 @@ public class CoordinatorController implements Initializable {
 
     // returns true is the date is valid
     static boolean checkDate(String date) {
-        String pattern = "(0?[1-9]|[12][0-9]|3[01])\\/(0?[1-9]|1[0-2])\\/([0-9]{4})";
+        String pattern = "(0?[1-9]|1[0-2])\\/(0?[1-9]|[12][0-9]|3[01])\\/([0-9]{4})";
         return date.matches(pattern);
     }
 
@@ -426,7 +442,7 @@ public class CoordinatorController implements Initializable {
         boolean status = false;
         if (checkDate(date)) {
             // sets the date format
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             dateFormat.setLenient(false);
             // if the data matches the date format sets status to true else false
             try {
@@ -436,55 +452,51 @@ public class CoordinatorController implements Initializable {
                 status = false;
             }
         }
-        return status;
+        return !status;
     }
 
-    // validates datePicker value using is ValidDate function
-    private void validateDP(DatePicker datePicker, Label errorLabel) throws ParseException {
+    // sets the validation for datepicker
+    private void isValidDate(DatePicker datePicker, Label errorLabel) {
+        if (datePicker.getEditor().getText().length() > 0) {
+            if(checkDate(datePicker.getEditor().getText())) {
+//                String[] tempDateValues = datePicker.getEditor().getText().split("/");
+//                // changed the date format from "MM/dd/yyyy" to "dd/MM/yyyy"
+//                String formattedInputDate =
+//                        tempDateValues[1]+"/"+tempDateValues[0]+"/"+tempDateValues[2];
+                if(isValidDate(datePicker.getEditor().getText())) {
+                    datePicker.setStyle("-fx-text-box-border: red;");
+                    errorLabel.setText("Invalid date format use (MM/dd/yyyy)");
+                    errorLabel.setTextFill(Color.web("red",0.75));
+                } else {
+                    errorLabel.setText("");
+                }
+            } else {
+                datePicker.setStyle("-fx-text-box-border: red;");
+                errorLabel.setText("Enter a valid date");
+                errorLabel.setTextFill(Color.web("red",0.75));
+            }
+        } else {
+            datePicker.setStyle("-fx-text-box-border: red;");
+            errorLabel.setText(datePicker.getId() + " can't be empty");
+            errorLabel.setTextFill(Color.web("red",0.75));
+        }
+    }
+
+    // sets the label to a position below the datepicker which itr represents
+    private void validateDP(DatePicker datePicker, Label errorLabel) {
         errorLabel.setLayoutX(datePicker.getLayoutX());
         errorLabel.setLayoutY(datePicker.getLayoutY() + datePicker.getHeight());
 
-        if (datePicker.getEditor().getText().length() > 0) {
-            String[] tempDateValues = datePicker.getEditor().getText().split("/");
-            // changed the date format from "MM/dd/yyyy" to "dd/MM/yyyy"
-            String formattedInputDate =
-                    tempDateValues[1]+"/"+tempDateValues[0]+"/"+tempDateValues[2];
-            if(!isValidDate(formattedInputDate)) {
-                datePicker.setStyle("-fx-text-box-border: red;");
-                errorLabel.setText("Invalid date format use (MM/dd/yyyy)");
-                errorLabel.setTextFill(Color.web("red",0.75));
-            } else {
-                errorLabel.setText("");
-            }
-        } else {
-            datePicker.setStyle("-fx-text-box-border: red;");
-            errorLabel.setText(datePicker.getId() + " can't be empty");
-            errorLabel.setTextFill(Color.web("red",0.75));
-        }
+        isValidDate(datePicker, errorLabel);
     }
 
     // same as validateDP except it work on existing labels
-    private void validateNativeDP(DatePicker datePicker, Label errorLabel) throws ParseException {
-        if (datePicker.getEditor().getText().length() > 0) {
-            String[] tempDateValues = datePicker.getEditor().getText().split("/");
-            // changed the date format from "MM/dd/yyyy" to "dd/MM/yyyy"
-            String formattedInputDate =
-                    tempDateValues[1]+"/"+tempDateValues[0]+"/"+tempDateValues[2];
-            if(!isValidDate(formattedInputDate)) {
-                datePicker.setStyle("-fx-text-box-border: red;");
-                errorLabel.setText("Invalid date format use (MM/dd/yyyy)");
-                errorLabel.setTextFill(Color.web("red",0.75));
-            } else {
-                errorLabel.setText("");
-            }
-        } else {
-            datePicker.setStyle("-fx-text-box-border: red;");
-            errorLabel.setText(datePicker.getId() + " can't be empty");
-            errorLabel.setTextFill(Color.web("red",0.75));
-        }
+    private void validateNativeDP(DatePicker datePicker, Label errorLabel) {
+        isValidDate(datePicker, errorLabel);
     }
 
-    public void perInfoNextHandler(ActionEvent actionEvent) throws ParseException {
+    // handles the personal info next button
+    public void perInfoNextHandler(ActionEvent actionEvent) {
 
         // -----------------------------------------------------------------------
         // to set the text field border to red and focus to red
@@ -494,87 +506,286 @@ public class CoordinatorController implements Initializable {
         // -----------------------------------------------------------------------
 
         validateTF(childName, childNameError);
+        orphan.setFirstName(childName.getText());
         validateTF(fatherName, fatherNameError);
+        orphan.getFather().setFirstName(fatherName.getText());
         validateTF(grandfatherName, grandFatherError);
+        orphan.getFather().setLastName(grandfatherName.getText());
         validateTF(childPlaceOfBirth, placeOfBirthError);
+        orphan.setPlaceOfBirth(childPlaceOfBirth.getText());
         validateTF(spokenLanguages, spokenLanguagesError);
+        orphan.setSpokenLanguages(spokenLanguages.getText());
         validateTF(childHealthDescription, healthDescriptionError);
+        orphan.setHealthDescription(childHealthDescription.getText());
         validateTF(childSchoolName, schoolNameError);
+        orphan.getEducation().setSchoolName(childSchoolName.getText());
         validateTF(childReason, reasonError);
+        orphan.getEducation().setReason(childReason.getText());
 
         validateRB(Gender, genderError);
         validateRB(SchoolType, schoolTypeError);
 
         validateCB(childPsychologicalStatus, psychologicalStatusError);
+        orphan.setPsychologicalStatus(
+                childPsychologicalStatus.getSelectionModel().getSelectedItem() == "Normal" ? Orphan_psychologicalStatus_enum.NORMAL :
+                        childPsychologicalStatus.getSelectionModel().getSelectedItem() == "Isolated" ? Orphan_psychologicalStatus_enum.ISOLATED :
+                                childPsychologicalStatus.getSelectionModel().getSelectedItem() == "Stressed" ? Orphan_psychologicalStatus_enum.STRESSED :
+                                        childPsychologicalStatus.getSelectionModel().getSelectedItem() == "Sociable" ? Orphan_psychologicalStatus_enum.OVERLYSOCIABLE :
+                                                 Orphan_psychologicalStatus_enum.UNSOCIABLE
+                );
         validateCB(childEnrollmentStatus, enrollmentStatusError);
+        orphan.getEducation().setEnrollmentStatus(childEnrollmentStatus.getSelectionModel().getSelectedItem() == "Enrolled" ? Education_enrollmentStatus_enum.ENROLLED:
+                        childEnrollmentStatus.getSelectionModel().getSelectedItem() == "Unenrolled" ? Education_enrollmentStatus_enum.UNENROLLED:
+                                 Education_enrollmentStatus_enum.DROPPEDOUT
+                );
         validateCB(childEducationLevel, educationLevelError);
+        orphan.getEducation().setLevel(childEducationLevel.getSelectionModel().getSelectedItem() == "ReligiousEducation" ? Education_level_enum.RELIGIOUSEDUCATION :
+                        childEducationLevel.getSelectionModel().getSelectedItem() == "Preschool" ? Education_level_enum.PRESCHOOL :
+                                childEducationLevel.getSelectionModel().getSelectedItem() == "Gradeschool" ? Education_level_enum.GRADESCHOOL :
+                                        childEducationLevel.getSelectionModel().getSelectedItem() == "Undergraduate" ? Education_level_enum.UNDERGRADUATE :
+                                                childEducationLevel.getSelectionModel().getSelectedItem() == "Postgraduate" ? Education_level_enum.POSTGRADUATE :
+                                                        Education_level_enum.N_A
+                );
         validateCB(childGradeYear, gradeYearError);
+        orphan.getEducation().setYear(childGradeYear.getSelectionModel().getSelectedItem());
 
         validateDP(childDateOfBirth, dateOfBirthError);
+        orphan.setDateOfBirth(childDateOfBirth.getEditor().getText());
     }
 
-    public void famInfoNextHandler(ActionEvent actionEvent) throws ParseException {
+    // handles the family info next button
+    public void famInfoNextHandler(ActionEvent actionEvent) {
         validateNativeTF(fatherCauseOfDeath, fatherCauseOfDeathError);
+        orphan.getFather().setCauseOfDeath(fatherCauseOfDeath.getText());
         validateNativeTF(motherFirstName, motherFirstNameError);
+        orphan.getMother().setFirstName(motherFirstName.getText());
         validateNativeTF(motherMiddleName, motherMiddleNameError);
+        orphan.getMother().setMiddleName(motherMiddleName.getText());
         validateNativeTF(motherLastName, motherLastNameError);
+        orphan.getMother().setLastName(motherLastName.getText());
         validateNativeTF(motherCauseOfDeath, motherCauseOfDeathError);
+        orphan.getMother().setCauseOfDeath(motherCauseOfDeath.getText());
         validateNativeTF(motherMobileNumber, motherMobileNumberError);
+        orphan.getMother().setMobileNumber(motherMobileNumber.getText());
         validateNativeTF(motherMonthlyIncome, motherMonthlyIncomeError);
+        orphan.getMother().setMonthlyIncome(Float.parseFloat(motherMonthlyIncome.getText()));
         validateNativeTF(motherMonthlyExpense, motherMonthlyExpenseError);
+        orphan.getMother().setMonthlyExpense(Float.parseFloat(motherMonthlyExpense.getText()));
         validateNativeTF(guardianFirstName, guardianFirstNameError);
+        orphan.getGuardian().setFirstName(guardianFirstName.getText());
         validateNativeTF(guardianMiddleName, guardianMiddleNameError);
+        orphan.getGuardian().setMiddleName(guardianMiddleName.getText());
         validateNativeTF(guardianLastName, guardianLastNameError);
+        orphan.getGuardian().setLastName(guardianLastName.getText());
         validateNativeTF(guardianEmail, guardianEmailError);
+        orphan.getGuardian().setEmail(guardianEmail.getText());
         validateNativeTF(guardianMobileNumber, guardianMobileNumberError);
+        orphan.getGuardian().setMobileNumber(guardianMobileNumber.getText());
         validateNativeTF(guardianTelephoneNumber, guardianTelephoneNumberError);
+        orphan.getGuardian().setTelephoneNumber(guardianTelephoneNumber.getText());
 
         validateNativeRB(GuardianGender, guardianGenderError);
 
         validateNativeCB(motherVitalStatus, motherVitalStatusError);
+        orphan.getMother().setVitalStatus(motherVitalStatus.getSelectionModel().getSelectedItem() == "Alive" ? Mother_vitalStatus_enum.ALIVE : Mother_vitalStatus_enum.PASSED );
         validateNativeCB(motherMaritalStatus, motherMaritalStatusError);
+        orphan.getMother().setMaritalStatus(motherMaritalStatus.getSelectionModel().getSelectedItem() == "Married" ? Mother_maritalStatus_enum.MARRIED :
+                motherMaritalStatus.getSelectionModel().getSelectedItem().equals("Widow") ? Mother_maritalStatus_enum.WIDOW :
+                        Mother_maritalStatus_enum.N_A
+        );
         validateNativeCB(guardianRelationToOrphan, guardianRelationToOrphanError);
+        orphan.getGuardian().setRelationToOrphan(guardianRelationToOrphan.getSelectionModel().getSelectedItem().equals("Mother") ? Guardian_relationToOrphan_enum.MOTHER:
+                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Brother" ? Guardian_relationToOrphan_enum.BROTHER:
+                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Sister" ? Guardian_relationToOrphan_enum.SISTER:
+                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Aunt" ? Guardian_relationToOrphan_enum.AUNT:
+                                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Uncle" ? Guardian_relationToOrphan_enum.UNCLE:
+                                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Grandfather" ? Guardian_relationToOrphan_enum.GRANDFATHER:
+                                                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Grandmother" ? Guardian_relationToOrphan_enum.GRANDMOTHER:
+                                                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Niece" ? Guardian_relationToOrphan_enum.NIECE:
+                                                                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Nephew" ? Guardian_relationToOrphan_enum.NEPHEW:
+                                                                                        Guardian_relationToOrphan_enum.LEGALGUARDIAN
+                );
         validateNativeCB(guardianNationality, guardianNationalityError);
-
+        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Djiboutian") ? Guardian_nationality_enum.DJIBOUTIAN:
+                orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Ethiopian") ? Guardian_nationality_enum.ETHIOPIAN:
+                        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Eritrean") ? Guardian_nationality_enum.ERITREAN:
+                                orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Kenyan") ? Guardian_nationality_enum.KENYAN:
+                                        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Somali") ? Guardian_nationality_enum.SOMALI:
+                                                orphan.getGuardian().setNationality((guardianNationality.getSelectionModel().getSelectedItem().equals("Sudanese"))? Guardian_nationality_enum.SUDANESE: Guardian_nationality_enum.SOUTH_SUDANESE ))))));
         validateNativeDP(fatherDateOfBirth, fatherDateOfBirthError);
+        orphan.getFather().setDateOfBirth(fatherDateOfBirth.getEditor().getText());
         validateNativeDP(fatherDateOfDeath, fatherDateOfDeathError);
+        orphan.getFather().setDateOfDeath(fatherDateOfDeath.getEditor().getText());
         validateNativeDP(motherDateOfBirth, motherDateOfBirthError);
+        orphan.getMother().setDateOfBirth(motherDateOfBirth.getEditor().getText());
         validateNativeDP(motherDateOfDeath, motherDateOfDeathError);
+        orphan.getMother().setDateOfDeath(motherDateOfDeath.getEditor().getText());
         validateNativeDP(guardianDateOfBirth, guardianDateOfBirthError);
+        orphan.getGuardian().setDateOfBirth(guardianDateOfBirth.getEditor().getText());
     }
 
+    // handles the Birth Certificate file picker
     public void birthCertificateChooser(ActionEvent actionEvent) {
-        System.out.println("actionEvent..");
+        System.out.println("birthCertificateEvent...");
+        int orphanId = 7;
 
         configureFileChooser(fileChooser);
 
         Stage stage = new Stage();
+
         File file = fileChooser.showOpenDialog(stage);
-        if (file != null) {
-            openFile(file);
-        }
+
+        Datasource.getInstance().inputBirthCertificate(file, orphanId);
+
+        File output = Datasource.getInstance().outputBirthCertificate(orphanId);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
     }
 
+    // handles the Portrait Photo file picker
+    public void portraitPhotoChooser(ActionEvent actionEvent) {
+        System.out.println("portraitPhotoEvent...");
+
+        int id = 1;
+
+        configureFileChooser(fileChooser);
+
+        Stage stage = new Stage();
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        Datasource.getInstance().inputPortraitPhoto(file, id);
+
+        File output = Datasource.getInstance().outputPortraitPhoto(id);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
+    }
+
+    // handles the Long Photo file picker
+    public void longPhotoChooser(ActionEvent actionEvent) {
+        System.out.println("longPhotoEvent...");
+
+        int id = 1;
+
+        configureFileChooser(fileChooser);
+
+        Stage stage = new Stage();
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        Datasource.getInstance().inputLongPhoto(file, id);
+
+        File output = Datasource.getInstance().outputLongPhoto(id);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
+    }
+
+    // handles the  Father Death Certificate file picker
+    public void fatherDeathCertificateChooser(ActionEvent actionEvent) {
+        System.out.println("fatherDeathCertificateEvent...");
+
+        int id = 2;
+
+        configureFileChooser(fileChooser);
+
+        Stage stage = new Stage();
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        Datasource.getInstance().inputDeathCertificate(file, id);
+
+        File output = Datasource.getInstance().outputDeathCertificate(id);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
+    }
+
+    // handles the Guardian Confirmation Letter file picker
+    public void guardianConfirmationLetterChooser(ActionEvent actionEvent) {
+        System.out.println("guardianConfirmationLetterEvent...");
+
+        int id = 3;
+
+        configureFileChooser(fileChooser);
+
+        Stage stage = new Stage();
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        Datasource.getInstance().inputConfirmationLetter(file, id);
+
+        File output = Datasource.getInstance().outputConfirmationLetter(id);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
+    }
+
+    // handles the Guardian ID Card file picker
+    public void guardianIDCardChooser(ActionEvent actionEvent) {
+        System.out.println("guardianIDCardEvent...");
+
+        int id = 3;
+
+        configureFileChooser(fileChooser);
+
+        Stage stage = new Stage();
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        Datasource.getInstance().inputIDCard(file, id);
+
+        File output = Datasource.getInstance().outputIDCard(id);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
+    }
+
+    // configuration file for the file choosers in the document section
     private static void configureFileChooser(final FileChooser fileChooser){
         fileChooser.setTitle("View Pictures");
         fileChooser.setInitialDirectory(
                 new File(System.getProperty("user.home"))
         );
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("All Images", "*.*"),
-                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                new FileChooser.ExtensionFilter("PNG", "*.png")
-        );
+        fileChooser.getExtensionFilters().setAll(jpg, png);
     }
 
+    // opens the file in windows default app
     private void openFile(File file) {
         try {
             desktop.open(file);
-        } catch (IOException ex) {
-            Logger.getLogger(
-                    FileChooser.class.getName()).log(
-                    Level.SEVERE, null, ex
-            );
+        } catch (IOException e) {
+            e.printStackTrace();
+//            Logger.getLogger(
+//                    FileChooser.class.getName()).log(
+//                    Level.SEVERE, null, ex
+//            );
         }
     }
 
@@ -585,7 +796,8 @@ public class CoordinatorController implements Initializable {
                 @Override
                 protected ObservableList<OrphanRow> call() {
 
-                    List<Orphan> orphans = Datasource.getInstance().queryAllOrphans(selectedVillage.getId());
+                    List<Orphan> orphans =
+                            Datasource.getInstance().queryAllOrphans(selectedVillage.getId());
 
                     List<OrphanRow> rows = new ArrayList<>();
 
@@ -624,4 +836,5 @@ public class CoordinatorController implements Initializable {
         villagesStage.show();
 
     }
+
 }
