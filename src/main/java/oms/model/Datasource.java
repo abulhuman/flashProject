@@ -1,14 +1,15 @@
 package oms.model;
 
+import java.io.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Datasource {
 
-    public static final String DB_NAME = "minideporph";
-    public static final String DB_USERNAME = "devAdem";
-    public static final String DB_PASSWORD = "Shangquan1!";
+    public static final String DB_NAME = "J_OMS";
+    public static final String DB_USERNAME = "root";
+    public static final String DB_PASSWORD = "w@duuminMySQL";
 
     public static final String CONNECTION_STRING = "jdbc:mysql://localhost/" + DB_NAME;
 
@@ -492,7 +493,6 @@ public class Datasource {
         try (
                 Statement statement = conn.createStatement();
                 ResultSet results = statement.executeQuery(
-                        String.format(
                                 "select o.id, o.firstName as orphanFirstName, " +
                                         "f.firstName as fatherFirstName, " +
                                         "f.lastName as fatherLastName, " +
@@ -502,8 +502,7 @@ public class Datasource {
                                         "from orphan o " +
                                         "join father f on o.fatherId = f.id " +
                                         "join village v on o.villageId = v.id " +
-                                        "where o.villageId = %s",
-                        villageId))
+                                        "where o.villageId = " + villageId)
         ) {
             List<Orphan> orphans = new ArrayList<>();
             while (results.next()) {
@@ -516,8 +515,6 @@ public class Datasource {
 
                 orphan.setGender(results.getString("orphanGender").equals("F") ? Gender_enum.F : Gender_enum.M);
                 orphan.setDateOfBirth(results.getString("orphanDateOfBirth"));
-                orphan.setBirthCertificate(results.getBlob(COLUMN_ORPHAN_BIRTH_CERTIFICATE));
-                orphan.setHealthDescription(results.getString(COLUMN_ORPHAN_HEALTH_DESCRIPTION));
 
                 Village village = new Village();
                 village.setId(results.getInt("villageId"));
@@ -534,6 +531,52 @@ public class Datasource {
             return null;
         }
     }
+
+//    List<OrphanRow> queryAllOrphanRows(int villageId) {
+//        try (
+//                Statement statement = conn.createStatement();
+//                ResultSet results = statement.executeQuery(
+//                        "select o.id, o.firstName as orphanFirstName, " +
+//                                "f.firstName as fatherFirstName, " +
+//                                "f.lastName as fatherLastName, " +
+//                                "o.dateOfBirth as orphanDateOfBirth, " +
+//                                "o.gender as orphanGender, " +
+//                                "v.id as villageId " +
+//                                "from orphan o " +
+//                                "join father f on o.fatherId = f.id " +
+//                                "join village v on o.villageId = v.id " +
+//                                "where o.villageId = " + villageId)
+//        ) {
+//            List<OrphanRow> orphans = new ArrayList<>();
+//            while (results.next()) {
+//                OrphanRow orphanRow = new OrphanRow();
+//                orphanRow.setId(results.getInt(COLUMN_ORPHAN_ID));
+//
+//                orphanRow.setFullName(results.getString("orphanFirstName"),
+//                        results.getString("fatherFirstName"),
+//                        results.getString("fatherLastName"));
+//
+//                orphanRow.setGender((results.getString("orphanGender").equals("F") ?
+//                        Gender_enum.F : Gender_enum.M).toString());
+//                orphanRow.setDateOfBirth(results.getString("orphanDateOfBirth"));
+//                orphanRow.setBirthCertificate(results.getBlob(COLUMN_ORPHAN_BIRTH_CERTIFICATE));
+//                orphanRow.setHealthDescription(results.getString(COLUMN_ORPHAN_HEALTH_DESCRIPTION));
+//
+//                Village village = new Village();
+//                village.setId(results.getInt("villageId"));
+//
+//                orphanRow.setVillage(village);
+//
+//                orphans.add(orphanRow);
+//            }
+//
+//            return orphans;
+//
+//        } catch (SQLException e) {
+//            System.out.println("queryAllOrphans query failed: " + e.getMessage());
+//            return null;
+//        }
+//    }
 
     public Coordinator queryCoordinator(int id) {
         final String sqlQueryCoordinator = "SELECT id, fullName, userId FROM "
@@ -557,8 +600,7 @@ public class Datasource {
 
 
     public Education queryEducation(int id) {
-        final String sqlQueryEducation = "SELECT id, enrollmentStatus, schoolName, typeOfSchool, " +
-                "year, level, reason FROM " + TABLE_EDUCATION + " WHERE id=" + id;
+        final String sqlQueryEducation = "SELECT id, enrollmentStatus, schoolName, typeOfSchool, year, level, reason FROM " + TABLE_EDUCATION + " WHERE id=" + id;
         try (Statement statement = conn.createStatement();
              ResultSet result = statement.executeQuery(sqlQueryEducation)) {
 
@@ -827,35 +869,33 @@ public class Datasource {
     }
 
     public Orphan queryOrphan (int id) {
-        final String sqlQueryOrphan = "select o.id, o.firstName as orphanFirstName, o.gender as orphanGender,\n" +
-                " o.placeOfBirth as orphanPlaceOfBirth, o.dateOfBirth as orphanDateOfBirth,\n" +
-                " o.spokenLanguages as orphanSpokenLanguages, o.religion as orphanReligion,\n" +
-                " o.birthCertificateUrl as orphanBirthCertificateUrl, o.healthDescription as orphanHealthDescription,\n" +
-                " o.psychologicalStatus as orphanPsychologicalStatus,\n" +
-                " \n" +
-                " m.firstName as motherFirstName, m.middleName as motherMiddleName, m.lastName as motherLastName,\n" +
-                " m.dateOfBirth as motherDateOfBirth, m.vitalStatus as motherVitalStatus, m.dateOfDeath as motherDateOfDeath,\n" +
-                " m.causeOfDeath as motherCauseOfDeath, m.mobileNumber as motherMobileNumber, m.maritalStatus as motherMaritalStatus,\n" +
-                " m.currentJobTitle as motherCurrentJobTitle, m.monthlyIncome as motherMonthlyIncome, m.monthlyExpense as motherMonthlyExpense,\n" +
-                " \n" +
-                " f.firstName as fatherFirstName, f.lastName as fatherLastName, f.dateOfBirth as fatherDateOfBirth,\n" +
-                " f.dateOfDeath as fatherDateOfDeath, f.causeOfDeath as fatherCauseOfDeath,\n" +
-                " f.deathCertificateUrl as fatherDeathCertificateUrl, \n" +
-                " \n" +
-                " g.firstName as guardianFirstName, g.middleName as guardianMiddleName, g.lastName as guardianLastName,\n" +
-                " g.gender as guardianGender, g.dateOfBirth as guardianDateOfBirth,g.relationToOrphan as guardianRelationToOrphan,\n" +
-                " g.email as guardianEmail, g.mobileNumber as guardianMobileNumber, g.telephoneNumber as guardianTelephoneNumber,\n" +
-                " g.nationality as guardianNationality, g.iDCardUrl as guardianIDCardUrl, g.confirmationLetterUrl as guardianConfirmationLetterUrl,\n" +
-                " \n" +
-                "e.enrollmentStatus as educationEnrollmentStatus, e.schoolName as educationSchoolName, e.typeOfSchool as educationTypeOfSchool,\n" +
-                "e.year as educationYear, e.level as educationLevel, e.reason as educationReason, v.name as villageName,\n" +
-                " v.registrationDate as villageRegistrationDate \n" +
-                " from orphan o \n" +
-                " join mother m on o.motherId = m.id \n" +
-                " join father f on o.fatherId = f.id \n" +
-                " join guardian g on o.guardianId = g.id \n" +
-                " join education e on o.educationId = e.id \n" +
-                " join village v on o.villageId = v.id \n" +
+        final String sqlQueryOrphan = "select o.id, o.firstName as orphanFirstName, o.gender as orphanGender," +
+                " o.placeOfBirth as orphanPlaceOfBirth, o.dateOfBirth as orphanDateOfBirth," +
+                " o.spokenLanguages as orphanSpokenLanguages, o.religion as orphanReligion," +
+                " o.birthCertificate as orphanBirthCertificate, o.healthDescription as orphanHealthDescription," +
+                " o.psychologicalStatus as orphanPsychologicalStatus," +
+                " m.firstName as motherFirstName, m.middleName as motherMiddleName, m.lastName as motherLastName," +
+                " m.dateOfBirth as motherDateOfBirth, m.vitalStatus as motherVitalStatus, m.dateOfDeath as motherDateOfDeath," +
+                " m.causeOfDeath as motherCauseOfDeath, m.mobileNumber as motherMobileNumber, m.maritalStatus as motherMaritalStatus," +
+                " m.currentJobTitle as motherCurrentJobTitle, m.monthlyIncome as motherMonthlyIncome, m.monthlyExpense as motherMonthlyExpense," +
+                " f.firstName as fatherFirstName, f.lastName as fatherLastName, f.dateOfBirth as fatherDateOfBirth," +
+                " f.dateOfDeath as fatherDateOfDeath, f.causeOfDeath as fatherCauseOfDeath," +
+                " f.deathCertificate as fatherDeathCertificate," +
+                " g.firstName as guardianFirstName, g.middleName as guardianMiddleName, g.lastName as guardianLastName," +
+                " g.gender as guardianGender, g.dateOfBirth as guardianDateOfBirth, g.relationToOrphan as guardianRelationToOrphan," +
+                " g.email as guardianEmail, g.mobileNumber as guardianMobileNumber, g.telephoneNumber as guardianTelephoneNumber," +
+                " g.nationality as guardianNationality, g.iDCard as guardianIDCard, g.confirmationLetter as guardianConfirmationLetter," +
+                " e.enrollmentStatus as educationEnrollmentStatus, e.schoolName as" +
+                " educationSchoolName, e.typeOfSchool as educationTypeOfSchool," +
+                " e.year as educationYear, e.level as educationLevel, e.reason as" +
+                " educationReason, v.name as villageName," +
+                " v.registrationDate as villageRegistrationDate" +
+                " from orphan o" +
+                " join mother m on o.motherId = m.id" +
+                " join father f on o.fatherId = f.id" +
+                " join guardian g on o.guardianId = g.id" +
+                " join education e on o.educationId = e.id" +
+                " join village v on o.villageId = v.id" +
                 " where o.id = " + id;
         try (Statement statement = conn.createStatement();
              ResultSet result = statement.executeQuery(sqlQueryOrphan)) {
@@ -1547,5 +1587,264 @@ public class Datasource {
             }
         }
     }
+
+    //---------------------------------------------------------------------------
+
+    // with generated keys
+    private int inputImageToDBWithGK(File incomingImage, int id, String sql) {
+        try {
+            PreparedStatement updateImage = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            updateImage.setInt(2, id);
+            FileInputStream inputImage = new FileInputStream(incomingImage);
+            System.out.println("Reading image...");
+
+            // create a dummy file to hold the incoming data from the db
+            File destFile = new File("C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/place_holder_db.jpg");
+            FileOutputStream outputImage = new FileOutputStream(destFile);
+
+            // accepts the file using the input stream and transfer to the dummy file
+            // using the output stream
+            if(incomingImage.canRead()) {
+                byte[] buffer = new byte[1024];
+                while (inputImage.read(buffer) > 0) {
+                    outputImage.write(buffer);
+                }
+                System.out.println("\nSaved to file: " + destFile.getAbsolutePath());
+            }
+
+            updateImage.setString(1, destFile.getAbsolutePath());
+
+            int affectedRows = updateImage.executeUpdate();
+            ResultSet generatedKeys = updateImage.getGeneratedKeys();
+            if(affectedRows == 1) System.out.println("Insert Succeeded");
+            else throw new SQLException("Insert Failed");
+            if (generatedKeys.next()) {
+                return generatedKeys.getInt(1);
+            }
+        } catch (SQLException | FileNotFoundException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    private void inputImageToDB(File incomingImage, int id, String sql) {
+        try {
+            PreparedStatement updateImage = conn.prepareStatement(sql);
+            updateImage.setInt(2, id);
+            FileInputStream inputImage = new FileInputStream(incomingImage);
+            System.out.println("Reading image...");
+
+            // create a dummy file to hold the incoming data from the db
+            File destFile = new File("C:/ProgramData/MySQL/MySQL Server 8.0/Uploads/place_holder_db.jpg");
+            FileOutputStream outputImage = new FileOutputStream(destFile);
+
+            // accepts the file using the input stream and transfer to the dummy file
+            // using the output stream
+            if(incomingImage.canRead()) {
+                byte[] buffer = new byte[1024];
+                while (inputImage.read(buffer) > 0) {
+                    outputImage.write(buffer);
+                }
+                System.out.println("\nSaved to file: " + destFile.getAbsolutePath());
+            }
+
+            updateImage.setString(1, destFile.getAbsolutePath());
+
+            int affectedRows = updateImage.executeUpdate();
+
+            if(affectedRows == 1) System.out.println("Insert Succeeded");
+            else throw new SQLException("Insert Failed");
+        } catch (SQLException | FileNotFoundException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private File outputImageFromDB(int id, String sql, String imageColumn) {
+        try {
+            PreparedStatement selectImage = conn.prepareStatement(sql);
+            selectImage.setInt(1, id);
+            ResultSet myRs = selectImage.executeQuery();
+
+            // create a dummy file to hold the incoming data from the db
+            File destFile = new File("place_holder_db.jpg");
+            FileOutputStream outputImage = new FileOutputStream(destFile);
+
+            // accepts the file using the input stream and transfer to the dummy file
+            // using the outputImage stream
+            if(myRs.next()) {
+                Blob imageFromDB = myRs.getBlob(imageColumn);
+                if (imageFromDB.length() < 1000) {
+                    System.out.println("the column value is not a file");
+                    return null;
+                }
+                InputStream inputImage = imageFromDB.getBinaryStream();
+                System.out.println("Reading from database ...");
+
+                byte[] buffer = new byte[1024];
+                while (inputImage.read(buffer) > 0) {
+                    outputImage.write(buffer);
+                }
+                System.out.println("\nSaved to file: " + destFile.getAbsolutePath());
+                return destFile;
+            }
+        } catch (SQLException | FileNotFoundException e) {
+            System.out.println("Something went wrong" + imageColumn + ": " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void inputBirthCertificate(File file, int orphanId) {
+        String sql = "update orphan set birthCertificate=load_file (?) where id=?";
+        inputImageToDB(file, orphanId, sql);
+    }
+
+    public File outputBirthCertificate(int orphanId) {
+        String imageColumn = "birthCertificate";
+        return outputImageFromDB(orphanId, "select " + imageColumn + " from orphan where " +
+                "id=?", imageColumn);
+    }
+
+    public void inputPortraitPhoto(File file, int photoId) {
+        String sql = "update photos set portrait=load_file (?) where id=?";
+        inputImageToDB(file, photoId, sql);
+    }
+
+    public File outputPortraitPhoto(int photoId) {
+        String imageColumn = "portrait";
+        return outputImageFromDB(photoId, "select " + imageColumn + " from photos where" +
+                " id=?", imageColumn);
+    }
+
+    public void inputLongPhoto(File file, int photoId) {
+        String sql = "update photos set longPhoto=load_file (?) where id=?";
+        inputImageToDB(file, photoId, sql);
+    }
+
+    public File outputLongPhoto(int photoId) {
+        String imageColumn = "longPhoto";
+        return outputImageFromDB(photoId, "select " + imageColumn + " from photos where" +
+                " id=?", imageColumn);
+    }
+
+    public void inputDeathCertificate(File file, int fatherId) {
+        String sql = "update father set deathCertificate=load_file (?) where id=?";
+        inputImageToDB(file, fatherId, sql);
+    }
+
+    public File outputDeathCertificate(int fatherId) {
+        String imageColumn = "deathCertificate";
+        return outputImageFromDB(fatherId, "select " + imageColumn + " from father " +
+                "where id=?", imageColumn);
+    }
+
+    public void inputConfirmationLetter(File file, int guardianId) {
+        String sql = "update guardian set confirmationLetter=load_file (?) where id=?";
+        inputImageToDB(file, guardianId, sql);
+    }
+
+    public File outputConfirmationLetter(int guardianId) {
+        String imageColumn = "confirmationLetter";
+        return outputImageFromDB(guardianId, "select " + imageColumn + " from guardian " +
+                "where id=?", imageColumn);
+    }
+
+    public void inputIDCard(File file, int guardianId) {
+        String sql = "update guardian set iDCard=load_file (?) where id=?";
+        inputImageToDB(file, guardianId, sql);
+    }
+
+    public File outputIDCard(int guardianId) {
+        String imageColumn = "iDCard";
+        return outputImageFromDB(guardianId, "select " + imageColumn + " from guardian " +
+                "where id=?", imageColumn);
+    }
+
+    public Photos queryPhotosByOrphanId(int orphanId) {
+        String sql = "select * from photos where orphanId=?";
+        try {
+            PreparedStatement queryPhotos = conn.prepareStatement(sql);
+            queryPhotos.setInt(1, orphanId);
+            ResultSet result = queryPhotos.executeQuery();
+
+            if (result.next()) {
+                Photos photos = new Photos();
+                photos.setId(result.getInt("id"));
+                photos.setPortrait(result.getBlob("portrait"));
+                photos.setLongPhoto(result.getBlob("longPhoto"));
+                photos.setOrphanId(result.getInt("orphanId"));
+                return photos;
+            } else System.out.println("the photos of orphan with id = " + orphanId +
+                    " doesn't exist.");
+        } catch (SQLException e) {
+            System.out.println("Something went wrong: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public int queryEducationID(int orphanId) {
+       String sql = "select educationId from orphan where id=?";
+       try {
+           PreparedStatement getEducationID = conn.prepareStatement(sql);
+           getEducationID.setInt(1, orphanId);
+           ResultSet result = getEducationID.executeQuery();
+           if (result.next()) {
+             return result.getInt("educationId");
+           }
+       } catch (SQLException e) {
+           System.out.println("queryEducationID failed: " + e.getMessage());
+       }
+       return -1;
+    }
+
+    public int inputReportCard(File file, int educationId) {
+        String sql = "insert into educationalrecord (reportCard, educationId) values " +
+                "(load_file (?), ?)";
+//        String sql = "update educationalrecord set reportCard=load_file (?) where id=?";
+        return inputImageToDBWithGK(file, educationId, sql);
+    }
+
+    public File outputReportCard(int educationalRecordId) {
+        String documentColumn = "reportCard";
+        return outputImageFromDB(educationalRecordId, "select " + documentColumn + " from " +
+                "educationalrecord where id=?", documentColumn);
+    }
+
+    public int queryFatherIDByOrphanId (int orphanId) {
+        String sql = "select fatherId from orphan where id=?";
+        try {
+            final PreparedStatement queryFatherId = conn.prepareStatement(sql);
+            queryFatherId.setInt(1, orphanId);
+            ResultSet result = queryFatherId.executeQuery();
+            if (result.next()) {
+                return result.getInt("fatherId");
+            }
+        } catch (SQLException e) {
+            System.out.println("queryFatherIDByOrphanId failed: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    public int queryGuardianIDByOrphanId (int orphanId) {
+        String sql = "select guardianId from orphan where id=?";
+        try {
+            final PreparedStatement guardianId = conn.prepareStatement(sql);
+            guardianId.setInt(1, orphanId);
+            ResultSet result = guardianId.executeQuery();
+            if (result.next()) {
+                return result.getInt("guardianID");
+            }
+        } catch (SQLException e) {
+            System.out.println("queryGuardianIDByOrphanId failed: " + e.getMessage());
+        }
+        return -1;
+    }
+
+    // ------------------------------------------------------------------------
 
 }

@@ -10,6 +10,8 @@ import oms.model.Datasource;
 import oms.model.Orphan;
 import org.w3c.dom.ls.LSOutput;
 
+import java.util.List;
+
 
 public class Main extends Application {
      public static Stage stage;
@@ -58,7 +60,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
 //        Datasource.getInstance().open();
-//        System.out.println(Datasource.getInstance().queryOrphan(2));
+//        System.out.println(Datasource.getInstance().queryOrphan(6));
         launch(args);
     }
     
