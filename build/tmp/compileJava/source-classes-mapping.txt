@@ -28,8 +28,10 @@ oms/fx/DistrictsController.java
  oms.fx.DistrictsController
  oms.fx.DistrictsController$1
  oms.fx.DistrictsController$2
-oms/fx/ShowDetailsController.java
- oms.fx.ShowDetailsController
+oms/fx/VillagesController.java
+ oms.fx.VillagesController
+ oms.fx.VillagesController$1
+ oms.fx.VillagesController$2
 oms/model/EducationalRecord_yearDivision_enum.java
  oms.model.EducationalRecord_yearDivision_enum
 oms/model/Gender_enum.java
@@ -68,8 +70,8 @@ oms/model/HealthRecord.java
  oms.model.HealthRecord
 oms/model/Education.java
  oms.model.Education
-oms/Main.java
- oms.Main
+oms/fx/ShowDetailsController.java
+ oms.fx.ShowDetailsController
 oms/fx/AddNewDistrictController.java
  oms.fx.AddNewDistrictController
 oms/model/Education_typeOfSchool_enum.java
@@ -86,7 +88,5 @@ oms/fx/RegionsController.java
 oms/fx/CoordinatorController.java
  oms.fx.CoordinatorController
  oms.fx.CoordinatorController$1
-oms/fx/VillagesController.java
- oms.fx.VillagesController
- oms.fx.VillagesController$1
- oms.fx.VillagesController$2
+oms/Main.java
+ oms.Main

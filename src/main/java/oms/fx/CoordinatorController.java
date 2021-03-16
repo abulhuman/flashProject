@@ -24,15 +24,19 @@ import oms.model.OrphanRow;
 import oms.model.Village;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -90,6 +94,7 @@ public class CoordinatorController implements Initializable {
     public ComboBox<String> guardianNationality;
     public TextField guardianTelephoneNumber;
     public Button famInfoNext;
+    public AnchorPane documentInfo; //
 
     // error label fields
     public Label childNameError;
@@ -277,6 +282,10 @@ public class CoordinatorController implements Initializable {
 
     private Desktop desktop = Desktop.getDesktop();
     final FileChooser fileChooser = new FileChooser();
+    static FileChooser.ExtensionFilter png = new FileChooser.ExtensionFilter("PNG", "*" +
+            ".png");
+    static FileChooser.ExtensionFilter jpg = new FileChooser.ExtensionFilter("JPG", "*.jpg");
+
 
     @FXML
     private void male(ActionEvent event) {
@@ -447,8 +456,6 @@ public class CoordinatorController implements Initializable {
     // sets the validation for datepicker
     private void isValidDate(DatePicker datePicker, Label errorLabel) {
         if (datePicker.getEditor().getText().length() > 0) {
-            System.out.println(datePicker.getEditor().getText());
-            System.out.println(checkDate(datePicker.getEditor().getText()));
             if(checkDate(datePicker.getEditor().getText())) {
 //                String[] tempDateValues = datePicker.getEditor().getText().split("/");
 //                // changed the date format from "MM/dd/yyyy" to "dd/MM/yyyy"
@@ -474,7 +481,7 @@ public class CoordinatorController implements Initializable {
     }
 
     // sets the label to a position below the datepicker which itr represents
-    private void validateDP(DatePicker datePicker, Label errorLabel) throws ParseException {
+    private void validateDP(DatePicker datePicker, Label errorLabel) {
         errorLabel.setLayoutX(datePicker.getLayoutX());
         errorLabel.setLayoutY(datePicker.getLayoutY() + datePicker.getHeight());
 
@@ -482,11 +489,12 @@ public class CoordinatorController implements Initializable {
     }
 
     // same as validateDP except it work on existing labels
-    private void validateNativeDP(DatePicker datePicker, Label errorLabel) throws ParseException {
+    private void validateNativeDP(DatePicker datePicker, Label errorLabel) {
         isValidDate(datePicker, errorLabel);
     }
 
-    public void perInfoNextHandler(ActionEvent actionEvent) throws ParseException {
+    // handles the personal info next button
+    public void perInfoNextHandler(ActionEvent actionEvent) {
 
         // -----------------------------------------------------------------------
         // to set the text field border to red and focus to red
@@ -515,7 +523,8 @@ public class CoordinatorController implements Initializable {
         validateDP(childDateOfBirth, dateOfBirthError);
     }
 
-    public void famInfoNextHandler(ActionEvent actionEvent) throws ParseException {
+    // handles the family info next button
+    public void famInfoNextHandler(ActionEvent actionEvent) {
         validateNativeTF(fatherCauseOfDeath, fatherCauseOfDeathError);
         validateNativeTF(motherFirstName, motherFirstNameError);
         validateNativeTF(motherMiddleName, motherMiddleNameError);
@@ -545,38 +554,169 @@ public class CoordinatorController implements Initializable {
         validateNativeDP(guardianDateOfBirth, guardianDateOfBirthError);
     }
 
+    // handles the Birth Certificate file picker
     public void birthCertificateChooser(ActionEvent actionEvent) {
-        System.out.println("actionEvent..");
+        System.out.println("birthCertificateEvent...");
+
+        int orphanId = 7;
 
         configureFileChooser(fileChooser);
 
         Stage stage = new Stage();
+
         File file = fileChooser.showOpenDialog(stage);
-        if (file != null) {
-            openFile(file);
-        }
+
+        Datasource.getInstance().inputBirthCertificate(file, orphanId);
+
+        File output = Datasource.getInstance().outputBirthCertificate(orphanId);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
     }
 
+    // handles the Portrait Photo file picker
+    public void portraitPhotoChooser(ActionEvent actionEvent) {
+        System.out.println("portraitPhotoEvent...");
+
+        int id = 1;
+
+        configureFileChooser(fileChooser);
+
+        Stage stage = new Stage();
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        Datasource.getInstance().inputPortraitPhoto(file, id);
+
+        File output = Datasource.getInstance().outputPortraitPhoto(id);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
+    }
+
+    // handles the Long Photo file picker
+    public void longPhotoChooser(ActionEvent actionEvent) {
+        System.out.println("longPhotoEvent...");
+
+        int id = 1;
+
+        configureFileChooser(fileChooser);
+
+        Stage stage = new Stage();
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        Datasource.getInstance().inputLongPhoto(file, id);
+
+        File output = Datasource.getInstance().outputLongPhoto(id);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
+    }
+
+    // handles the  Father Death Certificate file picker
+    public void fatherDeathCertificateChooser(ActionEvent actionEvent) {
+        System.out.println("fatherDeathCertificateEvent...");
+
+        int id = 2;
+
+        configureFileChooser(fileChooser);
+
+        Stage stage = new Stage();
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        Datasource.getInstance().inputDeathCertificate(file, id);
+
+        File output = Datasource.getInstance().outputDeathCertificate(id);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
+    }
+
+    // handles the Guardian Confirmation Letter file picker
+    public void guardianConfirmationLetterChooser(ActionEvent actionEvent) {
+        System.out.println("guardianConfirmationLetterEvent...");
+
+        int id = 3;
+
+        configureFileChooser(fileChooser);
+
+        Stage stage = new Stage();
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        Datasource.getInstance().inputConfirmationLetter(file, id);
+
+        File output = Datasource.getInstance().outputConfirmationLetter(id);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
+    }
+
+    // handles the Guardian ID Card file picker
+    public void guardianIDCardChooser(ActionEvent actionEvent) {
+        System.out.println("guardianIDCardEvent...");
+
+        int id = 3;
+
+        configureFileChooser(fileChooser);
+
+        Stage stage = new Stage();
+
+        File file = fileChooser.showOpenDialog(stage);
+
+        Datasource.getInstance().inputIDCard(file, id);
+
+        File output = Datasource.getInstance().outputIDCard(id);
+
+        if (output != null) {
+            openFile(output);
+            Label imgLabel = new Label();
+            imgLabel.setText(output.getAbsoluteFile().getName());
+            documentInfo.getChildren().add(imgLabel);
+        } else System.out.println("null");
+    }
+
+    // configuration file for the file choosers in the document section
     private static void configureFileChooser(final FileChooser fileChooser){
         fileChooser.setTitle("View Pictures");
         fileChooser.setInitialDirectory(
                 new File(System.getProperty("user.home"))
         );
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("All Images", "*.*"),
-                new FileChooser.ExtensionFilter("JPG", "*.jpg"),
-                new FileChooser.ExtensionFilter("PNG", "*.png")
-        );
+        fileChooser.getExtensionFilters().setAll(jpg, png);
     }
 
+    // opens the file in windows default app
     private void openFile(File file) {
         try {
             desktop.open(file);
-        } catch (IOException ex) {
-            Logger.getLogger(
-                    FileChooser.class.getName()).log(
-                    Level.SEVERE, null, ex
-            );
+        } catch (IOException e) {
+            e.printStackTrace();
+//            Logger.getLogger(
+//                    FileChooser.class.getName()).log(
+//                    Level.SEVERE, null, ex
+//            );
         }
     }
 
@@ -587,7 +727,8 @@ public class CoordinatorController implements Initializable {
                 @Override
                 protected ObservableList<OrphanRow> call() {
 
-                    List<Orphan> orphans = Datasource.getInstance().queryAllOrphans(selectedVillage.getId());
+                    List<Orphan> orphans =
+                            Datasource.getInstance().queryAllOrphans(selectedVillage.getId());
 
                     List<OrphanRow> rows = new ArrayList<>();
 
@@ -626,4 +767,5 @@ public class CoordinatorController implements Initializable {
         villagesStage.show();
 
     }
+
 }
