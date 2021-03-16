@@ -298,7 +298,7 @@ public class CoordinatorController implements Initializable {
     }
 
     // returns true if the string doesn't contain none alphabet characters except '-' & '/'
-    private Boolean isValidText(String text) {
+    public static Boolean isValidText(String text) {
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
             if (!(c >= 'a' && c <= 'z') && !(c >= 'A' && c <= 'Z') && (c != ' ') && (c != '-') && (c != '/')) {

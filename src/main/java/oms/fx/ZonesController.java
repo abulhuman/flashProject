@@ -10,7 +10,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 import oms.model.Datasource;
 import oms.model.Region;
@@ -18,6 +20,8 @@ import oms.model.Zone;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -35,16 +39,37 @@ public class ZonesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
-    private void AddNewZone(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("AddNewZone.fxml"));
-        Scene scene = new Scene(root);
-        Stage addNewZoneStage= new Stage();
-        addNewZoneStage.setTitle("Add New Zone");
-        addNewZoneStage.setScene(scene);
-        addNewZoneStage.show();
+    private void AddNewZone(ActionEvent event) throws SQLException {
+        TextInputDialog newZoneDialog = new TextInputDialog();
+        newZoneDialog.setTitle("New Zone");
+        newZoneDialog.setHeaderText("New Zone");
+        newZoneDialog.setContentText("Name");
+
+        newZoneDialog.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
+
+        int currentRegionId = zonesTable.getItems().get(0).getRegionId();
+
+        Optional<String> result = newZoneDialog.showAndWait();
+        if (result.isPresent() && !result.get().equals("")) {
+            int newZoneId = Datasource.getInstance().insertZone(result.get(), currentRegionId);
+
+            Zone newZone = new Zone();
+
+            newZone.setId(newZoneId);
+            newZone.setName(result.get());
+            newZone.setRegionId(currentRegionId);
+
+            ObservableList<Zone> existingZones = zonesTable.getItems();
+
+
+            if (!existingZones.contains(newZone))
+                existingZones.add(newZone);
+
+        }
+
     }
 
     public void listZonesByRegion(Region selectedRegion) {

@@ -1177,7 +1177,7 @@ public class Datasource {
         }
     }
 
-    public int insertZone(String zoneName, String regionName, int regionId) throws SQLException {
+    public int insertZone(String zoneName, int regionId) throws SQLException {
         // Search a zone with name provided in the arguments
         queryZone.setString(1, zoneName);
         ResultSet results = queryZone.executeQuery();
@@ -1190,8 +1190,7 @@ public class Datasource {
             insertIntoZones.setString(1, zoneName);
 
             // Set regionId as the second parameter of the prepared statement
-            // if it is not provided as an argument
-            insertIntoZones.setInt(2, regionId != 0 ? regionId : searchRegionIdByName(regionName));
+            insertIntoZones.setInt(2, regionId);
 
 
             int affectedRows = insertIntoZones.executeUpdate();

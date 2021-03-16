@@ -8,7 +8,7 @@
     <children>
         <Label layoutX="98.0" layoutY="107.0" prefHeight="17.0" prefWidth="101.0" text="Region Name" />
         <TextField layoutX="199.0" layoutY="103.0" prefHeight="25.0" prefWidth="260.0" promptText="Region Name" />
-        <Button layoutX="439.0" layoutY="173.0" mnemonicParsing="false" onAction="#insertNewRegion" text="Save" />
+        <Button layoutX="439.0" layoutY="173.0" mnemonicParsing="false" onAction="#processNewRegion" text="Save" />
         <Label layoutX="77.0" layoutY="14.0" prefHeight="70.0" prefWidth="381.0" text="Register Region ">
          <font>
             <Font size="48.0" />

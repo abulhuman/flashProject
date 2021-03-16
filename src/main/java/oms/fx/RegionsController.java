@@ -10,13 +10,19 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import oms.model.Datasource;
 import oms.model.Region;
 
+import javax.swing.plaf.basic.BasicTableUI;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class RegionsController implements Initializable {
@@ -36,13 +42,31 @@ public class RegionsController implements Initializable {
     public Button btnShowZones;
 
     @FXML
-    private void AddNewRegion(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("AddNewRegion.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage2= new Stage();
-        stage2.setTitle("Add New Region");
-        stage2.setScene(scene);
-        stage2.show();
+    private void addNewRegion(ActionEvent event) throws SQLException {
+        TextInputDialog newRegionDialog = new TextInputDialog();
+        newRegionDialog.setTitle("New Region");
+        newRegionDialog.setHeaderText("New Region");
+        newRegionDialog.setContentText("Name");
+
+        newRegionDialog.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
+
+        Optional<String> result = newRegionDialog.showAndWait();
+        if (result.isPresent() && !result.get().equals("")){
+            int newRegionId = Datasource.getInstance().insertRegion(result.get());
+
+            Region newRegion = new Region();
+
+            newRegion.setId(newRegionId);
+            newRegion.setName(result.get());
+
+            ObservableList<Region> existingRegions = regionsTable.getItems();
+
+
+            if (!existingRegions.contains(newRegion))
+            existingRegions.add(newRegion);
+
+        }
+
     }
 
     @FXML
@@ -74,7 +98,15 @@ public class RegionsController implements Initializable {
 
         regionsTable.itemsProperty().bind(task.valueProperty());
 
+        task.setOnSucceeded(e -> {
+            if (task.valueProperty().get().size() != 0){
+
+                regionsTable.refresh();
+            }
+        });
+
         new Thread(task).start();
+
     }
 }
 
