@@ -21,17 +21,17 @@ public class Main extends Application {
         super.init();
         if(!Datasource.getInstance().open()){
 //            TODO Create popup that says couldn't connect to db
-            System.out.print("""
-
-                    >>>>>>>>>>
-                    >>>>>>>>>>
-                    >>>>>>>>>>
-                    [FATAL ERROR]: Couldn't connect to database. Application is exiting!
-                    >>>>>>>>>>
-                    >>>>>>>>>>
-                    >>>>>>>>>>
-                    
-                    """);
+//            System.out.print("""
+//
+//                    >>>>>>>>>>
+//                    >>>>>>>>>>
+//                    >>>>>>>>>>
+//                    [FATAL ERROR]: Couldn't connect to database. Application is exiting!
+//                    >>>>>>>>>>
+//                    >>>>>>>>>>
+//                    >>>>>>>>>>
+//
+//                    """);
 
             Platform.exit();
         }

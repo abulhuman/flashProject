@@ -90,5 +90,8 @@ oms/model/Zone.java
  oms.model.Zone
 oms/fx/LoginPageController.java
  oms.fx.LoginPageController
+<<<<<<< HEAD
 oms/fx/EducationalRecordsController.java
  oms.fx.EducationalRecordsController
+=======
+>>>>>>> ee03722d22bf8da5e31dc9966798343171306701

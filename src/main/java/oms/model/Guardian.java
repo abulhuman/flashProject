@@ -101,8 +101,9 @@ public class Guardian {
         return nationality;
     }
 
-    public void setNationality(Guardian_nationality_enum nationality) {
+    public Guardian_nationality_enum setNationality(Guardian_nationality_enum nationality) {
         this.nationality = nationality;
+        return nationality;
     }
 
     public Blob getiDCard() {
