@@ -1,5 +1,6 @@
 package oms.fx;
 
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -21,11 +22,21 @@ import oms.model.Zone;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 
 public class ZonesController implements Initializable {
+    private Region region;
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
 
     @FXML
     public TableView<Zone> zonesTable;
@@ -50,7 +61,7 @@ public class ZonesController implements Initializable {
 
         newZoneDialog.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
 
-        int currentRegionId = zonesTable.getItems().get(0).getRegionId();
+        int currentRegionId = this.getRegion().getId();
 
         Optional<String> result = newZoneDialog.showAndWait();
         if (result.isPresent() && !result.get().equals("")) {
@@ -65,8 +76,20 @@ public class ZonesController implements Initializable {
             ObservableList<Zone> existingZones = zonesTable.getItems();
 
 
-            if (!existingZones.contains(newZone))
-                existingZones.add(newZone);
+
+
+            if (existingZones!=null){
+                if (!existingZones.contains(newZone))
+                    existingZones.add(newZone);
+            }
+            else {
+                zonesTable.itemsProperty().unbind();
+//                ArrayList<Zone> newZ = new ArrayList<>();
+//                newZ.add(newZone);
+//                ObservableValue<ObservableList<Zone>> oz = (ObservableValue<ObservableList<Zone>>) FXCollections.observableArrayList(newZ);//(ObservableValue<Zone>) newZone;
+//                zonesTable.itemsProperty().bind(oz);
+                zonesTable.setItems((ObservableList<Zone>) newZone);
+            }
 
         }
 
@@ -74,6 +97,7 @@ public class ZonesController implements Initializable {
 
     public void listZonesByRegion(Region selectedRegion) {
         if (selectedRegion != null){
+            this.setRegion(selectedRegion);
             Task<ObservableList<Zone>> task = new Task<>() {
                 @Override
                 protected ObservableList<Zone> call() {

@@ -51,7 +51,8 @@ public class VillagesController implements Initializable {
 
         newVillageDialog.getDialogPane().getButtonTypes().remove(ButtonType.CANCEL);
 
-        int currentDistrictId = villagesTable.getItems().get(0).getDistrictId();String pattern = "yyyy-MM-dd";
+        int currentDistrictId = villagesTable.getItems().get(0).getDistrictId();
+        String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
         String date = simpleDateFormat.format(new Date());

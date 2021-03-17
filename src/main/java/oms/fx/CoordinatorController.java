@@ -272,7 +272,7 @@ public class CoordinatorController implements Initializable {
 
         ShowDetailsController showDetailsController = loader.getController();
 
-        if (selectedRow != null){
+        if (selectedRow != null) {
             showDetailsController.populateTable(selectedRow.getId());
 
             stage.setTitle("Information");
@@ -309,10 +309,26 @@ public class CoordinatorController implements Initializable {
         return true;
     }
 
+    public static Boolean isValidNumber(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (!(c >= 48 && c <= 57)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // returns true if its a valid name
-    private Boolean isValidTF (TextField tf) {
+    private Boolean isValidTF(TextField tf) {
         if (!isValidText(tf.getText())) return false;
-        else if(tf.getText().isEmpty()) return false;
+        else if (tf.getText().isEmpty()) return false;
+        else return tf.getText().length() < 255;
+    }
+
+    private Boolean isValidTF2(TextField tf) {
+        if (!isValidNumber(tf.getText())) return false;
+        else if (tf.getText().isEmpty()) return false;
         else return tf.getText().length() < 255;
     }
 
@@ -321,10 +337,10 @@ public class CoordinatorController implements Initializable {
         errorLabel.setTranslateY(tf.getLayoutY() + tf.getHeight());
         errorLabel.setTranslateX(tf.getLayoutX());
 
-        if(!isValidTF(tf)) {
+        if (!isValidTF(tf)) {
             tf.setStyle("-fx-text-box-border: red;");
             errorLabel.setText("Invalid " + tf.getId());
-            errorLabel.setTextFill(Color.web("red",0.75));
+            errorLabel.setTextFill(Color.web("red", 0.75));
 //            System.out.println("invalid");
 //            System.out.println(personalInfo.getChildren().indexOf(errorLabel));
         } else {
@@ -355,10 +371,29 @@ public class CoordinatorController implements Initializable {
     // same as validateTF except it work on existing labels
     private void validateNativeTF(TextField tf, Label errorLabel) {
 
-        if(!isValidTF(tf)) {
+        if (!isValidTF(tf)) {
             tf.setStyle("-fx-text-box-border: red;");
             errorLabel.setText("Invalid " + tf.getId());
-            errorLabel.setTextFill(Color.web("red",0.75));
+            errorLabel.setTextFill(Color.web("red", 0.75));
+        } else {
+            tf.setStyle("-fx-background-color: linear-gradient(to bottom, " +
+                    "derive(-fx-text-box-border, -10%), -fx-text-box-border)," +
+                    " linear-gradient(from 0px 0px to 0px 5px, derive" +
+                    "(-fx-control-inner-background, -9%), -fx-control-inner-background);" +
+                    "-fx-background-insets: 0, 1; -fx-background-radius: 3, 2;");
+            errorLabel.setText("");
+//            personalInfo.getChildren().remove(errorLabel);
+//            errorLabel.setText("Valid " + tf.getId());
+//            errorLabel.setTextFill(Color.web("green",0));
+        }
+    }
+
+    private void validateNativeTF2(TextField tf, Label errorLabel) {
+
+        if (!isValidTF2(tf)) {
+            tf.setStyle("-fx-text-box-border: red;");
+            errorLabel.setText("Invalid " + tf.getId());
+            errorLabel.setTextFill(Color.web("red", 0.75));
         } else {
             tf.setStyle("-fx-background-color: linear-gradient(to bottom, " +
                     "derive(-fx-text-box-border, -10%), -fx-text-box-border)," +
@@ -374,10 +409,10 @@ public class CoordinatorController implements Initializable {
 
     // adds a label under the radio button if nothing is selected
     private void validateRB(ToggleGroup toggleGroup, Label errorLabel) {
-        if(toggleGroup.getUserData().toString().contains("Gender")) {
+        if (toggleGroup.getUserData().toString().contains("Gender")) {
             errorLabel.setTranslateY(Female.getLayoutY() + Female.getHeight());
             errorLabel.setTranslateX(Female.getLayoutX());
-        } else if(toggleGroup.getUserData().toString().contains("SchoolType")){
+        } else if (toggleGroup.getUserData().toString().contains("SchoolType")) {
             errorLabel.setTranslateY(Public.getLayoutY() + Public.getHeight());
             errorLabel.setTranslateX(Public.getLayoutX());
         } else {
@@ -385,10 +420,10 @@ public class CoordinatorController implements Initializable {
             errorLabel.setTranslateX(0);
         }
 
-        if(toggleGroup.getSelectedToggle() == null) {
+        if (toggleGroup.getSelectedToggle() == null) {
 //            errorLabel.setText(toggleGroup.getUserData() + " can't be empty!");
             errorLabel.setText("Select " + toggleGroup.getUserData());
-            errorLabel.setTextFill(Color.web("red",0.75));
+            errorLabel.setTextFill(Color.web("red", 0.75));
         } else {
 //            personalInfo.getChildren().remove(errorLabel);
             errorLabel.setText("");
@@ -399,10 +434,10 @@ public class CoordinatorController implements Initializable {
 
     // same as validateRB except it work on existing labels
     private void validateNativeRB(ToggleGroup toggleGroup, Label errorLabel) {
-        if(toggleGroup.getSelectedToggle() == null) {
+        if (toggleGroup.getSelectedToggle() == null) {
 //            errorLabel.setText(toggleGroup.getUserData() + " can't be empty!");
             errorLabel.setText("Select " + toggleGroup.getUserData());
-            errorLabel.setTextFill(Color.web("red",0.75));
+            errorLabel.setTextFill(Color.web("red", 0.75));
         } else {
             errorLabel.setText("");
         }
@@ -415,7 +450,7 @@ public class CoordinatorController implements Initializable {
 
         if (comboBox.getSelectionModel().isEmpty()) {
             errorLabel.setText("Select " + comboBox.getUserData());
-            errorLabel.setTextFill(Color.web("red",0.75));
+            errorLabel.setTextFill(Color.web("red", 0.75));
         } else {
             personalInfo.getChildren().remove(errorLabel);
         }
@@ -425,7 +460,7 @@ public class CoordinatorController implements Initializable {
     private void validateNativeCB(ComboBox<String> comboBox, Label errorLabel) {
         if (comboBox.getSelectionModel().isEmpty()) {
             errorLabel.setText("Select " + comboBox.getUserData());
-            errorLabel.setTextFill(Color.web("red",0.75));
+            errorLabel.setTextFill(Color.web("red", 0.75));
         } else {
             errorLabel.setText("");
         }
@@ -458,27 +493,27 @@ public class CoordinatorController implements Initializable {
     // sets the validation for datepicker
     private void isValidDate(DatePicker datePicker, Label errorLabel) {
         if (datePicker.getEditor().getText().length() > 0) {
-            if(checkDate(datePicker.getEditor().getText())) {
+            if (checkDate(datePicker.getEditor().getText())) {
 //                String[] tempDateValues = datePicker.getEditor().getText().split("/");
 //                // changed the date format from "MM/dd/yyyy" to "dd/MM/yyyy"
 //                String formattedInputDate =
 //                        tempDateValues[1]+"/"+tempDateValues[0]+"/"+tempDateValues[2];
-                if(isValidDate(datePicker.getEditor().getText())) {
+                if (isValidDate(datePicker.getEditor().getText())) {
                     datePicker.setStyle("-fx-text-box-border: red;");
                     errorLabel.setText("Invalid date format use (MM/dd/yyyy)");
-                    errorLabel.setTextFill(Color.web("red",0.75));
+                    errorLabel.setTextFill(Color.web("red", 0.75));
                 } else {
                     errorLabel.setText("");
                 }
             } else {
                 datePicker.setStyle("-fx-text-box-border: red;");
                 errorLabel.setText("Enter a valid date");
-                errorLabel.setTextFill(Color.web("red",0.75));
+                errorLabel.setTextFill(Color.web("red", 0.75));
             }
         } else {
             datePicker.setStyle("-fx-text-box-border: red;");
             errorLabel.setText(datePicker.getId() + " can't be empty");
-            errorLabel.setTextFill(Color.web("red",0.75));
+            errorLabel.setTextFill(Color.web("red", 0.75));
         }
     }
 
@@ -531,21 +566,21 @@ public class CoordinatorController implements Initializable {
                         childPsychologicalStatus.getSelectionModel().getSelectedItem() == "Isolated" ? Orphan_psychologicalStatus_enum.ISOLATED :
                                 childPsychologicalStatus.getSelectionModel().getSelectedItem() == "Stressed" ? Orphan_psychologicalStatus_enum.STRESSED :
                                         childPsychologicalStatus.getSelectionModel().getSelectedItem() == "Sociable" ? Orphan_psychologicalStatus_enum.OVERLYSOCIABLE :
-                                                 Orphan_psychologicalStatus_enum.UNSOCIABLE
-                );
+                                                Orphan_psychologicalStatus_enum.UNSOCIABLE
+        );
         validateCB(childEnrollmentStatus, enrollmentStatusError);
-        orphan.getEducation().setEnrollmentStatus(childEnrollmentStatus.getSelectionModel().getSelectedItem() == "Enrolled" ? Education_enrollmentStatus_enum.ENROLLED:
-                        childEnrollmentStatus.getSelectionModel().getSelectedItem() == "Unenrolled" ? Education_enrollmentStatus_enum.UNENROLLED:
-                                 Education_enrollmentStatus_enum.DROPPEDOUT
-                );
+        orphan.getEducation().setEnrollmentStatus(childEnrollmentStatus.getSelectionModel().getSelectedItem() == "Enrolled" ? Education_enrollmentStatus_enum.ENROLLED :
+                childEnrollmentStatus.getSelectionModel().getSelectedItem() == "Unenrolled" ? Education_enrollmentStatus_enum.UNENROLLED :
+                        Education_enrollmentStatus_enum.DROPPEDOUT
+        );
         validateCB(childEducationLevel, educationLevelError);
         orphan.getEducation().setLevel(childEducationLevel.getSelectionModel().getSelectedItem() == "ReligiousEducation" ? Education_level_enum.RELIGIOUSEDUCATION :
-                        childEducationLevel.getSelectionModel().getSelectedItem() == "Preschool" ? Education_level_enum.PRESCHOOL :
-                                childEducationLevel.getSelectionModel().getSelectedItem() == "Gradeschool" ? Education_level_enum.GRADESCHOOL :
-                                        childEducationLevel.getSelectionModel().getSelectedItem() == "Undergraduate" ? Education_level_enum.UNDERGRADUATE :
-                                                childEducationLevel.getSelectionModel().getSelectedItem() == "Postgraduate" ? Education_level_enum.POSTGRADUATE :
-                                                        Education_level_enum.N_A
-                );
+                childEducationLevel.getSelectionModel().getSelectedItem() == "Preschool" ? Education_level_enum.PRESCHOOL :
+                        childEducationLevel.getSelectionModel().getSelectedItem() == "Gradeschool" ? Education_level_enum.GRADESCHOOL :
+                                childEducationLevel.getSelectionModel().getSelectedItem() == "Undergraduate" ? Education_level_enum.UNDERGRADUATE :
+                                        childEducationLevel.getSelectionModel().getSelectedItem() == "Postgraduate" ? Education_level_enum.POSTGRADUATE :
+                                                Education_level_enum.N_A
+        );
         validateCB(childGradeYear, gradeYearError);
         orphan.getEducation().setYear(childGradeYear.getSelectionModel().getSelectedItem());
 
@@ -565,13 +600,14 @@ public class CoordinatorController implements Initializable {
         orphan.getMother().setLastName(motherLastName.getText());
         validateNativeTF(motherCauseOfDeath, motherCauseOfDeathError);
         orphan.getMother().setCauseOfDeath(motherCauseOfDeath.getText());
-        validateNativeTF(motherMobileNumber, motherMobileNumberError);
+        validateNativeTF2(motherMobileNumber, motherMobileNumberError);
         orphan.getMother().setMobileNumber(motherMobileNumber.getText());
-        validateNativeTF(motherMonthlyIncome, motherMonthlyIncomeError);
+        validateNativeTF2(motherMonthlyIncome, motherMonthlyIncomeError);
         orphan.getMother().setMonthlyIncome(Float.parseFloat(motherMonthlyIncome.getText()));
-        validateNativeTF(motherMonthlyExpense, motherMonthlyExpenseError);
+        validateNativeTF2(motherMonthlyExpense, motherMonthlyExpenseError);
         orphan.getMother().setMonthlyExpense(Float.parseFloat(motherMonthlyExpense.getText()));
         validateNativeTF(guardianFirstName, guardianFirstNameError);
+
         orphan.getGuardian().setFirstName(guardianFirstName.getText());
         validateNativeTF(guardianMiddleName, guardianMiddleNameError);
         orphan.getGuardian().setMiddleName(guardianMiddleName.getText());
@@ -579,39 +615,39 @@ public class CoordinatorController implements Initializable {
         orphan.getGuardian().setLastName(guardianLastName.getText());
         validateNativeTF(guardianEmail, guardianEmailError);
         orphan.getGuardian().setEmail(guardianEmail.getText());
-        validateNativeTF(guardianMobileNumber, guardianMobileNumberError);
+        validateNativeTF2(guardianMobileNumber, guardianMobileNumberError);
         orphan.getGuardian().setMobileNumber(guardianMobileNumber.getText());
-        validateNativeTF(guardianTelephoneNumber, guardianTelephoneNumberError);
+        validateNativeTF2(guardianTelephoneNumber, guardianTelephoneNumberError);
         orphan.getGuardian().setTelephoneNumber(guardianTelephoneNumber.getText());
 
         validateNativeRB(GuardianGender, guardianGenderError);
 
         validateNativeCB(motherVitalStatus, motherVitalStatusError);
-        orphan.getMother().setVitalStatus(motherVitalStatus.getSelectionModel().getSelectedItem() == "Alive" ? Mother_vitalStatus_enum.ALIVE : Mother_vitalStatus_enum.PASSED );
+        orphan.getMother().setVitalStatus(motherVitalStatus.getSelectionModel().getSelectedItem() == "Alive" ? Mother_vitalStatus_enum.ALIVE : Mother_vitalStatus_enum.PASSED);
         validateNativeCB(motherMaritalStatus, motherMaritalStatusError);
         orphan.getMother().setMaritalStatus(motherMaritalStatus.getSelectionModel().getSelectedItem() == "Married" ? Mother_maritalStatus_enum.MARRIED :
                 motherMaritalStatus.getSelectionModel().getSelectedItem().equals("Widow") ? Mother_maritalStatus_enum.WIDOW :
                         Mother_maritalStatus_enum.N_A
         );
         validateNativeCB(guardianRelationToOrphan, guardianRelationToOrphanError);
-        orphan.getGuardian().setRelationToOrphan(guardianRelationToOrphan.getSelectionModel().getSelectedItem().equals("Mother") ? Guardian_relationToOrphan_enum.MOTHER:
-                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Brother" ? Guardian_relationToOrphan_enum.BROTHER:
-                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Sister" ? Guardian_relationToOrphan_enum.SISTER:
-                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Aunt" ? Guardian_relationToOrphan_enum.AUNT:
-                                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Uncle" ? Guardian_relationToOrphan_enum.UNCLE:
-                                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Grandfather" ? Guardian_relationToOrphan_enum.GRANDFATHER:
-                                                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Grandmother" ? Guardian_relationToOrphan_enum.GRANDMOTHER:
-                                                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Niece" ? Guardian_relationToOrphan_enum.NIECE:
-                                                                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Nephew" ? Guardian_relationToOrphan_enum.NEPHEW:
-                                                                                        Guardian_relationToOrphan_enum.LEGALGUARDIAN
-                );
+        orphan.getGuardian().setRelationToOrphan(guardianRelationToOrphan.getSelectionModel().getSelectedItem().equals("Mother") ? Guardian_relationToOrphan_enum.MOTHER :
+                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Brother" ? Guardian_relationToOrphan_enum.BROTHER :
+                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Sister" ? Guardian_relationToOrphan_enum.SISTER :
+                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Aunt" ? Guardian_relationToOrphan_enum.AUNT :
+                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Uncle" ? Guardian_relationToOrphan_enum.UNCLE :
+                                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Grandfather" ? Guardian_relationToOrphan_enum.GRANDFATHER :
+                                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Grandmother" ? Guardian_relationToOrphan_enum.GRANDMOTHER :
+                                                                guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Niece" ? Guardian_relationToOrphan_enum.NIECE :
+                                                                        guardianRelationToOrphan.getSelectionModel().getSelectedItem() == "Nephew" ? Guardian_relationToOrphan_enum.NEPHEW :
+                                                                                Guardian_relationToOrphan_enum.LEGALGUARDIAN
+        );
         validateNativeCB(guardianNationality, guardianNationalityError);
-        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Djiboutian") ? Guardian_nationality_enum.DJIBOUTIAN:
-                orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Ethiopian") ? Guardian_nationality_enum.ETHIOPIAN:
-                        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Eritrean") ? Guardian_nationality_enum.ERITREAN:
-                                orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Kenyan") ? Guardian_nationality_enum.KENYAN:
-                                        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Somali") ? Guardian_nationality_enum.SOMALI:
-                                                orphan.getGuardian().setNationality((guardianNationality.getSelectionModel().getSelectedItem().equals("Sudanese"))? Guardian_nationality_enum.SUDANESE: Guardian_nationality_enum.SOUTH_SUDANESE ))))));
+        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Djiboutian") ? Guardian_nationality_enum.DJIBOUTIAN :
+                orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Ethiopian") ? Guardian_nationality_enum.ETHIOPIAN :
+                        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Eritrean") ? Guardian_nationality_enum.ERITREAN :
+                                orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Kenyan") ? Guardian_nationality_enum.KENYAN :
+                                        orphan.getGuardian().setNationality(guardianNationality.getSelectionModel().getSelectedItem().equals("Somali") ? Guardian_nationality_enum.SOMALI :
+                                                orphan.getGuardian().setNationality((guardianNationality.getSelectionModel().getSelectedItem().equals("Sudanese")) ? Guardian_nationality_enum.SUDANESE : Guardian_nationality_enum.SOUTH_SUDANESE))))));
         validateNativeDP(fatherDateOfBirth, fatherDateOfBirthError);
         orphan.getFather().setDateOfBirth(fatherDateOfBirth.getEditor().getText());
         validateNativeDP(fatherDateOfDeath, fatherDateOfDeathError);
@@ -768,7 +804,7 @@ public class CoordinatorController implements Initializable {
     }
 
     // configuration file for the file choosers in the document section
-    private static void configureFileChooser(final FileChooser fileChooser){
+    private static void configureFileChooser(final FileChooser fileChooser) {
         fileChooser.setTitle("View Pictures");
         fileChooser.setInitialDirectory(
                 new File(System.getProperty("user.home"))
@@ -816,6 +852,25 @@ public class CoordinatorController implements Initializable {
     }
 
     public void searchOrphan(ActionEvent actionEvent) {
+        String searchTerm = searchTextField.getText();
+
+        Task<ObservableList<OrphanRow>> task = new Task<ObservableList<OrphanRow>>() {
+            @Override
+            protected ObservableList<OrphanRow> call() throws Exception {
+                List<Orphan> searchResults = Datasource.getInstance().searchAllOrphansByName(searchTerm);
+                List<OrphanRow> searchDisplayList = new ArrayList<>();
+                for (Orphan orphan :
+                        searchResults) {
+                    OrphanRow row = new OrphanRow(orphan);
+                    searchDisplayList.add(row);
+                }
+                return FXCollections.observableArrayList(searchDisplayList);
+            }
+        };
+        orphansTable.itemsProperty().bind(task.valueProperty());
+        new Thread(task).start();
+
+//        Stage searchResults = (Stage) searchTextField.getScene().getWindow();
     }
 
     public void backToVillages(ActionEvent actionEvent) throws IOException {

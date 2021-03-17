@@ -73,6 +73,7 @@ public class RegionsController implements Initializable {
     public void showZones(ActionEvent event) throws IOException {
         Stage regionsStage = (Stage) regionsTable.getScene().getWindow();
 
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Zones.fxml"));
 
         Parent root = loader.load();
