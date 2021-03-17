@@ -8,8 +8,8 @@ import java.util.List;
 public class Datasource {
 
     public static final String DB_NAME = "J_OMS";
-    public static final String DB_USERNAME = "devAdem";
-    public static final String DB_PASSWORD = "Shangquan1!";
+    public static final String DB_USERNAME = "root";
+    public static final String DB_PASSWORD = "Believer747";
 
     public static final String CONNECTION_STRING = "jdbc:mysql://localhost/" + DB_NAME;
 
@@ -112,7 +112,7 @@ public class Datasource {
     public static final String COLUMN_GUARDIAN_TELEPHONE_NUMBER = "telephoneNumber";
     public static final String COLUMN_GUARDIAN_NATIONALITY = "nationality";
     public static final String COLUMN_GUARDIAN_GUARDIAN_ID_CARD = "guardianIdCard";
-    public static final String COLUMN_GUARDIAN_GUARDIAN_CONFIRMATION_LETTER= "guardianConfirmationLetter";
+    public static final String COLUMN_GUARDIAN_GUARDIAN_CONFIRMATION_LETTER = "guardianConfirmationLetter";
     public static final String COLUMN_GUARDIAN_GUARDIAN_LEGAL_CONFIRMATION_LETTER = "guardianLegalConfirmationLetter";
 
     public static final String TABLE_HEALTH_RECORD = "healthrecord";
@@ -393,7 +393,7 @@ public class Datasource {
         try (Statement statement = conn.createStatement();
              ResultSet results = statement.executeQuery(sqlQueryZone)) {
 
-            while(results.next()) {
+            while (results.next()) {
                 Zone zone = new Zone();
 
                 zone.setId(results.getInt(COLUMN_ZONE_ID));
@@ -419,7 +419,7 @@ public class Datasource {
         try (Statement statement = conn.createStatement();
              ResultSet results = statement.executeQuery(sqlQueryDistrict)) {
 
-            while(results.next()) {
+            while (results.next()) {
                 District district = new District();
 
                 district.setId(results.getInt(COLUMN_DISTRICT_ID));
@@ -492,16 +492,59 @@ public class Datasource {
         try (
                 Statement statement = conn.createStatement();
                 ResultSet results = statement.executeQuery(
-                                "select o.id, o.firstName as orphanFirstName, " +
-                                        "f.firstName as fatherFirstName, " +
-                                        "f.lastName as fatherLastName, " +
-                                        "o.dateOfBirth as orphanDateOfBirth, " +
-                                        "o.gender as orphanGender, " +
-                                        "v.id as villageId " +
-                                        "from orphan o " +
-                                        "join father f on o.fatherId = f.id " +
-                                        "join village v on o.villageId = v.id " +
-                                        "where o.villageId = " + villageId)
+                        "select o.id, o.firstName as orphanFirstName, " +
+                                "f.firstName as fatherFirstName, " +
+                                "f.lastName as fatherLastName, " +
+                                "o.dateOfBirth as orphanDateOfBirth, " +
+                                "o.gender as orphanGender, " +
+                                "v.id as villageId " +
+                                "from orphan o " +
+                                "join father f on o.fatherId = f.id " +
+                                "join village v on o.villageId = v.id " +
+                                "where o.villageId = " + villageId)
+        ) {
+            List<Orphan> orphans = new ArrayList<>();
+            while (results.next()) {
+                Orphan orphan = new Orphan();
+                orphan.setId(results.getInt(COLUMN_ORPHAN_ID));
+
+                orphan.setFirstName(results.getString("orphanFirstName"));
+                orphan.getFather().setFirstName(results.getString("fatherFirstName"));
+                orphan.getFather().setLastName(results.getString("fatherLastName"));
+
+                orphan.setGender(results.getString("orphanGender").equals("F") ? Gender_enum.F : Gender_enum.M);
+                orphan.setDateOfBirth(results.getString("orphanDateOfBirth"));
+
+                Village village = new Village();
+                village.setId(results.getInt("villageId"));
+
+                orphan.setVillage(village);
+
+                orphans.add(orphan);
+            }
+
+            return orphans;
+
+        } catch (SQLException e) {
+            System.out.println("queryAllOrphans query failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Orphan> searchAllOrphansByName(String searchTerm) {
+        try (
+                Statement statement = conn.createStatement();
+                ResultSet results = statement.executeQuery(
+                        String.format("select o.id, o.firstName as orphanFirstName,  \n" +
+                                " f.firstName as fatherFirstName,  \n" +
+                                " f.lastName as fatherLastName,  \n" +
+                                " o.dateOfBirth as orphanDateOfBirth,  \n" +
+                                " o.gender as orphanGender,\n" +
+                                " v.id as villageId  \n" +
+                                " from orphan o  \n" +
+                                " join father f on o.fatherId = f.id  \n" +
+                                " join village v on o.villageId = v.id  \n" +
+                                " where o.firstName = \\\"%s\\\" or f.firstName = \\\"%s\\\" or f.lastName = \\\"%s\\\"", searchTerm, searchTerm, searchTerm))
         ) {
             List<Orphan> orphans = new ArrayList<>();
             while (results.next()) {
@@ -579,9 +622,9 @@ public class Datasource {
 
     public Coordinator queryCoordinator(int id) {
         final String sqlQueryCoordinator = "SELECT id, fullName, userId FROM "
-                                            + TABLE_COORDINATOR + " WHERE id=" + id;
-        try(Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(sqlQueryCoordinator)) {
+                + TABLE_COORDINATOR + " WHERE id=" + id;
+        try (Statement statement = conn.createStatement();
+             ResultSet result = statement.executeQuery(sqlQueryCoordinator)) {
 
             result.next();
             Coordinator coordinator = new Coordinator();
@@ -721,7 +764,7 @@ public class Datasource {
         ) {
             List<Zone> zones = new ArrayList<>();
 
-                        while (results.next()) {
+            while (results.next()) {
                 Zone zone = new Zone();
                 zone.setId(results.getInt(COLUMN_ZONE_ID));
                 zone.setName(results.getString(COLUMN_ZONE_NAME));
@@ -793,7 +836,7 @@ public class Datasource {
         final String sqlqueryGuardian = "SELECT * FROM " + TABLE_GUARDIAN + " WHERE id=" + id;
 
         try (Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(sqlqueryGuardian)) {
+             ResultSet result = statement.executeQuery(sqlqueryGuardian)) {
 
             result.next();
             Guardian guardian = new Guardian();
@@ -802,11 +845,11 @@ public class Datasource {
             guardian.setMiddleName(result.getString(COLUMN_GUARDIAN_MIDDLE_NAME));
             guardian.setLastName(result.getString(COLUMN_GUARDIAN_LAST_NAME));
             guardian.setGender(result.getString(COLUMN_GUARDIAN_GENDER).equals("M") ?
-                                Gender_enum.M : Gender_enum.F);
+                    Gender_enum.M : Gender_enum.F);
             guardian.setDateOfBirth(result.getString(COLUMN_GUARDIAN_DATE_OF_BIRTH));
             Guardian_relationToOrphan_enum relationToOrphan = switch (result.getString(COLUMN_GUARDIAN_RELATION_TO_ORPHAN)) {
                 case "mother" -> Guardian_relationToOrphan_enum.MOTHER;
-                case "grandmother" -> Guardian_relationToOrphan_enum.GRANDMOTHER ;
+                case "grandmother" -> Guardian_relationToOrphan_enum.GRANDMOTHER;
                 case "grandfather" -> Guardian_relationToOrphan_enum.GRANDFATHER;
                 case "sister" -> Guardian_relationToOrphan_enum.SISTER;
                 case "brother" -> Guardian_relationToOrphan_enum.BROTHER;
@@ -844,8 +887,8 @@ public class Datasource {
                 " FROM district d" +
                 " JOIN coordinator c ON c.id = d.coordinatorId" +
                 " JOIN zone z ON d.zoneId = z.id";
-        try(Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(sqlQueryDistrictJoin)) {
+        try (Statement statement = conn.createStatement();
+             ResultSet result = statement.executeQuery(sqlQueryDistrictJoin)) {
 
             result.next();
             District district = new District();
@@ -867,7 +910,7 @@ public class Datasource {
         }
     }
 
-    public Orphan queryOrphan (int id) {
+    public Orphan queryOrphan(int id) {
         final String sqlQueryOrphan = "select o.id, o.firstName as orphanFirstName, o.gender as orphanGender," +
                 " o.placeOfBirth as orphanPlaceOfBirth, o.dateOfBirth as orphanDateOfBirth," +
                 " o.spokenLanguages as orphanSpokenLanguages, o.religion as orphanReligion," +
@@ -914,23 +957,23 @@ public class Datasource {
                 case "Buddhism" -> Orphan_religion_enum.BUDDHISM;
                 case "Hinduism" -> Orphan_religion_enum.HINDUISM;
                 case "Judaism" -> Orphan_religion_enum.JUDAISM;
-                default ->  Orphan_religion_enum.OTHER;
+                default -> Orphan_religion_enum.OTHER;
             });
             orphan.setBirthCertificate(result.getBlob("orphanBirthCertificate"));
             orphan.setHealthDescription(result.getString("orphanHealthDescription"));
             orphan.setPsychologicalStatus(switch (result.getString("orphanPsychologicalStatus")) {
-               case "isolated" -> Orphan_psychologicalStatus_enum.ISOLATED;
-               case "stressed" -> Orphan_psychologicalStatus_enum.STRESSED;
-               case "unsociable" -> Orphan_psychologicalStatus_enum.UNSOCIABLE;
-               case "overlysociable" -> Orphan_psychologicalStatus_enum.OVERLYSOCIABLE;
-               default -> Orphan_psychologicalStatus_enum.NORMAL;
+                case "isolated" -> Orphan_psychologicalStatus_enum.ISOLATED;
+                case "stressed" -> Orphan_psychologicalStatus_enum.STRESSED;
+                case "unsociable" -> Orphan_psychologicalStatus_enum.UNSOCIABLE;
+                case "overlysociable" -> Orphan_psychologicalStatus_enum.OVERLYSOCIABLE;
+                default -> Orphan_psychologicalStatus_enum.NORMAL;
             });
             orphan.getMother().setFirstName(result.getString("motherFirstName"));
             orphan.getMother().setMiddleName(result.getString("motherMiddleName"));
             orphan.getMother().setLastName(result.getString("motherLastName"));
             orphan.getMother().setDateOfBirth((result.getString("motherDateOfBirth")));
             orphan.getMother().setVitalStatus(result.getString("motherVitalStatus").equals("alive") ?
-                                              Mother_vitalStatus_enum.ALIVE : Mother_vitalStatus_enum.PASSED);
+                    Mother_vitalStatus_enum.ALIVE : Mother_vitalStatus_enum.PASSED);
             orphan.getMother().setDateOfDeath(result.getString("motherDateOfDeath"));
             orphan.getMother().setCauseOfDeath(result.getString("motherCauseOfDeath"));
             orphan.getMother().setMobileNumber(result.getString("motherMobileNumber"));
@@ -952,11 +995,11 @@ public class Datasource {
             orphan.getGuardian().setMiddleName(result.getString("guardianMiddleName"));
             orphan.getGuardian().setLastName(result.getString("guardianLastName"));
             orphan.getGuardian().setGender(result.getString("guardianGender").equals("M") ?
-                                           Gender_enum.M : Gender_enum.F);
+                    Gender_enum.M : Gender_enum.F);
             orphan.getGuardian().setDateOfBirth(result.getString("guardianDateOfBirth"));
             orphan.getGuardian().setRelationToOrphan(switch (result.getString("guardianRelationToOrphan")) {
                 case "mother" -> Guardian_relationToOrphan_enum.MOTHER;
-                case "grandmother" -> Guardian_relationToOrphan_enum.GRANDMOTHER ;
+                case "grandmother" -> Guardian_relationToOrphan_enum.GRANDMOTHER;
                 case "grandfather" -> Guardian_relationToOrphan_enum.GRANDFATHER;
                 case "sister" -> Guardian_relationToOrphan_enum.SISTER;
                 case "brother" -> Guardian_relationToOrphan_enum.BROTHER;
@@ -1278,7 +1321,7 @@ public class Datasource {
 
         // if it does return the that row's id
         if (results.next()) return results.getInt(COLUMN_DISTRICT_ID);
-        // else create a new one
+            // else create a new one
         else {
             insertIntoDistricts.setString(1, districtName);
             insertIntoDistricts.setInt(2, zoneId);
@@ -1524,7 +1567,7 @@ public class Datasource {
             String educationYear,
             Education_level_enum educationLevel,
             String educationReason
-    )  {
+    ) {
         try {
             conn.setAutoCommit(false);
 
@@ -1598,7 +1641,7 @@ public class Datasource {
 
             // accepts the file using the input stream and transfer to the dummy file
             // using the output stream
-            if(incomingImage.canRead()) {
+            if (incomingImage.canRead()) {
                 byte[] buffer = new byte[1024];
                 while (inputImage.read(buffer) > 0) {
                     outputImage.write(buffer);
@@ -1610,7 +1653,7 @@ public class Datasource {
 
             int affectedRows = updateImage.executeUpdate();
             ResultSet generatedKeys = updateImage.getGeneratedKeys();
-            if(affectedRows == 1) System.out.println("Insert Succeeded");
+            if (affectedRows == 1) System.out.println("Insert Succeeded");
             else throw new SQLException("Insert Failed");
             if (generatedKeys.next()) {
                 return generatedKeys.getInt(1);
@@ -1636,7 +1679,7 @@ public class Datasource {
 
             // accepts the file using the input stream and transfer to the dummy file
             // using the output stream
-            if(incomingImage.canRead()) {
+            if (incomingImage.canRead()) {
                 byte[] buffer = new byte[1024];
                 while (inputImage.read(buffer) > 0) {
                     outputImage.write(buffer);
@@ -1648,7 +1691,7 @@ public class Datasource {
 
             int affectedRows = updateImage.executeUpdate();
 
-            if(affectedRows == 1) System.out.println("Insert Succeeded");
+            if (affectedRows == 1) System.out.println("Insert Succeeded");
             else throw new SQLException("Insert Failed");
         } catch (SQLException | FileNotFoundException e) {
             System.out.println("Something went wrong: " + e.getMessage());
@@ -1669,7 +1712,7 @@ public class Datasource {
 
             // accepts the file using the input stream and transfer to the dummy file
             // using the outputImage stream
-            if(myRs.next()) {
+            if (myRs.next()) {
                 Blob imageFromDB = myRs.getBlob(imageColumn);
                 if (imageFromDB.length() < 1000) {
                     System.out.println("the column value is not a file");
@@ -1782,18 +1825,18 @@ public class Datasource {
     }
 
     public int queryEducationID(int orphanId) {
-       String sql = "select educationId from orphan where id=?";
-       try {
-           PreparedStatement getEducationID = conn.prepareStatement(sql);
-           getEducationID.setInt(1, orphanId);
-           ResultSet result = getEducationID.executeQuery();
-           if (result.next()) {
-             return result.getInt("educationId");
-           }
-       } catch (SQLException e) {
-           System.out.println("queryEducationID failed: " + e.getMessage());
-       }
-       return -1;
+        String sql = "select educationId from orphan where id=?";
+        try {
+            PreparedStatement getEducationID = conn.prepareStatement(sql);
+            getEducationID.setInt(1, orphanId);
+            ResultSet result = getEducationID.executeQuery();
+            if (result.next()) {
+                return result.getInt("educationId");
+            }
+        } catch (SQLException e) {
+            System.out.println("queryEducationID failed: " + e.getMessage());
+        }
+        return -1;
     }
 
     public int inputReportCard(File file, int educationId) {
@@ -1809,7 +1852,7 @@ public class Datasource {
                 "educationalrecord where id=?", documentColumn);
     }
 
-    public int queryFatherIDByOrphanId (int orphanId) {
+    public int queryFatherIDByOrphanId(int orphanId) {
         String sql = "select fatherId from orphan where id=?";
         try {
             final PreparedStatement queryFatherId = conn.prepareStatement(sql);
@@ -1824,7 +1867,7 @@ public class Datasource {
         return -1;
     }
 
-    public int queryGuardianIDByOrphanId (int orphanId) {
+    public int queryGuardianIDByOrphanId(int orphanId) {
         String sql = "select guardianId from orphan where id=?";
         try {
             final PreparedStatement guardianId = conn.prepareStatement(sql);
